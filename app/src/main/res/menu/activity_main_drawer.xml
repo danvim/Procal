@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@drawable/ic_menu_history"
+        android:title="@string/history" />
+
+    <group android:id="@+id/menu_group_export">
+        <item
+            android:id="@+id/nav_save"
+            android:icon="@drawable/ic_menu_save"
+            android:title="@string/save" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/share" />
+    </group>
+    <group android:id="@+id/menu_group_core">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_menu_feedback"
+            android:title="@string/send_feedback" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_menu_help"
+            android:title="@string/help" />
+    </group>
+
+</menu>
