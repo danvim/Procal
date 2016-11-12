@@ -60,13 +60,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/llBtnPanel"
-        android:padding="4dp"
-        android:background="@color/colorPrimaryLight"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:background="?android:attr/colorBackground"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
                 android:text="SHIFT"
@@ -105,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button2"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="FUNC"
@@ -113,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_func"
                 android:layout_weight="1"
-                style="@style/Button_Orange" />
+                style="@style/Button_Fn_Orange" />
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button4"
                 android:layout_weight="1"
-                style="@style/Button_Fn"
+                style="@style/Button_Fn_More"
                 />
 
             <Button
@@ -154,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button7"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="log"
@@ -162,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button8"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="ln"
@@ -170,14 +171,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button9"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:id="@+id/llRow2">
 
             <Button
@@ -186,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button15"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="° ′ ″"
@@ -194,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button20"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="hyp"
@@ -202,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button19"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="sin"
@@ -210,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button18"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="cos"
@@ -218,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button17"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="tan"
@@ -226,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button16"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
         </LinearLayout>
 
         <LinearLayout
@@ -240,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button21"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="ENG"
@@ -248,7 +249,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button26"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="("
@@ -256,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button25"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text=")"
@@ -264,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button24"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="，"
@@ -272,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button23"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
 
             <Button
                 android:text="M+"
@@ -280,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button22"
                 android:layout_weight="1"
-                style="@style/Button_Fn" />
+                style="@style/Button_Fn_More" />
         </LinearLayout>
 
         <LinearLayout
@@ -294,7 +295,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button27"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="8"
@@ -310,7 +311,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button30"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="DEL"
@@ -318,7 +319,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/button29"
                 android:layout_weight="1"
-                style="@style/Button_Purple_Large_Text"/>
+                style="@style/Button_Purple_Large_Text_More"/>
 
             <Button
                 android:text="AC"
@@ -326,7 +327,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/button28"
                 android:layout_weight="1"
-                style="@style/Button_Purple_Large_Text"/>
+                style="@style/Button_Purple_Large_Text_More"/>
         </LinearLayout>
 
         <LinearLayout
@@ -364,7 +365,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button34"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="÷"
@@ -372,7 +373,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button33"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
         </LinearLayout>
 
         <LinearLayout
@@ -386,7 +387,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button37"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="2"
@@ -394,7 +395,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button41"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="3"
@@ -402,7 +403,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button40"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="+"
@@ -410,7 +411,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button43"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="−"
@@ -418,7 +419,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button42"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
 
         </LinearLayout>
@@ -435,7 +436,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button44"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="•"
@@ -443,7 +444,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button46"
                 android:layout_weight="1"
-                style="@style/Button_Large"/>
+                style="@style/Button_Large_More"/>
 
             <Button
                 android:text="EXP"
@@ -451,7 +452,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/button39"
                 android:layout_weight="1"
-                style="@style/Button_Large_Text"/>
+                style="@style/Button_Orange_Large_Text_More"/>
 
             <Button
                 android:text="ANS"
@@ -459,7 +460,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/button47"
                 android:layout_weight="1"
-                style="@style/Button_Large_Text"/>
+                style="@style/Button_Orange_Large_Text_More"/>
 
             <Button
                 android:text="EXE"
@@ -467,7 +468,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/button38"
                 android:layout_weight="1"
-                style="@style/Button_Large_Text"/>
+                style="@style/Button_Orange_Large_Text_More"/>
         </LinearLayout>
 
     </LinearLayout>
