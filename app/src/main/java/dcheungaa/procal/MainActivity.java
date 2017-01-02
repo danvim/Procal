@@ -18,12 +18,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +44,7 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +72,50 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        //Set font
         TextView matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
+
+        //Generate keypad
+        LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
+
+        String json = "";
+
+        InputStream in_s = getResources().openRawResource(R.raw.keypad);
+
+        try {
+            byte[] b = new byte[in_s.available()];
+            in_s.read(b);
+            json = new String(b);
+        } catch (IOException e) {
+
+        }
+
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+
+        JsonHelper.KeypadRows keypadRows = gson.fromJson(jsonObject, JsonHelper.KeypadRows.class);
+
+        for (JsonHelper.Key[] keys : keypadRows.rows) {
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+            for (JsonHelper.Key key : keys) {
+                Button btn = new Button(this, null, getResources().getIdentifier(
+                        "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
+                        "attr",
+                        getPackageName())
+                );
+                btn.setText((key.text != null ? key.text : key.key));
+                btn.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT, 1f));
+                row.addView(btn);
+            }
+            rows.addView(row);
+        }
+
+
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

@@ -1,0 +1,338 @@
+{
+    "rows":[
+        [
+            {
+                "key": "shift",
+                "text": "SHIFT",
+                "style": "Fn"
+            },
+            {
+                "key": "alpha",
+                "text": "ALPHA",
+                "style": "Fn"
+            },
+            {
+                "key": "constant",
+                "text": "CONST",
+                "style": "Fn"
+            },
+            {
+                "key": "mode",
+                "text": "MODE",
+                "style": "Fn"
+            },
+            {
+                "key": "derivative",
+                "text": "d/dx",
+                "style": "Fn",
+                "shift": {
+                    "key": "integration",
+                    "text": "∫dx"
+                }
+            },
+            {
+                "key": "function",
+                "text": "FUNC",
+                "style": "Fn_Orange"
+            }
+        ],
+        [
+            {
+                "key": "complex_fraction",
+                "text": "a b/c",
+                "style": "Fn",
+                "shift": {
+                    "key": "improper_fraction",
+                    "text": "d/c"
+                }
+            },
+            {
+                "key": "square_root",
+                "text": "√",
+                "style": "Fn"
+            },
+            {
+                "key": "x_squared",
+                "text": "x²",
+                "style": "Fn"
+            },
+            {
+                "key": "power",
+                "text": "^",
+                "style": "Fn",
+                "shift": {
+                    "key": "x_root",
+                    "text": "<sup>x</sup>√"
+                }
+            },
+            {
+                "key": "log",
+                "text": "log",
+                "style": "Fn",
+                "shift": {
+                    "key": "10_power_x",
+                    "text": "10<sup>x</sup>"
+                }
+            },
+            {
+                "key": "natural_log",
+                "text": "ln",
+                "style": "Fn",
+                "shift": {
+                    "key": "exp_power",
+                    "text": "e<sup>x</sup>"
+                }
+            }
+        ],
+        [
+            {
+                "key": "negation",
+                "text": "(-)",
+                "style": "Fn",
+                "shift": {
+                    "key": "angle",
+                    "text": "∠"
+                }
+            },
+            {
+                "key": "sexagesimal",
+                "text": "° ′ ″",
+                "style": "Fn",
+                "shift": {
+                    "key": "sexagesimal_back",
+                    "text": "←"
+                }
+            },
+            {
+                "key": "hyperbolic",
+                "text": "hyp",
+                "style": "Fn"
+            },
+            {
+                "key": "sin",
+                "text": "sin",
+                "style": "Fn",
+                "shift": {
+                    "key": "arc_sin",
+                    "text": "sin<sup>-1</sup>"
+                }
+            },
+            {
+                "key": "cosine",
+                "text": "cos",
+                "style": "Fn",
+                "shift": {
+                    "key": "arc_cosine",
+                    "text": "cos<sup>-1</sup>"
+                }
+            },
+            {
+                "key": "tangent",
+                "text": "tan",
+                "style": "Fn",
+                "shift": {
+                    "key": "arc_tangent",
+                    "text": "tan<sup>-1</sup>"
+                }
+            }
+        ],
+        [
+            {
+                "key": "recall",
+                "text": "RCL",
+                "style": "Fn",
+                "shift": {
+                    "key": "store",
+                    "text": "STO"
+                }
+            },
+            {
+                "key": "engineering",
+                "text": "ENG",
+                "style": "Fn",
+                "shift": {
+                    "key": "engineering_back",
+                    "text": "←"
+                }
+            },
+            {
+                "key": "left_parenthesis",
+                "text": "(",
+                "style": "Fn",
+                "shift": {
+                    "key": "percent",
+                    "text": "%"
+                }
+            },
+            {
+                "key": "right_parenthesis",
+                "text": ")",
+                "style": "Fn",
+                "shift": {
+                    "key": "absolute",
+                    "text": "Abs"
+                }
+            },
+            {
+                "key": "comma",
+                "text": "，",
+                "style": "Fn",
+                "shift": {
+                    "key": "semicolon",
+                    "text": "；"
+                }
+            },
+            {
+                "key": "memory_plus",
+                "text": "M+",
+                "style": "Fn",
+                "shift": {
+                    "key": "memory_minus",
+                    "text": "M-"
+                }
+            }
+        ],
+        [
+            {
+                "key": "7",
+                "style": "Large",
+                "shift": {
+                    "key": "constant",
+                    "text": "CONST"
+                }
+            },
+            {
+                "key": "8",
+                "style": "Large"
+            },
+            {
+                "key": "9",
+                "style": "Large",
+                "shift": {
+                    "key": "clear",
+                    "text": "CLR"
+                }
+            },
+            {
+                "key": "delete",
+                "text": "DEL",
+                "style": "Purple_Large_Text",
+                "shift": {
+                    "key": "insert",
+                    "text": "INS"
+                }
+            },
+            {
+                "key": "all_clear",
+                "text": "AC",
+                "style": "Purple_Large_Text"
+            }
+        ],
+        [
+            {
+                "key": "4",
+                "style": "Large"
+            },
+            {
+                "key": "5",
+                "style": "Large"
+            },
+            {
+                "key": "6",
+                "style": "Large"
+            },
+            {
+                "key": "multiply",
+                "text": "×",
+                "style": "Large",
+                "shift": {
+                    "key": "permutation",
+                    "text": "nPr"
+                }
+            },
+            {
+                "key": "divide",
+                "text": "÷",
+                "style": "Large",
+                "shift": {
+                    "key": "combination",
+                    "text": "nCr"
+                }
+            }
+        ],
+        [
+            {
+                "key": "1",
+                "style": "Large"
+            },
+            {
+                "key": "2",
+                "style": "Large"
+            },
+            {
+                "key": "3",
+                "style": "Large"
+            },
+            {
+                "key": "add",
+                "text": "+",
+                "style": "Large",
+                "shift": {
+                    "key": "polar",
+                    "text": "Pol"
+                }
+            },
+            {
+                "key": "subtract",
+                "text": "−",
+                "style": "Large",
+                "shift": {
+                    "key": "rectangular",
+                    "text": "Rec"
+                }
+            }
+        ],
+        [
+            {
+                "key": "0",
+                "style": "Large",
+                "shift": {
+                    "key": "round",
+                    "text": "Rnd"
+                }
+            },
+            {
+                "key": "dot",
+                "text": "•",
+                "style": "Large",
+                "shift": {
+                    "key": "random",
+                    "text": "Ran#"
+                }
+            },
+            {
+                "key": "exponential",
+                "text": "EXP",
+                "style": "Large_Text",
+                "shift": {
+                    "key": "pi",
+                    "text": "π"
+                }
+            },
+            {
+                "key": "answer",
+                "text": "ANS",
+                "style": "Large_Text",
+                "shift": {
+                    "key": "angle_units",
+                    "text": "DRG"
+                }
+            },
+            {
+                "key": "execute",
+                "text": "EXE",
+                "style": "Large_Text"
+            }
+        ]
+    ]
+}

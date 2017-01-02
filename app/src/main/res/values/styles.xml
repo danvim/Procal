@@ -7,6 +7,26 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:buttonStyle">@style/Button</item>
+
+        <item name="Button">@style/Button</item>
+        <item name="Button_Fn">@style/Button_Fn</item>
+        <item name="Button_Fn_More">@style/Button_Fn_More</item>
+        <item name="Button_Fn_Orange">@style/Button_Fn_Orange</item>
+        <item name="Button_Fn_Orange_More">@style/Button_Fn_Orange_More</item>
+        <item name="Button_Large">@style/Button_Large</item>
+        <item name="Button_Large_More">@style/Button_Large_More</item>
+        <item name="Button_Large_Text">@style/Button_Large_Text</item>
+        <item name="Button_Large_Text_More">@style/Button_Large_Text_More</item>
+        <item name="Button_Orange">@style/Button_Orange</item>
+        <item name="Button_Orange_Large">@style/Button_Orange_Large</item>
+        <item name="Button_Orange_Large_More">@style/Button_Orange_Large_More</item>
+        <item name="Button_Orange_Large_Text">@style/Button_Orange_Large_Text</item>
+        <item name="Button_Orange_Large_Text_More">@style/Button_Orange_Large_Text_More</item>
+        <item name="Button_Purple">@style/Button_Purple</item>
+        <item name="Button_Purple_Large">@style/Button_Purple_Large</item>
+        <item name="Button_Purple_Large_More">@style/Button_Purple_Large_More</item>
+        <item name="Button_Purple_Large_Text">@style/Button_Purple_Large_Text</item>
+        <item name="Button_Purple_Large_Text_More">@style/Button_Purple_Large_Text_More</item>
     </style>
 
     <style name="NoActionBar" parent="AppTheme">
@@ -43,6 +63,11 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="Button_Large_Text_More" parent="Button_Large_Text">
+        <item name="android:drawableTop">@drawable/ic_more</item>
+        <item name="android:drawablePadding">-4.5dp</item>
+    </style>
+
     <style name="Button_Orange" parent="Button">
         <item name="android:textColor">@color/colorAccent</item>
     </style>
@@ -63,6 +88,10 @@
     <style name="Button_Orange_Large_Text_More" parent="Button_Orange_Large_Text">
         <item name="android:drawableTop">@drawable/ic_more</item>
         <item name="android:drawablePadding">-4.5dp</item>
+    </style>
+
+    <style name="Button_Purple" parent="Button">
+        <item name="android:textColor">@color/colorPurple</item>
     </style>
 
     <style name="Button_Purple_Large" parent="Button_Large">

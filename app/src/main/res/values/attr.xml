@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppTheme">
+        <attr name="Button" format="reference"/>
+        <attr name="Button_Fn" format="reference"/>
+        <attr name="Button_Fn_More" format="reference"/>
+        <attr name="Button_Fn_Orange" format="reference"/>
+        <attr name="Button_Fn_Orange_More" format="reference"/>
+        <attr name="Button_Large" format="reference"/>
+        <attr name="Button_Large_More" format="reference"/>
+        <attr name="Button_Large_Text" format="reference"/>
+        <attr name="Button_Large_Text_More" format="reference"/>
+        <attr name="Button_Orange" format="reference"/>
+        <attr name="Button_Orange_Large" format="reference"/>
+        <attr name="Button_Orange_Large_More" format="reference"/>
+        <attr name="Button_Orange_Large_Text" format="reference"/>
+        <attr name="Button_Orange_Large_Text_More" format="reference"/>
+        <attr name="Button_Purple" format="reference"/>
+        <attr name="Button_Purple_Large" format="reference"/>
+        <attr name="Button_Purple_Large_More" format="reference"/>
+        <attr name="Button_Purple_Large_Text" format="reference"/>
+        <attr name="Button_Purple_Large_Text_More" format="reference"/>
+    </declare-styleable>
+</resources>
