@@ -2,334 +2,334 @@
     "rows":[
         [
             {
-                "key": "shift",
+                "id": "shift",
                 "text": "SHIFT",
                 "style": "Fn"
             },
             {
-                "key": "alpha",
+                "id": "alpha",
                 "text": "ALPHA",
                 "style": "Fn"
             },
             {
-                "key": "constant",
+                "id": "constant",
                 "text": "CONST",
                 "style": "Fn"
             },
             {
-                "key": "mode",
+                "id": "mode",
                 "text": "MODE",
                 "style": "Fn"
             },
             {
-                "key": "derivative",
+                "id": "derivative",
                 "text": "d/dx",
                 "style": "Fn",
                 "shift": {
-                    "key": "integration",
+                    "id": "integration",
                     "text": "∫dx"
                 }
             },
             {
-                "key": "function",
+                "id": "function",
                 "text": "FUNC",
                 "style": "Fn_Orange"
             }
         ],
         [
             {
-                "key": "complex_fraction",
+                "id": "complex_fraction",
                 "text": "a b/c",
                 "style": "Fn",
                 "shift": {
-                    "key": "improper_fraction",
+                    "id": "improper_fraction",
                     "text": "d/c"
                 }
             },
             {
-                "key": "square_root",
+                "id": "square_root",
                 "text": "√",
                 "style": "Fn"
             },
             {
-                "key": "x_squared",
+                "id": "x_squared",
                 "text": "x²",
                 "style": "Fn"
             },
             {
-                "key": "power",
+                "id": "power",
                 "text": "^",
                 "style": "Fn",
                 "shift": {
-                    "key": "x_root",
+                    "id": "x_root",
                     "text": "<sup>x</sup>√"
                 }
             },
             {
-                "key": "log",
+                "id": "log",
                 "text": "log",
                 "style": "Fn",
                 "shift": {
-                    "key": "10_power_x",
+                    "id": "10_power_x",
                     "text": "10<sup>x</sup>"
                 }
             },
             {
-                "key": "natural_log",
+                "id": "natural_log",
                 "text": "ln",
                 "style": "Fn",
                 "shift": {
-                    "key": "exp_power",
+                    "id": "exp_power",
                     "text": "e<sup>x</sup>"
                 }
             }
         ],
         [
             {
-                "key": "negation",
+                "id": "negation",
                 "text": "(-)",
                 "style": "Fn",
                 "shift": {
-                    "key": "angle",
+                    "id": "angle",
                     "text": "∠"
                 }
             },
             {
-                "key": "sexagesimal",
+                "id": "sexagesimal",
                 "text": "° ′ ″",
                 "style": "Fn",
                 "shift": {
-                    "key": "sexagesimal_back",
+                    "id": "sexagesimal_back",
                     "text": "←"
                 }
             },
             {
-                "key": "hyperbolic",
+                "id": "hyperbolic",
                 "text": "hyp",
                 "style": "Fn"
             },
             {
-                "key": "sin",
+                "id": "sin",
                 "text": "sin",
                 "style": "Fn",
                 "shift": {
-                    "key": "arc_sin",
+                    "id": "arc_sin",
                     "text": "sin<sup>-1</sup>"
                 }
             },
             {
-                "key": "cosine",
+                "id": "cosine",
                 "text": "cos",
                 "style": "Fn",
                 "shift": {
-                    "key": "arc_cosine",
+                    "id": "arc_cosine",
                     "text": "cos<sup>-1</sup>"
                 }
             },
             {
-                "key": "tangent",
+                "id": "tangent",
                 "text": "tan",
                 "style": "Fn",
                 "shift": {
-                    "key": "arc_tangent",
+                    "id": "arc_tangent",
                     "text": "tan<sup>-1</sup>"
                 }
             }
         ],
         [
             {
-                "key": "recall",
+                "id": "recall",
                 "text": "RCL",
                 "style": "Fn",
                 "shift": {
-                    "key": "store",
+                    "id": "store",
                     "text": "STO"
                 }
             },
             {
-                "key": "engineering",
+                "id": "engineering",
                 "text": "ENG",
                 "style": "Fn",
                 "shift": {
-                    "key": "engineering_back",
+                    "id": "engineering_back",
                     "text": "←"
                 }
             },
             {
-                "key": "left_parenthesis",
+                "id": "left_parenthesis",
                 "text": "(",
                 "style": "Fn",
                 "shift": {
-                    "key": "percent",
+                    "id": "percent",
                     "text": "%"
                 }
             },
             {
-                "key": "right_parenthesis",
+                "id": "right_parenthesis",
                 "text": ")",
                 "style": "Fn",
                 "shift": {
-                    "key": "absolute",
+                    "id": "absolute",
                     "text": "Abs"
                 }
             },
             {
-                "key": "comma",
+                "id": "comma",
                 "text": "，",
                 "style": "Fn",
                 "shift": {
-                    "key": "semicolon",
+                    "id": "semicolon",
                     "text": "；"
                 }
             },
             {
-                "key": "memory_plus",
+                "id": "memory_plus",
                 "text": "M+",
                 "style": "Fn",
                 "shift": {
-                    "key": "memory_minus",
+                    "id": "memory_minus",
                     "text": "M-"
                 }
             }
         ],
         [
             {
-                "key": "7",
+                "id": "7",
                 "style": "Large",
                 "shift": {
-                    "key": "constant",
+                    "id": "constant",
                     "text": "CONST"
                 }
             },
             {
-                "key": "8",
+                "id": "8",
                 "style": "Large"
             },
             {
-                "key": "9",
+                "id": "9",
                 "style": "Large",
                 "shift": {
-                    "key": "clear",
+                    "id": "clear",
                     "text": "CLR"
                 }
             },
             {
-                "key": "delete",
+                "id": "delete",
                 "text": "DEL",
                 "style": "Purple_Large_Text",
                 "shift": {
-                    "key": "insert",
+                    "id": "insert",
                     "text": "INS"
                 }
             },
             {
-                "key": "all_clear",
+                "id": "all_clear",
                 "text": "AC",
                 "style": "Purple_Large_Text"
             }
         ],
         [
             {
-                "key": "4",
+                "id": "4",
                 "style": "Large"
             },
             {
-                "key": "5",
+                "id": "5",
                 "style": "Large"
             },
             {
-                "key": "6",
+                "id": "6",
                 "style": "Large"
             },
             {
-                "key": "multiply",
+                "id": "multiply",
                 "text": "×",
                 "style": "Large",
                 "shift": {
-                    "key": "permutation",
+                    "id": "permutation",
                     "text": "nPr"
                 }
             },
             {
-                "key": "divide",
+                "id": "divide",
                 "text": "÷",
                 "style": "Large",
                 "shift": {
-                    "key": "combination",
+                    "id": "combination",
                     "text": "nCr"
                 }
             }
         ],
         [
             {
-                "key": "1",
+                "id": "1",
                 "style": "Large"
             },
             {
-                "key": "2",
+                "id": "2",
                 "style": "Large"
             },
             {
-                "key": "3",
+                "id": "3",
                 "style": "Large"
             },
             {
-                "key": "add",
+                "id": "add",
                 "text": "+",
                 "style": "Large",
                 "shift": {
-                    "key": "polar",
+                    "id": "polar",
                     "text": "Pol"
                 }
             },
             {
-                "key": "subtract",
+                "id": "subtract",
                 "text": "−",
                 "style": "Large",
                 "shift": {
-                    "key": "rectangular",
+                    "id": "rectangular",
                     "text": "Rec"
                 }
             }
         ],
         [
             {
-                "key": "0",
+                "id": "0",
                 "style": "Large",
                 "shift": {
-                    "key": "round",
+                    "id": "round",
                     "text": "Rnd"
                 }
             },
             {
-                "key": "dot",
+                "id": "dot",
                 "text": "•",
                 "style": "Large",
                 "shift": {
-                    "key": "random",
+                    "id": "random",
                     "text": "Ran#"
                 }
             },
             {
-                "key": "exponential",
+                "id": "exponential",
                 "text": "EXP",
                 "style": "Large_Text",
                 "shift": {
-                    "key": "pi",
+                    "id": "pi",
                     "text": "π"
                 }
             },
             {
-                "key": "answer",
+                "id": "answer",
                 "text": "ANS",
                 "style": "Large_Text",
                 "shift": {
-                    "key": "angle_units",
+                    "id": "angle_units",
                     "text": "DRG"
                 }
             },
             {
-                "key": "execute",
+                "id": "execute",
                 "text": "EXE",
                 "style": "Large_Text"
             }

@@ -1,14 +1,13 @@
 package dcheungaa.procal;
 
 import android.graphics.Rect;
-import android.view.Gravity;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Button;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.graphics.Typeface;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -18,129 +17,135 @@ import java.util.List;
 
 public class CalcBtn extends LinearLayout {
 
-    private PopupWindow Pw;
-    private View Pv;
-    private List <Button> Pbs = new ArrayList <Button>();
-
-    private CalcBtn CBtn = new CalcBtn(getContext());
+    private PopupWindow popupWindow;
+    private LinearLayout popupView;
+    private List <Button> popupButtons = new ArrayList <>();
+    private Context context;
+    private Button mainButton;
 
     public CalcBtn(Context context) {
         super(context);
-        init(context);
+        this.context = context;
     }
 
     public CalcBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        this.context = context;
     }
 
     public CalcBtn(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        this.context = context;
     }
 
-    private void init(Context context) {
-        inflate(getContext(), R.layout.calc_btn, this);
-        //Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontfilename.ttf");
-    }
+    public void init(Key key) {
+        System.out.println("Adding " + key.id);
 
-    public CalcBtn ConfigBtn(final Context context, String StyleAttr, String BtnText, String key) {
-        final Button Btn = new Button(context, null, getResources().getIdentifier(
-                StyleAttr,
+        setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
+
+        mainButton = new Button(context, null, getResources().getIdentifier(
+                "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
                 "attr",
                 context.getPackageName()
-                )
-        );
-        Btn.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        Btn.setText(BtnText);
-        Btn.setTag("Btn");
-        Btn.setOnClickListener(new View.OnClickListener() {
+        ));
+        mainButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        if (Build.VERSION.SDK_INT >= 24) {
+            mainButton.setText(Html.fromHtml(key.text != null ? key.text : key.id, Html.FROM_HTML_MODE_COMPACT)); // for 24 api and more
+        } else {
+            mainButton.setText(Html.fromHtml(key.text != null ? key.text : key.id)); // or for older api
+        }
+        mainButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                // TODO Call Main_Add_Stack(key);
+                silentClick();
             }
         });
-        return this;
+        if(key.shift != null || key.alpha != null) {
+
+            popupView = new LinearLayout(context);
+            popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            popupView.setBackgroundResource(R.drawable.popup_container);
+            popupWindow.setElevation(8f);
+
+            if(key.shift != null) addPopupButton(key.shift);
+            if(key.alpha != null) addPopupButton(key.alpha);
+            listenPopup();
+        }
+        addView(mainButton);
     }
 
-
-    public CalcBtn ConfigPopup(final Context context) {
-        final View Pv = LayoutInflater.from(context).inflate(R.layout.popupview, null);
-        final PopupWindow Pw = new PopupWindow(Pv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        this.Pw = Pw;
-        this.Pv = Pv;
-        return this;
-    }
-
-
-    public CalcBtn AddPopupBtn(final Context context, String PbText, String Pbkey){
-        final LinearLayout Popup = (LinearLayout) Pv.findViewById(R.id.popup);
-        Button Pb = new Button(context);
-        Pb.setText(PbText);
-        Pb.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        Popup.addView(Pb);
-        Pb.setOnClickListener(new View.OnClickListener() {
+    public CalcBtn addPopupButton(Key key){
+        Button popupButton = new Button(context, null, getResources().getIdentifier(
+                "Button_Popup",
+                "attr",
+                context.getPackageName()
+        ));
+        popupButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        popupButton.setBackgroundResource(R.drawable.ripple_rounded);
+        if (Build.VERSION.SDK_INT >= 24) {
+            popupButton.setText(Html.fromHtml(key.text != null ? key.text : key.id, Html.FROM_HTML_MODE_COMPACT)); // for 24 api and more
+        } else {
+            popupButton.setText(Html.fromHtml(key.text != null ? key.text : key.id)); // or for older api
+        }
+        popupView.addView(popupButton);
+        popupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO Call Main_Add_Stack(Pbkey);
+                // TODO Call Main_Add_Stack(key.id);
             }
         });
-        this.Pbs.add(Pb);
+        popupButtons.add(popupButton);
         return this;
     }
 
-    public CalcBtn ListenPopup(final Context context){
-        final LinearLayout Popup = (LinearLayout) Pv.findViewById(R.id.popup);
-        final boolean[] IfClick = {false};
-        final Button Btn = (Button) this.findViewWithTag("button");
-        Btn.setOnTouchListener(new View.OnTouchListener() {
-            public final boolean onTouch(View v, MotionEvent event) {
+    private void silentClick() {
+        // TODO Call Main_Add_Stack(key.id);
+    }
+
+    public CalcBtn listenPopup(){
+        mainButton.setOnTouchListener(new OnTouchListener() {
+            boolean isClicked = false;
+            public boolean onTouch(View v, MotionEvent event) {
+                Rect popupRect = new Rect();
+
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        IfClick[0] = true;
+                        isClicked = true;
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (IfClick[0]){
+                        if (isClicked){
                             // ONCLICK
-                            Btn.performClick();
-                        }else {
-                            Pw.dismiss();
-                            Rect Pr = new Rect();
-                            for (Button Pb: Pbs) {
-                                Pb.getHitRect(Pr);
-                                if (Pr.contains((int) event.getX(), (int) event.getY() + Pb.getHeight() * Pbs.size())) {
-                                    Pb.performClick();
+                            silentClick();
+                        } else {
+                            popupWindow.dismiss();
+                            for (Button popupButton: popupButtons) {
+                                popupButton.getHitRect(popupRect);
+                                if (popupRect.contains((int) event.getX(), (int) event.getY() + popupButton.getHeight() * popupButtons.size())) {
+                                    popupButton.performClick();
                                 }
 
                             }
                         }
                         break;
-                    case MotionEvent.ACTION_POINTER_DOWN:
-                        break;
-                    case MotionEvent.ACTION_POINTER_UP:
-                        break;
                     case MotionEvent.ACTION_MOVE:
                         // ONHOLD
-                        Pv.setVisibility(View.VISIBLE);
-                        Pv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                        Pw.showAsDropDown(Btn,
-                                (Btn.getWidth() - (int) Btn.getX())/2 - (Pv.getMeasuredWidth() - (int) Pv.getX())/2,
-                                - Btn.getHeight() - Pv.getMeasuredHeight());
-                        //Pw.showAtLocation(Btn, Gravity.TOP, (int) Pb.getWidth(), (int) Pb.getHeight());
+                        popupView.setVisibility(View.VISIBLE);
+                        popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                        popupWindow.showAsDropDown(mainButton,
+                                (mainButton.getWidth() - (int) mainButton.getX())/2 - (popupView.getMeasuredWidth() - (int) popupView.getX())/2,
+                                - mainButton.getHeight() - popupView.getMeasuredHeight());
 
-                        Pw.setFocusable(true);
-                        Pw.update();
-                        Rect Pr = new Rect();
-                        for (Button Pb: Pbs) {
-                            Pb.getHitRect(Pr);
-                            if (Pr.contains((int) event.getX(), (int) event.getY() + Pb.getHeight() * Pbs.size())) {
-                                Pb.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        popupWindow.setFocusable(true);
+                        popupWindow.update();
+                        for (Button popupButton: popupButtons) {
+                            popupButton.getHitRect(popupRect);
+                            if (popupRect.contains((int) event.getX(), (int) event.getY() + popupButton.getHeight() * popupButtons.size())) {
+                                popupButton.setBackgroundResource(R.drawable.popup_button_active);
                             } else {
                                 // Restore to Normal Color
-                                Pb.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                popupButton.setBackgroundResource(R.drawable.ripple_rounded);
                             }
                         }
-                        IfClick[0] = false;
+                        isClicked = false;
                         break;
-
                 }
                 return false;
             }

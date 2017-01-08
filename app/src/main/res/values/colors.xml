@@ -3,8 +3,10 @@
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00897B</color>
     <color name="colorPrimaryDarker">#00796B</color>
+    <color name="colorPrimaryLighter">#4DB6AC</color>
     <color name="colorAccent">#FF9800</color>
     <color name="colorAccentDark">#F57C00</color>
     <color name="colorAccentDarker">#EF6C00</color>
     <color name="colorPurple">#C51162</color>
+    <color name="lightBackground">#EEEEEE</color>
 </resources>

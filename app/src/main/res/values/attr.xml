@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AppTheme">
+        <attr name="Widget.AppCompat.Button" format="reference"/>
         <attr name="Button" format="reference"/>
+        <attr name="Button_R" format="reference"/>
+        <attr name="Button_Popup" format="reference"/>
         <attr name="Button_Fn" format="reference"/>
         <attr name="Button_Fn_More" format="reference"/>
         <attr name="Button_Fn_Orange" format="reference"/>

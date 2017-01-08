@@ -1,24 +1,17 @@
 package dcheungaa.procal;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,28 +42,17 @@ public class MainActivity extends AppCompatActivity
      */
     private GoogleApiClient client;
     private Gson gson = new Gson();
-    private List <String> Stack = new ArrayList <>();
+    private List <String> stack = new ArrayList <>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, /*toolbar,*/ R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -99,24 +81,18 @@ public class MainActivity extends AppCompatActivity
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
 
-        JsonHelper.KeypadRows keypadRows = gson.fromJson(jsonObject, JsonHelper.KeypadRows.class);
+        KeypadRows keypadRows = gson.fromJson(jsonObject, KeypadRows.class);
 
-        for (JsonHelper.Key[] keys : keypadRows.rows) {
+        for (Key[] keys : keypadRows.rows) {
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-            for (JsonHelper.Key key : keys) {
+            for (Key key : keys) {
                 CalcBtn CBtn = new CalcBtn (this);
-                CBtn.ConfigBtn(this, "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
-                        (key.text != null ? key.text : key.key), key.key);
-                if(key.shift != null || key.alpha != null){
-                    CBtn.ConfigPopup(this);
-                    if(key.shift != null){CBtn.AddPopupBtn(this, key.shift.text, key.shift.key);}
-                    if(key.alpha != null){CBtn.AddPopupBtn(this, key.alpha.text, key.alpha.key);}
-                    CBtn.ListenPopup(this);
-                }
-                Stack.add(key.key);
-                CBtn.setId(Stack.indexOf(key.key));
+                CBtn.init(key);
+
+                stack.add(key.id);
+                CBtn.setId(stack.indexOf(key.id));
                 row.addView(CBtn);
             }
             rows.addView(row);
