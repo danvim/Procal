@@ -32,9 +32,13 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity
      */
     private GoogleApiClient client;
     private Gson gson = new Gson();
+    private List <String> Stack = new ArrayList <>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,14 +106,18 @@ public class MainActivity extends AppCompatActivity
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             for (JsonHelper.Key key : keys) {
-                Button btn = new Button(this, null, getResources().getIdentifier(
-                        "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
-                        "attr",
-                        getPackageName())
-                );
-                btn.setText((key.text != null ? key.text : key.key));
-                btn.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT, 1f));
-                row.addView(btn);
+                CalcBtn CBtn = new CalcBtn (this);
+                CBtn.ConfigBtn(this, "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
+                        (key.text != null ? key.text : key.key), key.key);
+                if(key.shift != null || key.alpha != null){
+                    CBtn.ConfigPopup(this);
+                    if(key.shift != null){CBtn.AddPopupBtn(this, key.shift.text, key.shift.key);}
+                    if(key.alpha != null){CBtn.AddPopupBtn(this, key.alpha.text, key.alpha.key);}
+                    CBtn.ListenPopup(this);
+                }
+                Stack.add(key.key);
+                CBtn.setId(Stack.indexOf(key.key));
+                row.addView(CBtn);
             }
             rows.addView(row);
         }
