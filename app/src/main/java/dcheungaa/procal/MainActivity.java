@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity
      */
     private GoogleApiClient client;
     private Gson gson = new Gson();
-    private List <String> stack = new ArrayList <>();
+
+    private List<String> keypadButtons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,8 @@ public class MainActivity extends AppCompatActivity
                 CalcBtn CBtn = new CalcBtn (this);
                 CBtn.init(key);
 
-                stack.add(key.id);
-                CBtn.setId(stack.indexOf(key.id));
+                keypadButtons.add(key.id);
+                CBtn.setId(keypadButtons.indexOf(key.id));
                 row.addView(CBtn);
             }
             rows.addView(row);

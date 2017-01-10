@@ -79,7 +79,7 @@
                 "text": "ln",
                 "style": "Fn",
                 "shift": {
-                    "id": "exp_power",
+                    "id": "exp_power_x",
                     "text": "e<sup>x</sup>"
                 }
             }
@@ -109,11 +109,11 @@
                 "style": "Fn"
             },
             {
-                "id": "sin",
+                "id": "sine",
                 "text": "sin",
                 "style": "Fn",
                 "shift": {
-                    "id": "arc_sin",
+                    "id": "arc_sine",
                     "text": "sin<sup>-1</sup>"
                 }
             },

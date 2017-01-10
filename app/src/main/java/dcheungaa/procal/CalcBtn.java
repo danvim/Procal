@@ -64,7 +64,7 @@ public class CalcBtn extends LinearLayout {
             popupView = new LinearLayout(context);
             popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             popupView.setBackgroundResource(R.drawable.popup_container);
-            popupWindow.setElevation(8f);
+            popupWindow.setElevation(16f);
 
             if(key.shift != null) addPopupButton(key.shift);
             if(key.alpha != null) addPopupButton(key.alpha);
@@ -100,9 +100,21 @@ public class CalcBtn extends LinearLayout {
         // TODO Call Main_Add_Stack(key.id);
     }
 
+    private void displayPopup() {
+        popupView.setVisibility(View.VISIBLE);
+        popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        popupWindow.showAsDropDown(mainButton,
+                (mainButton.getWidth() - (int) mainButton.getX())/2 - (popupView.getMeasuredWidth() - (int) popupView.getX())/2,
+                - mainButton.getHeight() - popupView.getMeasuredHeight() - 24);
+
+        popupWindow.setFocusable(true);
+        popupWindow.update();
+    }
+
     public CalcBtn listenPopup(){
         mainButton.setOnTouchListener(new OnTouchListener() {
             boolean isClicked = false;
+            boolean displayed = false;
             public boolean onTouch(View v, MotionEvent event) {
                 Rect popupRect = new Rect();
 
@@ -127,14 +139,7 @@ public class CalcBtn extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         // ONHOLD
-                        popupView.setVisibility(View.VISIBLE);
-                        popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                        popupWindow.showAsDropDown(mainButton,
-                                (mainButton.getWidth() - (int) mainButton.getX())/2 - (popupView.getMeasuredWidth() - (int) popupView.getX())/2,
-                                - mainButton.getHeight() - popupView.getMeasuredHeight());
-
-                        popupWindow.setFocusable(true);
-                        popupWindow.update();
+                       displayPopup();
                         for (Button popupButton: popupButtons) {
                             popupButton.getHitRect(popupRect);
                             if (popupRect.contains((int) event.getX(), (int) event.getY() + popupButton.getHeight() * popupButtons.size())) {
