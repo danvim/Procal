@@ -81,6 +81,10 @@
                 "shift": {
                     "id": "exp_power_x",
                     "text": "e<sup>x</sup>"
+                },
+                "alpha":{
+                    "id":"&exp",
+                    "text":"e"
                 }
             }
         ],
@@ -92,6 +96,10 @@
                 "shift": {
                     "id": "angle",
                     "text": "∠"
+                },
+                "alpha":{
+                    "id":"$a",
+                    "text":"A"
                 }
             },
             {
@@ -101,12 +109,20 @@
                 "shift": {
                     "id": "sexagesimal_back",
                     "text": "←"
+                },
+                "alpha":{
+                    "id":"$b",
+                    "text":"B"
                 }
             },
             {
                 "id": "hyperbolic",
                 "text": "hyp",
-                "style": "Fn"
+                "style": "Fn",
+                "alpha":{
+                    "id":"$c",
+                    "text":"C"
+                }
             },
             {
                 "id": "sine",
@@ -115,6 +131,10 @@
                 "shift": {
                     "id": "arc_sine",
                     "text": "sin<sup>-1</sup>"
+                },
+                "alpha":{
+                    "id":"$d",
+                    "text":"D"
                 }
             },
             {
@@ -125,6 +145,7 @@
                     "id": "arc_cosine",
                     "text": "cos<sup>-1</sup>"
                 }
+
             },
             {
                 "id": "tangent",
@@ -171,6 +192,10 @@
                 "shift": {
                     "id": "absolute",
                     "text": "Abs"
+                },
+                "alpha":{
+                    "id":"$x",
+                    "text":"X"
                 }
             },
             {
@@ -180,6 +205,10 @@
                 "shift": {
                     "id": "semicolon",
                     "text": "；"
+                },
+                "alpha":{
+                    "id":"$y",
+                    "text":"Y"
                 }
             },
             {
@@ -189,6 +218,10 @@
                 "shift": {
                     "id": "memory_minus",
                     "text": "M-"
+                },
+                "alpha":{
+                    "id":"$m",
+                    "text":"M"
                 }
             }
         ],
