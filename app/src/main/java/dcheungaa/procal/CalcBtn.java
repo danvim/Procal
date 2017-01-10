@@ -181,8 +181,8 @@ public class CalcBtn extends LinearLayout {
         if (delta==0) return;
         else {
             //shrink top and bottom padding in ratio of 1:2 or "..." symbol on the top of mainButton will disappear
-            mainButton.setPadding(mainButton.getPaddingLeft(),mainButton.getPaddingTop()-delta*1/3,
-                    mainButton.getPaddingRight(),mainButton.getPaddingBottom()-delta*2/3);
+            mainButton.setPadding(mainButton.getPaddingLeft(),mainButton.getPaddingTop()-delta/2,
+                    mainButton.getPaddingRight(),mainButton.getPaddingBottom()-delta/2);
         }
     }
     //add more comment la, or freerider can't read you code :(

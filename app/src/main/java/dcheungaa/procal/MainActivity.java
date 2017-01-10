@@ -46,10 +46,8 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private Gson gson = new Gson();
 
     private List<String> keypadButtons = new ArrayList<>();
-    private List<CalcBtn> buttons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,74 +69,13 @@ public class MainActivity extends AppCompatActivity
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
 
-        //get windows' height and width
+        //keypad gen
+        final InputStream in_s = getResources().openRawResource(R.raw.keypad);
         Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        final int height = size.y;
-        final int width = size.x;
-
-        //Generate keypad initialization
-        final Context c = this;
-
-        final RelativeLayout contentMain = (RelativeLayout) findViewById(R.id.content_main);
-        contentMain.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
-            @Override
-            public void onGlobalLayout() {                     //<--define listener function
-                contentMain.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
-                //define the elements defined in layout
-                LinearLayout llScreen = (LinearLayout) findViewById(R.id.llScreen);
-
-                //the height of space left to place keyboard
-                int rows_height = height - llScreen.getHeight() - findViewById(R.id.matrixDisplay).getHeight();
-
-                //define the height of two types of button,  fn : large =  3.8 : 4.5
-                double btn_large_height = rows_height * 4.5 / 8.3 / 4;
-                double btn_fn_height = rows_height * 3.8 / 8.3 / 4;
-
-                 //Generate keypad
-                LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
-
-                String json = "";
-
-                InputStream in_s = getResources().openRawResource(R.raw.keypad);
-
-                try {
-                    byte[] b = new byte[in_s.available()];
-                    in_s.read(b);
-                    json = new String(b);
-                } catch (IOException e) {
-
-                }
-
-                JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-
-                KeypadRows keypadRows = gson.fromJson(jsonObject, KeypadRows.class);
-
-                for (Key[] keys : keypadRows.rows) {
-                    LinearLayout row = new LinearLayout(c);
-                    row.setOrientation(LinearLayout.HORIZONTAL);
-                    row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-                    for (Key key : keys) {
-                        CalcBtn CBtn = new CalcBtn (c);
-                        CBtn.init(key);
-
-                        //decide which height apply to the button
-                        if (key.style.contains("Fn"))
-                            CBtn.set_height((int)btn_fn_height);
-                        else
-                            CBtn.set_height((int)btn_large_height);
-
-                        buttons.add(CBtn);
-                        keypadButtons.add(key.id);
-                        CBtn.setId(keypadButtons.indexOf(key.id));
-                        row.addView(CBtn);
-                    }
-                    rows.addView(row);
-                }
-            }
-        });
+        RelativeLayout cm=(RelativeLayout) findViewById(R.id.content_main);
+        LinearLayout lls=(LinearLayout) findViewById(R.id.llScreen);
+        LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
+        new KeyPad_init(this,in_s,display,cm,lls,rows);
 
 
 
