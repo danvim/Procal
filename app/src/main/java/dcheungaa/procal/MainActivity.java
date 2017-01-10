@@ -1,6 +1,8 @@
 package dcheungaa.procal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,10 +11,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private Gson gson = new Gson();
 
     private List<String> keypadButtons = new ArrayList<>();
+    private List<CalcBtn> buttons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,40 +71,74 @@ public class MainActivity extends AppCompatActivity
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
 
-        //Generate keypad
-        LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
+        //get windows' height and width
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        final int height = size.y;
+        final int width = size.x;
 
-        String json = "";
+        //Generate keypad initialization
+        final Context c = this;
 
-        InputStream in_s = getResources().openRawResource(R.raw.keypad);
+        final RelativeLayout contentMain = (RelativeLayout) findViewById(R.id.content_main);
+        contentMain.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+            @Override
+            public void onGlobalLayout() {                     //<--define listener function
+                contentMain.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
-        try {
-            byte[] b = new byte[in_s.available()];
-            in_s.read(b);
-            json = new String(b);
-        } catch (IOException e) {
+                //define the elements defined in layout
+                LinearLayout llScreen = (LinearLayout) findViewById(R.id.llScreen);
 
-        }
+                //the height of space left to place keyboard
+                int rows_height = height - llScreen.getHeight() - findViewById(R.id.matrixDisplay).getHeight();
 
-        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+                //define the height of two types of button,  fn : large =  3.8 : 4.5
+                double btn_large_height = rows_height * 4.5 / 8.3 / 4;
+                double btn_fn_height = rows_height * 3.8 / 8.3 / 4;
 
-        KeypadRows keypadRows = gson.fromJson(jsonObject, KeypadRows.class);
+                 //Generate keypad
+                LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
 
-        for (Key[] keys : keypadRows.rows) {
-            LinearLayout row = new LinearLayout(this);
-            row.setOrientation(LinearLayout.HORIZONTAL);
-            row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-            for (Key key : keys) {
-                CalcBtn CBtn = new CalcBtn (this);
-                CBtn.init(key);
+                String json = "";
 
-                keypadButtons.add(key.id);
-                CBtn.setId(keypadButtons.indexOf(key.id));
-                row.addView(CBtn);
+                InputStream in_s = getResources().openRawResource(R.raw.keypad);
+
+                try {
+                    byte[] b = new byte[in_s.available()];
+                    in_s.read(b);
+                    json = new String(b);
+                } catch (IOException e) {
+
+                }
+
+                JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+
+                KeypadRows keypadRows = gson.fromJson(jsonObject, KeypadRows.class);
+
+                for (Key[] keys : keypadRows.rows) {
+                    LinearLayout row = new LinearLayout(c);
+                    row.setOrientation(LinearLayout.HORIZONTAL);
+                    row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+                    for (Key key : keys) {
+                        CalcBtn CBtn = new CalcBtn (c);
+                        CBtn.init(key);
+
+                        //decide which height apply to the button
+                        if (key.style.contains("Fn"))
+                            CBtn.set_height((int)btn_fn_height);
+                        else
+                            CBtn.set_height((int)btn_large_height);
+
+                        buttons.add(CBtn);
+                        keypadButtons.add(key.id);
+                        CBtn.setId(keypadButtons.indexOf(key.id));
+                        row.addView(CBtn);
+                    }
+                    rows.addView(row);
+                }
             }
-            rows.addView(row);
-        }
-
+        });
 
 
 
@@ -106,6 +146,7 @@ public class MainActivity extends AppCompatActivity
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
 
     @Override
     public void onBackPressed() {

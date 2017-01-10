@@ -174,4 +174,16 @@ public class CalcBtn extends LinearLayout {
         });
         return this;
     }
+
+    //set height by shrinking padding
+    public void set_height(int height){
+        int delta = mainButton.getHeight() - height ;
+        if (delta==0) return;
+        else {
+            //shrink top and bottom padding in ratio of 1:2 or "..." symbol on the top of mainButton will disappear
+            mainButton.setPadding(mainButton.getPaddingLeft(),mainButton.getPaddingTop()-delta*1/3,
+                    mainButton.getPaddingRight(),mainButton.getPaddingBottom()-delta*2/3);
+        }
+    }
+    //add more comment la, or freerider can't read you code :(
 }
