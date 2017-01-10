@@ -33,5 +33,5 @@ public class InputToken {
 
 
 enum Colors {
-    NORMAL, CONSTANT;
+    NORMAL, CONSTANT, GREEK_VARIABLE, LATIN_VARIABLE;
 }

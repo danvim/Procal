@@ -18,7 +18,7 @@ public class Tokens {
         inputTokensMap.put("10_power_x", new InputToken("10^(", "⒑^("));
         inputTokensMap.put("natural_log", new InputToken("ln(", "ln("));
         inputTokensMap.put("exp_power_x", new InputToken("&exp^(", "ⅇ^("));
-        inputTokensMap.put("exp", new InputToken("&exp", "ⅇ"));
+        inputTokensMap.put("exp", new InputToken("&exp", "ⅇ", Colors.CONSTANT));
         inputTokensMap.put("negation", new InputToken("(-)", "-"));
         inputTokensMap.put("sexagesimal", new InputToken("'", "˚"));
         inputTokensMap.put("sine", new InputToken("sin(", "sin("));
@@ -48,6 +48,8 @@ public class Tokens {
         inputTokensMap.put("round", new InputToken("Rnd(", "Rnd("));
         inputTokensMap.put("random", new InputToken("Ran#", "Ran#"));
         inputTokensMap.put("dot", new InputToken(".", ".", false));
+        inputTokensMap.put("exponential", new InputToken("E", "ᴇ", false));
+        inputTokensMap.put("pi", new InputToken("&pi", "π", Colors.CONSTANT));
 
         //Digits
         for (int i = 0; i < 10; i++) {
@@ -57,27 +59,27 @@ public class Tokens {
         //Uppercase Latin
         for (int i = 0x0041; i < 0x005B; i++) {
             String c = Character.toString((char) i);
-            inputTokensMap.put(c, new InputToken(c, c));
+            inputTokensMap.put(c, new InputToken(c, c, Colors.LATIN_VARIABLE));
         }
 
         //Lowercase Latin
         for (int i = 0x0061; i < 0x007B; i++) {
             String c = Character.toString((char) i);
-            inputTokensMap.put(c, new InputToken(c, c));
+            inputTokensMap.put(c, new InputToken(c, c, Colors.LATIN_VARIABLE));
         }
 
         //Uppercase Greek
         for (int i = 0x0391; i < 0x03AA; i++) {
             if (i == 0x03A2) continue;
             String c = Character.toString((char) i);
-            inputTokensMap.put(c, new InputToken(c, c));
+            inputTokensMap.put(c, new InputToken(c, c, Colors.GREEK_VARIABLE));
         }
 
         //Lowercase Greek
         for (int i = 0x03B1; i < 0x03CA; i++) {
             if (i == 0x03C2) continue;
             String c = Character.toString((char) i);
-            inputTokensMap.put(c, new InputToken(c, c));
+            inputTokensMap.put(c, new InputToken(c, c, Colors.GREEK_VARIABLE));
         }
 
         //Constants
@@ -90,7 +92,44 @@ public class Tokens {
                 {"m_mu", "mµ"},
                 {"a_0", "a₀"},
                 {"h", "ℎ"},
-                {"mu_N", "μ"},
+                {"mu_N", "μɴ"},
+                {"mu_B", "μʙ"},
+                {"h_stroke", "ℏ"},
+                {"alpha", "α"},
+                {"r_e", "re"},
+                {"lambda_c", "λc"},
+                {"gamma_p", "γₚ"},
+                {"lambda_cp", "λcₚ"},
+                {"lambda_cn", "λcₙ"},
+                {"lambda_cn", "λcₙ"},
+                {"R_inf", "R∞"},
+                {"u", "υ"},
+                {"mu_p", "μₚ"},
+                {"mu_e", "μe"},
+                {"mu_n", "μₙ"},
+                {"mu_mu", "μµ"},
+                {"F", "ℱ"},
+                {"F", "ℯ"},
+                {"N_A", "Nᴀ"},
+                {"k", "ƙ"},
+                {"V_m", "Vm"},
+                {"R", "ℛ"},
+                {"c_0", "c₀"},
+                {"c_1", "c₁"},
+                {"c_2", "c₂"},
+                {"sigma", "σ"},
+                {"epsilon_0", "ε₀"},
+                {"mu_0", "μ₀"},
+                {"phi_0", "φ₀"},
+                {"g", "g"},
+                {"G_0", "G₀"},
+                {"Z_0", "Z₀"},
+                {"t", "t"},
+                {"G", "G"},
+                {"atm", "atm"}
         };
+        for (String[] constant : constants) {
+            inputTokensMap.put(constant[0], new InputToken("&" + constant[0], constant[1], Colors.CONSTANT));
+        }
     }
 }
