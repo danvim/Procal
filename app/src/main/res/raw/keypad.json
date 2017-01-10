@@ -83,7 +83,7 @@
                     "text": "e<sup>x</sup>"
                 },
                 "alpha":{
-                    "id":"&exp",
+                    "id":"exp",
                     "text":"e"
                 }
             }
@@ -98,7 +98,7 @@
                     "text": "∠"
                 },
                 "alpha":{
-                    "id":"$a",
+                    "id":"var_a",
                     "text":"A"
                 }
             },
@@ -111,7 +111,7 @@
                     "text": "←"
                 },
                 "alpha":{
-                    "id":"$b",
+                    "id":"var_b",
                     "text":"B"
                 }
             },
@@ -120,7 +120,7 @@
                 "text": "hyp",
                 "style": "Fn",
                 "alpha":{
-                    "id":"$c",
+                    "id":"var_c",
                     "text":"C"
                 }
             },
@@ -133,7 +133,7 @@
                     "text": "sin<sup>-1</sup>"
                 },
                 "alpha":{
-                    "id":"$d",
+                    "id":"var_d",
                     "text":"D"
                 }
             },
@@ -194,7 +194,7 @@
                     "text": "Abs"
                 },
                 "alpha":{
-                    "id":"$x",
+                    "id":"var_x",
                     "text":"X"
                 }
             },
@@ -207,7 +207,7 @@
                     "text": "；"
                 },
                 "alpha":{
-                    "id":"$y",
+                    "id":"var_y",
                     "text":"Y"
                 }
             },
@@ -220,7 +220,7 @@
                     "text": "M-"
                 },
                 "alpha":{
-                    "id":"$m",
+                    "id":"var_m",
                     "text":"M"
                 }
             }
