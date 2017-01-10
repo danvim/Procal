@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Button;
@@ -59,6 +60,22 @@ public class CalcBtn extends LinearLayout {
                 silentClick();
             }
         });
+
+        //to ensure the text in main button is within one line
+        final Button fbtn = mainButton;
+        mainButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+            @Override
+            public void onGlobalLayout() {                     //<--define listener function
+                //if take more than 1 line
+                if (fbtn.getLineCount()>1){                     //<--check if text in btn more than 1  line
+                    //shrink padding
+                    fbtn.setPadding(fbtn.getPaddingLeft()-1,fbtn.getPaddingTop(),fbtn.getPaddingRight()-1,fbtn.getPaddingBottom());                     //<--shrink padding
+                }
+                // if already take 1 line only, remove the listener
+                else fbtn.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+
         if(key.shift != null || key.alpha != null) {
 
             popupView = new LinearLayout(context);
