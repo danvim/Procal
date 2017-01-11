@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,17 +23,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
 
@@ -47,7 +36,7 @@ public class MainActivity extends AppCompatActivity
      */
     private GoogleApiClient client;
 
-    private List<String> keypadButtons = new ArrayList<>();
+    public static TextView matrixDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Set font
-        TextView matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
+        matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
 
