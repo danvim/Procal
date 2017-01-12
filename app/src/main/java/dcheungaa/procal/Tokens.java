@@ -14,6 +14,7 @@ public class Tokens {
         inputTokensMap.put("square_root", new InputToken("sqrt(", "√("));
         inputTokensMap.put("x_squared", new InputToken("squared", "²"));
         inputTokensMap.put("power", new InputToken("^(", "^("));
+        inputTokensMap.put("x_root", new InputToken("root", "ˣ√("));
         inputTokensMap.put("log", new InputToken("log(", "^("));
         inputTokensMap.put("10_power_x", new InputToken("10^(", "⒑^("));
         inputTokensMap.put("natural_log", new InputToken("ln(", "ln("));
