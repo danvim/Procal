@@ -1,10 +1,9 @@
 package dcheungaa.procal;
 
-import android.text.SpannableString;
+import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,11 @@ public class InputHandler {
      * True for insert mode, false for overtype mode
      */
     public static boolean isInsert = true;
+
+    public static Context context;
+    public static boolean isShift = false;
+    public static boolean isAlpha = false;
+    public static boolean isHyp = false;
 
 
     /**
@@ -77,6 +81,7 @@ public class InputHandler {
     public static void inputToken (String keyId) {
         //From key inputs, will be routed to methods above
         addInputTokenAt(cursorPos, keyId);
+        resetAltStates();
         cursorPos++;
     }
 
@@ -90,9 +95,38 @@ public class InputHandler {
             removeInputTokenAt(cursorPos);
     }
 
-    public static void allclearToken () {
+    public static void allClearToken() {
         inputExpression.clear();
         cursorPos = 0;
         updateMatrixDisplay();
+    }
+
+    public static void altButtons(String alt) {
+        if (alt.equals("shift")) {
+            isShift = !isShift;
+            isAlpha = false;
+        } else if (alt.equals("alpha")) {
+            isAlpha = !isAlpha;
+            isShift = false;
+        } else if (alt.equals("hyperbolic"))
+            isHyp = !isHyp;
+        refreshState();
+    }
+
+    private static void resetAltStates() {
+        isShift = false;
+        isAlpha = false;
+        isHyp = false;
+        refreshState();
+    }
+
+    private static void refreshState() {
+        for (CalcBtn calcBtn : MainActivity.calcBtns) {
+            calcBtn.refreshState();
+        }
+    }
+
+    public static void setContext(Context context) {
+        InputHandler.context = context;
     }
 }

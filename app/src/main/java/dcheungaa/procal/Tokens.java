@@ -43,8 +43,8 @@ public class Tokens {
         inputTokensMap.put("semicolon", new InputToken(";", ";"));
         inputTokensMap.put("memory_plus", new InputToken("M+", "M+", Color.MEMORY));
         inputTokensMap.put("memory_minus", new InputToken("M-", "M-", Color.MEMORY));
-        inputTokensMap.put("permutation", new InputToken("P", "P"));
-        inputTokensMap.put("combination", new InputToken("C", "C"));
+        inputTokensMap.put("permutation", new InputToken("P", "ℙ"));
+        inputTokensMap.put("combination", new InputToken("C", "ℂ"));
         inputTokensMap.put("polar", new InputToken("Pol(", "Pol("));
         inputTokensMap.put("rectangular", new InputToken("Rec(", "Rec("));
         inputTokensMap.put("multiply", new InputToken("*", "×"));
@@ -56,6 +56,7 @@ public class Tokens {
         inputTokensMap.put("dot", new InputToken(".", ".", false));
         inputTokensMap.put("exponential", new InputToken("E", "ᴇ", false));
         inputTokensMap.put("pi", new InputToken("&pi", "π", Color.CONSTANT));
+        inputTokensMap.put("answer", new InputToken("Ans", "Ans"));
 
         //Digits
         for (int i = 0; i < 10; i++) {

@@ -9,4 +9,5 @@ public class Key {
     String style;
     Key shift;
     Key alpha;
+    Key hyp;
 }

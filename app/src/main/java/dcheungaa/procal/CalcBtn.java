@@ -1,10 +1,11 @@
 package dcheungaa.procal;
 
-import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Looper;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
@@ -16,9 +17,12 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
+
 import android.os.Handler;
-import java.util.logging.LogRecord;
+
+import static dcheungaa.procal.InputHandler.isAlpha;
+import static dcheungaa.procal.InputHandler.isHyp;
+import static dcheungaa.procal.InputHandler.isShift;
 
 
 public class CalcBtn extends LinearLayout {
@@ -27,11 +31,16 @@ public class CalcBtn extends LinearLayout {
     private LinearLayout popupView;
     private List <Button> popupButtons = new ArrayList <>();
     private Context context;
-    private Button mainButton;
+    public Button mainButton;
     private Timer timer;
     private Handler handler;
     private Runnable runnable;
-    private Key key;
+    public Key key;
+    private int defaultColor;
+    private float defaultTextSize;
+    private boolean isLarge;
+    private boolean isText;
+    private Typeface defaultTypeface;
 
     public CalcBtn(Context context) {
         super(context);
@@ -53,14 +62,19 @@ public class CalcBtn extends LinearLayout {
 
         System.out.println("Adding " + key.id);
 
-        setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
+        setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f));
 
         mainButton = new Button(context, null, getResources().getIdentifier(
                 "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
                 "attr",
                 context.getPackageName()
         ));
-        mainButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        defaultColor = mainButton.getCurrentTextColor();
+        defaultTextSize = mainButton.getTextSize() / getResources().getDisplayMetrics().scaledDensity;
+        isLarge = key.style.contains("Large");
+        isText = key.style.contains("Text");
+        defaultTypeface = mainButton.getTypeface();
+        mainButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
         if (Build.VERSION.SDK_INT >= 24) {
             mainButton.setText(Html.fromHtml(key.text != null ? key.text : key.id, Html.FROM_HTML_MODE_COMPACT)); // for 24 api and more
         } else {
@@ -116,15 +130,36 @@ public class CalcBtn extends LinearLayout {
 
     private void silentClick() {
         // TODO Call Main_Add_Stack(key.id);
-        switch (key.id) {
+        String id = "";
+        if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
+            id = key.hyp.shift.id;
+        else if (isShift && key.shift != null)
+            id = key.shift.id;
+        else if (isAlpha && key.alpha != null)
+            id = key.alpha.id;
+        else if (isHyp && key.hyp != null)
+            id = key.hyp.id;
+        else
+            id = key.id;
+        System.out.println("Pressed: " + id);
+        switch (id) {
             case "delete":
                 InputHandler.deleteToken();
                 break;
             case "all_clear":
-                InputHandler.allclearToken();
+                InputHandler.allClearToken();
+                break;
+            case "shift":
+                InputHandler.altButtons("shift");
+                break;
+            case "alpha":
+                InputHandler.altButtons("alpha");
+                break;
+            case "hyperbolic":
+                InputHandler.altButtons("hyperbolic");
                 break;
             default:
-                InputHandler.inputToken(getKeyId());
+                InputHandler.inputToken(id);
                 break;
         }
     }
@@ -231,16 +266,9 @@ public class CalcBtn extends LinearLayout {
 
     //adjust the height of CBtn by giving shrinking ratio of padding and fontsize
     public void shrink(double ratio){
-        /*
         double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
-        mainButton.setPadding(mainButton.getPaddingLeft(),(int)(mainButton.getPaddingTop()*ratio*ratio*ratio),
-                mainButton.getPaddingRight(),(int)(mainButton.getPaddingBottom()*ratio*ratio*ratio));       //set padding by multiplying ratio
-        mainButton.setTextSize((float)(mainButton.getTextSize()*Math.sqrt(ratio)/density));        //set font size by multiplying ratio adjusted with sp density
-        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size*/
-        //ratio=ratio*ratio;      //I don't know why I need to do this, but it works
-        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
-        mainButton.setPadding(mainButton.getPaddingLeft(),(int)(mainButton.getPaddingTop()*ratio),
-                mainButton.getPaddingRight(),(int)(mainButton.getPaddingBottom()*ratio));       //set padding by multiplying ratio
+        int newPadding = (int)(mainButton.getPaddingTop()*ratio);
+        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);       //set padding by multiplying ratio
         mainButton.setTextSize((float)(mainButton.getTextSize()*ratio/density));        //set font size by multiplying ratio adjusted with sp density
         resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size
     }
@@ -259,5 +287,40 @@ public class CalcBtn extends LinearLayout {
                 else fbtn.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
+    }
+
+    public void refreshState() {
+        SpannableString sb;
+        int color = defaultColor;
+        boolean isAlt = true;
+        if (isShift && isHyp && key.hyp != null && key.hyp.shift != null) {
+            sb = new SpannableString(key.hyp.shift.text);
+            color = context.getResources().getColor(R.color.colorAccent);
+        } else if (isShift && key.shift != null) {
+            sb = new SpannableString(key.shift.text);
+            color = context.getResources().getColor(R.color.colorAccent);
+        } else if (isAlpha && key.alpha != null) {
+            sb = new SpannableString(key.alpha.text);
+            color = context.getResources().getColor(R.color.colorPurple);
+        } else if (isHyp && key.hyp != null) {
+            sb = new SpannableString(key.hyp.text);
+        } else if (key.text != null) {
+            sb = new SpannableString(key.text);
+            isAlt = false;
+        } else {
+            sb = new SpannableString(key.id);
+            isAlt = false;
+        }
+        if (isLarge && !isText && sb.length() >= 3 && isAlt)
+            mainButton.setTextSize(defaultTextSize*24/34);
+        else if (isLarge && isText && sb.length() < 3 && isAlt) {
+            mainButton.setTextSize(defaultTextSize * 34 / 24);
+            mainButton.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        } else if (!isAlt) {
+            mainButton.setTextSize(defaultTextSize);
+            mainButton.setTypeface(defaultTypeface);
+        }
+        sb.setSpan(new ForegroundColorSpan(color), 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mainButton.setText(sb);
     }
 }
