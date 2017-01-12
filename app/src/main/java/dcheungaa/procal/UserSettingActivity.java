@@ -1,18 +1,26 @@
 package dcheungaa.procal;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.app.ActionBar;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 
 public class UserSettingActivity extends AppCompatPreferenceActivity {
 
     public UserSettingActivity() {}
 
+    public static class LocationFragment extends PreferenceFragment {
+
+        private LayoutInflater inflater;
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences_main);
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +40,4 @@ public class UserSettingActivity extends AppCompatPreferenceActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class LocationFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences_main);
-
-        }
-    }
 }

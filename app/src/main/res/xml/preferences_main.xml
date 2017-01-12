@@ -53,8 +53,20 @@
     <PreferenceCategory
         android:title="About">
         <Preference
-            android:key="pref_about_ll"
-            android:layout="@layout/pref_about"/>
+            android:layout="@layout/pref_about">
+        </Preference>
+        <Preference
+            android:layout="@layout/pref_about_credit">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://arxiv.org/abs/0908.3030v1" />
+        </Preference>
+        <Preference
+            android:layout="@layout/pref_about_contact">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="mailto:dcheungaa@connect.ust.hk" />
+        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>
+
+    <!---->
