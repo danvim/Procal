@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     private Boolean call_load=false;
     private KeyPad_init keyPad;
     private List<String> keypadButtons = new ArrayList<>();
+    public static TextView matrixDisplay;
+    public static Tokens tokens = new Tokens();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Set font
-        TextView matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
+        matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
 

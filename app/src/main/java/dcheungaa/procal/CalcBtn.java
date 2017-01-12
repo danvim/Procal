@@ -31,6 +31,7 @@ public class CalcBtn extends LinearLayout {
     private Timer timer;
     private Handler handler;
     private Runnable runnable;
+    private Key key;
 
     public CalcBtn(Context context) {
         super(context);
@@ -48,6 +49,8 @@ public class CalcBtn extends LinearLayout {
     }
 
     public void init(Key key) {
+        this.key = key;
+
         System.out.println("Adding " + key.id);
 
         setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
@@ -103,6 +106,7 @@ public class CalcBtn extends LinearLayout {
         popupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO Call Main_Add_Stack(key.id);
+                InputHandler.inputToken(getKeyId());
             }
         });
         popupButtons.add(popupButton);
@@ -111,6 +115,14 @@ public class CalcBtn extends LinearLayout {
 
     private void silentClick() {
         // TODO Call Main_Add_Stack(key.id);
+        if (key.id.equals("delete"))
+            InputHandler.deleteToken();
+        else
+            InputHandler.inputToken(getKeyId());
+    }
+
+    private String getKeyId() {
+        return key.id;
     }
 
     private void displayPopup() {

@@ -30,7 +30,7 @@ public class KeyPad_init {
     private Gson gson = new Gson();
     private final int height;
     private float density;
-    private List <List> btn_rows = new ArrayList<>();
+    private List <List<CalcBtn>> btn_rows = new ArrayList<>();
     private int keyPadHeight;   //in px
     private int display_height=160; //the height of llScreen in dp, need to be constant or it is impossible for dynamic layout
 

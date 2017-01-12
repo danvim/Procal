@@ -98,7 +98,7 @@
                     "text": "∠"
                 },
                 "alpha":{
-                    "id":"var_a",
+                    "id":"var_A",
                     "text":"A"
                 }
             },
@@ -111,7 +111,7 @@
                     "text": "←"
                 },
                 "alpha":{
-                    "id":"var_b",
+                    "id":"var_B",
                     "text":"B"
                 }
             },
@@ -120,7 +120,7 @@
                 "text": "hyp",
                 "style": "Fn",
                 "alpha":{
-                    "id":"var_c",
+                    "id":"var_C",
                     "text":"C"
                 }
             },
@@ -133,7 +133,7 @@
                     "text": "sin<sup>-1</sup>"
                 },
                 "alpha":{
-                    "id":"var_d",
+                    "id":"var_D",
                     "text":"D"
                 }
             },
@@ -194,7 +194,7 @@
                     "text": "Abs"
                 },
                 "alpha":{
-                    "id":"var_x",
+                    "id":"var_X",
                     "text":"X"
                 }
             },
@@ -207,7 +207,7 @@
                     "text": "；"
                 },
                 "alpha":{
-                    "id":"var_y",
+                    "id":"var_Y",
                     "text":"Y"
                 }
             },
@@ -220,7 +220,7 @@
                     "text": "M-"
                 },
                 "alpha":{
-                    "id":"var_m",
+                    "id":"var_M",
                     "text":"M"
                 }
             }
