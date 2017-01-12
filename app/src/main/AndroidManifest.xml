@@ -28,7 +28,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".UserSettingActivity"
             android:label="@string/title_activity_settings" />
     </application>
 

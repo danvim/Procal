@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, UserSettingActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_save) {
