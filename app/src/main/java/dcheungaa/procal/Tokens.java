@@ -10,7 +10,7 @@ public class Tokens {
         inputTokensMap.put("x_inverse", new InputToken("inverse", "º"));
         inputTokensMap.put("x_factorial", new InputToken("!", "!"));
         inputTokensMap.put("x_cubed", new InputToken("cubed", "³"));
-        inputTokensMap.put("cubed_root", new InputToken("3root(", "³√("));
+        inputTokensMap.put("cube_root", new InputToken("3root(", "³√("));
         inputTokensMap.put("complex_fraction", new InputToken("over", "∕"));
         inputTokensMap.put("square_root", new InputToken("sqrt(", "√("));
         inputTokensMap.put("x_squared", new InputToken("squared", "²"));
