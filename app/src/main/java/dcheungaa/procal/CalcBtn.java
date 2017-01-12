@@ -211,13 +211,7 @@ public class CalcBtn extends LinearLayout {
 
     //adjust the height of CBtn by giving shrinking ratio of padding and fontsize
     public void shrink(double ratio){
-        /*
-        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
-        mainButton.setPadding(mainButton.getPaddingLeft(),(int)(mainButton.getPaddingTop()*ratio*ratio*ratio),
-                mainButton.getPaddingRight(),(int)(mainButton.getPaddingBottom()*ratio*ratio*ratio));       //set padding by multiplying ratio
-        mainButton.setTextSize((float)(mainButton.getTextSize()*Math.sqrt(ratio)/density));        //set font size by multiplying ratio adjusted with sp density
-        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size*/
-        //ratio=ratio*ratio;      //I don't know why I need to do this, but it works
+
         double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
         mainButton.setPadding(mainButton.getPaddingLeft(),(int)(mainButton.getPaddingTop()*ratio),
                 mainButton.getPaddingRight(),(int)(mainButton.getPaddingBottom()*ratio));       //set padding by multiplying ratio
