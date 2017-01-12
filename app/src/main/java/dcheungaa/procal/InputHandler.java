@@ -3,11 +3,19 @@ package dcheungaa.procal;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static dcheungaa.procal.Tokens.inputTokensMap;
 
@@ -29,7 +37,6 @@ public class InputHandler {
      * True for insert mode, false for overtype mode
      */
     public static boolean isInsert = true;
-
 
     /**
      * Removes the token at index
@@ -55,19 +62,82 @@ public class InputHandler {
      * This is called by methods above to update the matrix display
      */
     public static void updateMatrixDisplay () {
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-        for (InputToken token : inputExpression) {
+
+        int index=0;
+        int lengthSum=0;
+        int length = MainActivity.matrixDisplay.getText().length();
+        final SpannableStringBuilder sb = new SpannableStringBuilder();
+        for (final InputToken token : inputExpression) {
             int i = sb.length();
             try {
                 sb.append(token.display);
             } catch (Exception e) {
                 System.out.println("Cannot use token!");
             }
+            //sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            final int final_index=index;
+            final int final_lengthSum=lengthSum;
+
+            ClickableString clickableSpan=new ClickableString(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int x=sb.getSpanStart(this);
+                    System.out.print("\npressed! x: "+x+"\n");
+                    MainActivity.cursor.setX(x);
+                    cursorPos=final_index;
+                }
+            });
+
+
+            sb.setSpan(clickableSpan, i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+            //if (index==cursorPos) sb.append("|");
+            index++;
+            lengthSum+=sb.length()-i;
+        };
         MainActivity.matrixDisplay.setText(sb);
         System.out.println("Text: ");
         System.out.println(MainActivity.matrixDisplay.getText());
+
+        makeLinksFocusable(MainActivity.matrixDisplay);
+
+        /*MainActivity.matrixDisplay.setText("");
+        for (int i = 0; i<inputExpression.size(); i++){
+
+            InputToken token = inputExpression.get(i);
+            try{
+                System.out.print(token.display);
+            }
+            catch (Exception e){
+                System.out.print("Fail to display\n");
+            }
+            try{
+                final int finalI = i;
+                SpannableString expression = new SpannableString("");
+                int l= expression.length();
+                expression = makeLinkSpan(token.display, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // respond to click
+                        cursorPos= finalI;
+                        System.out.print("clicked!\n");
+                    }
+                });
+                try{
+                    expression.setSpan(new ForegroundColorSpan(token.color.getColor()), l, expression.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }catch (Exception er){
+                    System.out.print("\n\nError found when chaning color: \n"+er+"\n===END===\n");
+                }
+
+                MainActivity.matrixDisplay.append(expression);
+            }catch (Exception e) {
+                System.out.println("Cannot use token!");
+            }
+
+        }
+        makeLinksFocusable(MainActivity.matrixDisplay);
+        */
     }
 
     /**
@@ -94,5 +164,47 @@ public class InputHandler {
         inputExpression.clear();
         cursorPos = 0;
         updateMatrixDisplay();
+    }
+
+
+
+    /*
+ * Methods used above for changing cursor position
+ */
+
+    static private SpannableString makeLinkSpan(CharSequence text, View.OnClickListener listener) {
+        SpannableString link = new SpannableString(text);
+        link.setSpan(new ClickableString(listener), 0, text.length(),
+                SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
+        return link;
+    }
+
+    private static void makeLinksFocusable(TextView tv) {
+        MovementMethod m = tv.getMovementMethod();
+        if ((m == null) || !(m instanceof LinkMovementMethod)) {
+            if (tv.getLinksClickable()) {
+                tv.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        }
+    }
+
+/*
+ * ClickableString class
+ */
+
+    private static class ClickableString extends ClickableSpan {
+        private View.OnClickListener mListener;
+        public ClickableString(View.OnClickListener listener) {
+            mListener = listener;
+        }
+        @Override
+        public void onClick(View v) {
+            mListener.onClick(v);
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(ds.linkColor);
+            ds.setUnderlineText(false);
+        }
     }
 }

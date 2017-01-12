@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -33,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
     public static Tokens tokens = new Tokens();
+    public static TextView cursor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,8 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
+        cursor = (TextView) findViewById(R.id.tv_cursor);
+        cursor.setTypeface(FONT_FX50);
 
         //keypad gen
         final InputStream in_s = getResources().openRawResource(R.raw.keypad);
@@ -83,7 +90,13 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
         call_load = true;
 
+        matrixDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.print("Clicked boss\nX : "+ Float.toString(matrixDisplay.getX())+"\n");
 
+            }
+        });
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

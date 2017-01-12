@@ -11,6 +11,20 @@
     android:background="@android:color/background_light"
     android:clipToPadding="false">
 
+    <TextView
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/tv_cursor"
+        android:textSize="30sp"
+        android:translationZ="100dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -67,6 +81,7 @@
         android:layout_alignParentStart="true">
 
     </LinearLayout>
+
 
 
 </RelativeLayout>
