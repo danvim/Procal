@@ -116,10 +116,17 @@ public class CalcBtn extends LinearLayout {
 
     private void silentClick() {
         // TODO Call Main_Add_Stack(key.id);
-        if (key.id.equals("delete"))
-            InputHandler.deleteToken();
-        else
-            InputHandler.inputToken(getKeyId());
+        switch (key.id) {
+            case "delete":
+                InputHandler.deleteToken();
+                break;
+            case "all_clear":
+                InputHandler.allclearToken();
+                break;
+            default:
+                InputHandler.inputToken(getKeyId());
+                break;
+        }
     }
 
     private String getKeyId() {

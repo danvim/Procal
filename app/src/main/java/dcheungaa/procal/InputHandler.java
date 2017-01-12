@@ -89,4 +89,10 @@ public class InputHandler {
         if (cursorPos >= 0 && inputExpression.size() > 0)
             removeInputTokenAt(cursorPos);
     }
+
+    public static void allclearToken () {
+        inputExpression.clear();
+        cursorPos = 0;
+        updateMatrixDisplay();
+    }
 }
