@@ -2,6 +2,7 @@ package dcheungaa.procal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-
+    private Boolean call_load=false;
+    private KeyPad_init keyPad;
     private List<String> keypadButtons = new ArrayList<>();
 
     @Override
@@ -75,13 +77,24 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout cm=(RelativeLayout) findViewById(R.id.content_main);
         LinearLayout lls=(LinearLayout) findViewById(R.id.llScreen);
         LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
-        new KeyPad_init(this,in_s,display,cm,lls,rows);
+        Resources resources=getResources();
+        keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
+        call_load = true;
 
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (call_load){
+            call_load=false;
+            keyPad.KeyPad_resize();
+        }
     }
 
 

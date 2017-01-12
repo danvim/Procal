@@ -69,20 +69,7 @@ public class CalcBtn extends LinearLayout {
             }
         });
 
-        //to ensure the text in main button is within one line
-        final Button fbtn = mainButton;
-        mainButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
-            @Override
-            public void onGlobalLayout() {                     //<--define listener function
-                //if take more than 1 line
-                if (fbtn.getLineCount()>1){                     //<--check if text in btn more than 1  line
-                    //shrink padding
-                    fbtn.setPadding(fbtn.getPaddingLeft()-1,fbtn.getPaddingTop(),fbtn.getPaddingRight()-1,fbtn.getPaddingBottom());                     //<--shrink padding
-                }
-                // if already take 1 line only, remove the listener
-                else fbtn.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+        resize_horizontal(mainButton);
 
         if(key.shift != null || key.alpha != null) {
 
@@ -218,15 +205,39 @@ public class CalcBtn extends LinearLayout {
         return this;
     }
 
-    //set height by shrinking padding
-    public void set_height(int height){
-        int delta = mainButton.getHeight() - height ;
-        if (delta==0) return;
-        else {
-            //shrink top and bottom padding in ratio of 1:2 or "..." symbol on the top of mainButton will disappear
-            mainButton.setPadding(mainButton.getPaddingLeft(),mainButton.getPaddingTop()-delta/2,
-                    mainButton.getPaddingRight(),mainButton.getPaddingBottom()-delta/2);
-        }
+    public int get_height(){
+        return mainButton.getHeight();
     }
-    //add more comment la, or freerider can't read you code :(
+
+    //adjust the height of CBtn by giving shrinking ratio of padding and fontsize
+    public void shrink(double ratio){
+        /*
+        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
+        mainButton.setPadding(mainButton.getPaddingLeft(),(int)(mainButton.getPaddingTop()*ratio*ratio*ratio),
+                mainButton.getPaddingRight(),(int)(mainButton.getPaddingBottom()*ratio*ratio*ratio));       //set padding by multiplying ratio
+        mainButton.setTextSize((float)(mainButton.getTextSize()*Math.sqrt(ratio)/density));        //set font size by multiplying ratio adjusted with sp density
+        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size*/
+        //ratio=ratio*ratio;      //I don't know why I need to do this, but it works
+        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
+        mainButton.setPadding(mainButton.getPaddingLeft(),(int)(mainButton.getPaddingTop()*ratio),
+                mainButton.getPaddingRight(),(int)(mainButton.getPaddingBottom()*ratio));       //set padding by multiplying ratio
+        mainButton.setTextSize((float)(mainButton.getTextSize()*ratio/density));        //set font size by multiplying ratio adjusted with sp density
+        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size
+    }
+
+    //to ensure the text in main button is within one line
+    private void resize_horizontal(final Button fbtn){
+        mainButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+            @Override
+            public void onGlobalLayout() {                     //<--define listener function
+                //if take more than 1 line
+                if (fbtn.getLineCount()>1){                     //<--check if text in btn more than 1  line
+                    //shrink padding
+                    fbtn.setPadding(fbtn.getPaddingLeft()-1,fbtn.getPaddingTop(),fbtn.getPaddingRight()-1,fbtn.getPaddingBottom());                     //<--shrink padding
+                }
+                // if already take 1 line only, remove the listener
+                else fbtn.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+    }
 }
