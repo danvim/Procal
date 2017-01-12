@@ -8,7 +8,7 @@ public class Tokens {
 
     public Tokens() {
         inputTokensMap.put("x_inverse", new InputToken("inverse", "º"));
-        inputTokensMap.put("factorial", new InputToken("factorial", "!"));
+        inputTokensMap.put("factorial", new InputToken("!", "!"));
         inputTokensMap.put("x_cubed", new InputToken("cubed", "³"));
         inputTokensMap.put("complex_fraction", new InputToken("over", "∕"));
         inputTokensMap.put("square_root", new InputToken("sqrt(", "√("));
@@ -39,8 +39,8 @@ public class Tokens {
         inputTokensMap.put("absolute", new InputToken("Abs(", "Abs("));
         inputTokensMap.put("comma", new InputToken(",", ","));
         inputTokensMap.put("semicolon", new InputToken(";", ";"));
-        inputTokensMap.put("memory_plus", new InputToken("M+", "M+"));
-        inputTokensMap.put("memory_minus", new InputToken("M-", "M-"));
+        inputTokensMap.put("memory_plus", new InputToken("M+", "M+", Colors.MEMORY));
+        inputTokensMap.put("memory_minus", new InputToken("M-", "M-", Colors.MEMORY));
         inputTokensMap.put("multiply", new InputToken("*", "×"));
         inputTokensMap.put("divide", new InputToken("/", "÷"));
         inputTokensMap.put("add", new InputToken("+", "+"));
@@ -118,7 +118,7 @@ public class Tokens {
                 {"c_1", "c₁"},
                 {"c_2", "c₂"},
                 {"sigma", "σ"},
-                {"epsilon_0", "ε₀"},
+                {"epsilon_0", "ℇ₀"},
                 {"mu_0", "μ₀"},
                 {"phi_0", "φ₀"},
                 {"g", "g"},
