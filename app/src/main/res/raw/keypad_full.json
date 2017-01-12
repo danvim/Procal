@@ -93,6 +93,10 @@
                 "id": "negation",
                 "text": "(-)",
                 "style": "Fn",
+                "shift": {
+                    "id": "angle",
+                    "text": "∠"
+                },
                 "alpha":{
                     "id":"var_A",
                     "text":"A"
@@ -102,6 +106,10 @@
                 "id": "sexagesimal",
                 "text": "° ′ ″",
                 "style": "Fn",
+                "shift": {
+                    "id": "sexagesimal_back",
+                    "text": "←"
+                },
                 "alpha":{
                     "id":"var_B",
                     "text":"B"
@@ -241,7 +249,11 @@
             {
                 "id": "delete",
                 "text": "DEL",
-                "style": "Purple_Large_Text"
+                "style": "Purple_Large_Text",
+                "shift": {
+                    "id": "insert",
+                    "text": "INS"
+                }
             },
             {
                 "id": "all_clear",
@@ -343,7 +355,11 @@
             {
                 "id": "answer",
                 "text": "ANS",
-                "style": "Large_Text"
+                "style": "Large_Text",
+                "shift": {
+                    "id": "angle_units",
+                    "text": "DRG"
+                }
             },
             {
                 "id": "execute",

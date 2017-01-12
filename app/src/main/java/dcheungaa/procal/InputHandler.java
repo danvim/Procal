@@ -86,7 +86,7 @@ public class InputHandler {
     public static void deleteToken () {
         cursorPos = Math.max(Math.min(cursorPos--, inputExpression.size() - 1), 0);
         System.out.println(cursorPos);
-        if (cursorPos >= 0)
+        if (cursorPos >= 0 && inputExpression.size() > 0)
             removeInputTokenAt(cursorPos);
     }
 }
