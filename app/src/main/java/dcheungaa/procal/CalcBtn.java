@@ -186,7 +186,7 @@ public class CalcBtn extends LinearLayout {
                     case MotionEvent.ACTION_UP:
                         if (isClicked){
                             // ONCLICK
-                            silentClick();
+                            //silentClick();
                             timer.cancel();
                         } else {
                             popupWindow.dismiss();
