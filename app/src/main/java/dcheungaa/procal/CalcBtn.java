@@ -90,6 +90,7 @@ public class CalcBtn extends LinearLayout {
     }
 
     public CalcBtn addPopupButton(Key key){
+        final String keyId = key.id;
         Button popupButton = new Button(context, null, getResources().getIdentifier(
                 "Button_Popup",
                 "attr",
@@ -106,7 +107,7 @@ public class CalcBtn extends LinearLayout {
         popupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO Call Main_Add_Stack(key.id);
-                InputHandler.inputToken(getKeyId());
+                InputHandler.inputToken(keyId);
             }
         });
         popupButtons.add(popupButton);
