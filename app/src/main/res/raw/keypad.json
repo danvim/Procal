@@ -17,17 +17,21 @@
                 "style": "Fn"
             },
             {
-                "id": "mode",
-                "text": "MODE",
-                "style": "Fn"
-            },
-            {
-                "id": "derivative",
-                "text": "d/dx",
+                "id": "x_inverse",
+                "text": "x⁻¹",
                 "style": "Fn",
                 "shift": {
-                    "id": "integration",
-                    "text": "∫dx"
+                    "id": "x_factorial",
+                    "text": "x!"
+                }
+            },
+            {
+                "id": "x_cubed",
+                "text": "x³",
+                "style": "Fn",
+                "shift": {
+                    "id": "cube_root",
+                    "text": "³√"
                 }
             },
             {
@@ -62,7 +66,7 @@
                 "style": "Fn",
                 "shift": {
                     "id": "x_root",
-                    "text": "<sup>x</sup>√"
+                    "text": "ˣ√"
                 }
             },
             {
@@ -71,7 +75,7 @@
                 "style": "Fn",
                 "shift": {
                     "id": "10_power_x",
-                    "text": "10<sup>x</sup>"
+                    "text": "10ˣ"
                 }
             },
             {
@@ -80,7 +84,7 @@
                 "style": "Fn",
                 "shift": {
                     "id": "exp_power_x",
-                    "text": "e<sup>x</sup>"
+                    "text": "eˣ"
                 },
                 "alpha":{
                     "id":"exp",
@@ -122,7 +126,7 @@
                 "style": "Fn",
                 "shift": {
                     "id": "arc_sine",
-                    "text": "sin<sup>-1</sup>"
+                    "text": "sin⁻¹"
                 },
                 "alpha":{
                     "id":"var_D",
@@ -135,7 +139,7 @@
                 "style": "Fn",
                 "shift": {
                     "id": "arc_cosine",
-                    "text": "cos<sup>-1</sup>"
+                    "text": "cos⁻¹"
                 }
 
             },
@@ -145,7 +149,7 @@
                 "style": "Fn",
                 "shift": {
                     "id": "arc_tangent",
-                    "text": "tan<sup>-1</sup>"
+                    "text": "tan⁻¹"
                 }
             }
         ],
