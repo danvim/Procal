@@ -17,17 +17,21 @@
                 "style": "Fn"
             },
             {
-                "id": "mode",
-                "text": "MODE",
-                "style": "Fn"
-            },
-            {
-                "id": "derivative",
-                "text": "d/dx",
+                "id": "x_inverse",
+                "text": "x<sup>-1</sup>",
                 "style": "Fn",
                 "shift": {
-                    "id": "integration",
-                    "text": "∫dx"
+                    "id": "x_factorial",
+                    "text": "x!"
+                }
+            },
+            {
+                "id": "x_cubed",
+                "text": "x<sup>3</sup>",
+                "style": "Fn",
+                "shift": {
+                    "id": "cubed_root",
+                    "text": "<sup>3</sup>√"
                 }
             },
             {
