@@ -15,9 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -56,6 +59,9 @@ public class MainActivity extends AppCompatActivity
     public static TextView matrixDisplay;
     public static Tokens tokens = new Tokens();
     public static TextView cursor;
+
+    public static int fontWidth;
+    public static int fontHeight;
 
 
     @Override
@@ -90,13 +96,31 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
         call_load = true;
 
+        final HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.test);
+
+        /*
         matrixDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.print("Clicked boss\nX : "+ Float.toString(matrixDisplay.getX())+"\n");
-
+                System.out.print("Clicked boss\nX : "+ Float.toString(scrollView.getScrollX())+"\n");
+                //CursorHandler.
             }
         });
+        */
+
+        /*
+        matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    CursorHandler.locate((int)event.getX(),(int)event.getY(),scrollView.getScrollX());
+                }
+                return true;
+            }
+        });
+*/
+        scrollView.getScrollX();
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -108,6 +132,12 @@ public class MainActivity extends AppCompatActivity
         super.onWindowFocusChanged(hasFocus);
         if (call_load){
             call_load=false;
+            fontWidth=cursor.getWidth();
+            fontHeight=cursor.getHeight();
+            cursor.setText("|");
+            //cursor.setTop(matrixDisplay.getTop());
+            cursor.setLeft(matrixDisplay.getLeft());
+            CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
         }
     }
@@ -203,4 +233,10 @@ public class MainActivity extends AppCompatActivity
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+    public static void set_Cursor_Visibility(TextView c,int visible){
+        c.setVisibility(visible);
+    }
+
+
 }
