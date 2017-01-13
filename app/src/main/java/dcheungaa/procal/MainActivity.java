@@ -15,8 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,6 +36,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -42,17 +47,28 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private Boolean call_load=false;
+    private boolean call_load = false;
     private KeyPad_init keyPad;
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
     public static Tokens tokens = new Tokens();
+
+    public static TextView cursor;
+
+    public static int fontWidth;
+    public static int fontHeight;
+
+    public static HorizontalScrollView scrollView;
+
+
     public static List<CalcBtn> calcBtns = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +91,8 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
+        cursor = (TextView) findViewById(R.id.tv_cursor);
+        cursor.setTypeface(FONT_FX50);
 
         //keypad gen
         final InputStream in_s = getResources().openRawResource(R.raw.keypad);
@@ -86,6 +104,30 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
         call_load = true;
 
+        scrollView = (HorizontalScrollView) findViewById(R.id.test);
+
+        /*
+        matrixDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.print("Clicked boss\nX : "+ Float.toString(scrollView.getScrollX())+"\n");
+                //CursorHandler.
+            }
+        });
+        */
+
+        /*
+        matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    CursorHandler.locate((int)event.getX(),(int)event.getY(),scrollView.getScrollX());
+                }
+                return true;
+            }
+        });
+*/
+        scrollView.getScrollX();
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -98,6 +140,12 @@ public class MainActivity extends AppCompatActivity
         super.onWindowFocusChanged(hasFocus);
         if (call_load){
             call_load=false;
+            fontWidth=cursor.getWidth();
+            fontHeight=cursor.getHeight();
+            cursor.setText("|");
+            //cursor.setTop(matrixDisplay.getTop());
+            cursor.setLeft(matrixDisplay.getLeft());
+            CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
         }
     }
@@ -193,4 +241,10 @@ public class MainActivity extends AppCompatActivity
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+    public static void set_Cursor_Visibility(TextView c,int visible){
+        c.setVisibility(visible);
+    }
+
+
 }
