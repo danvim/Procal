@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity
     public static int fontWidth;
     public static int fontHeight;
 
+    public static HorizontalScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
         call_load = true;
 
-        final HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.test);
+        scrollView = (HorizontalScrollView) findViewById(R.id.test);
 
         /*
         matrixDisplay.setOnClickListener(new View.OnClickListener() {

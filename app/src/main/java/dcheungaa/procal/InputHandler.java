@@ -88,8 +88,9 @@ public class InputHandler {
                     int x=sb.getSpanStart(this);
                     System.out.print("\npressed! x: "+x+"\n");
                     MainActivity.cursor.setX(x);
-                    cursorPos=final_index;
-                    updateMatrixDisplay();
+                    cursorPos=final_index+1;
+                    CursorHandler.locate(cursorPos-1);
+                    //updateMatrixDisplay();
                 }
             });
 
@@ -106,7 +107,7 @@ public class InputHandler {
 
         makeLinksFocusable(MainActivity.matrixDisplay);
         CursorHandler.hideCursor();
-        //CursorHandler.locate(cursorPos);
+        CursorHandler.locate(cursorPos);
 
     }
 

@@ -1,6 +1,7 @@
 package dcheungaa.procal;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Timer;
@@ -45,6 +46,7 @@ public class CursorHandler {
         return  cursorIndex;
     }
 
+    /*
     public static void locate(int x, int y, int ScrollX) {
         cursor = MainActivity.cursor;
         x = x+ScrollX;
@@ -66,13 +68,22 @@ public class CursorHandler {
             }
         }
 
-    }
+    }*/
 
     public static void locate(int cursorpos){
-        int x=0;
-        for (int i=0; i<cursorpos; i++){
-            x+=InputHandler.inputExpression.get(i).display.length() * MainActivity.fontWidth;
+        int x=MainActivity.matrixDisplay.getPaddingLeft();
+        for (int i=0; i<=Math.min(cursorpos,InputHandler.inputExpression.size()); i++){
+            try{
+                x+=InputHandler.inputExpression.get(i).display.length() * MainActivity.fontWidth;
+            }
+            catch (Exception e){
+                System.out.print("no expression\n");
+            }
         }
-        MainActivity.cursor.setX(x);
+
+        int padding = x-MainActivity.scrollView.getScrollX();
+        MainActivity.cursor.setPadding(padding,MainActivity.matrixDisplay.getPaddingTop(),0,0);
+        //System.out.print("cursor.X = "+Integer.toString(x)+" - "+Integer.toString(MainActivity.scrollView.getScrollX())+"\n="+Integer.toString(x-MainActivity.scrollView.getScrollX())+"\n");
+        //System.out.print("cursor left = "+ Integer.toString(MainActivity.cursor.getLeft())+"\n");
     }
 }
