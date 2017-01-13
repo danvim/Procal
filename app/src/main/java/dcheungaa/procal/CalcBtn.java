@@ -264,13 +264,24 @@ public class CalcBtn extends LinearLayout {
         return mainButton.getHeight();
     }
 
-    //adjust the height of CBtn by giving shrinking ratio of padding and fontsize
+    /**
+     * Adjust the height of CBtn by giving shrinking ratio of padding and text size
+     * @param ratio row height / keypad height
+     */
     public void shrink(double ratio){
-        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
+        //px = density * sp
+        double density = getResources().getDisplayMetrics().scaledDensity;
+        //set padding by multiplying ratio
         int newPadding = (int)(mainButton.getPaddingTop()*ratio);
-        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);       //set padding by multiplying ratio
-        mainButton.setTextSize((float)(mainButton.getTextSize()*ratio/density));        //set font size by multiplying ratio adjusted with sp density
-        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size
+        //set font size by multiplying ratio adjusted with sp density
+        float newTextSize = (float)(mainButton.getTextSize()*ratio/density);
+
+        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);
+        mainButton.setTextSize(newTextSize);
+        defaultTextSize = newTextSize;
+
+        //after changing font size and padding, some text may go to second line, need to adjust horizontal padding or font size
+        resize_horizontal(mainButton);
     }
 
     //to ensure the text in main button is within one line
