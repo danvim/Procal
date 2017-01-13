@@ -1,13 +1,26 @@
 package dcheungaa.procal;
 
+import android.text.ParcelableSpan;
+import android.text.SpannableString;
 import android.content.Context;
+
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.UpdateAppearance;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static dcheungaa.procal.Tokens.inputTokensMap;
 
@@ -50,6 +63,7 @@ public class InputHandler {
      * @param i index
      * @param keyId {@link InputToken} key id
      */
+
     public static void addInputTokenAt (int i, String keyId) throws NullPointerException {
         InputToken token = inputTokensMap.get(keyId);
         if (token == null)
@@ -63,19 +77,50 @@ public class InputHandler {
      * This is called by methods above to update the matrix display
      */
     public static void updateMatrixDisplay () {
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-        for (InputToken token : inputExpression) {
+
+        int index=0;
+        int lengthSum=0;
+        int length = MainActivity.matrixDisplay.getText().length();
+        final SpannableStringBuilder sb = new SpannableStringBuilder();
+        for (final InputToken token : inputExpression) {
             int i = sb.length();
             try {
                 sb.append(token.display);
             } catch (Exception e) {
                 System.out.println("Cannot use token!");
             }
-            sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+            //sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            final int final_index=index;
+            final int final_lengthSum=lengthSum;
+
+            ClickableString clickableString=new ClickableString(token.color.getColor(), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int x=sb.getSpanStart(this);
+                    System.out.print("\npressed! x: "+x+"\n");
+                    MainActivity.cursor.setX(x);
+                    cursorPos=final_index+1;
+                    CursorHandler.locate(cursorPos-1);
+                    //updateMatrixDisplay();
+                }
+            });
+
+            sb.setSpan(clickableString, i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            //if (index==cursorPos) sb.append("|");
+            index++;
+            lengthSum+=sb.length()-i;
+        };
+        CursorHandler.hideCursor();
         MainActivity.matrixDisplay.setText(sb);
         System.out.println("Text: ");
         System.out.println(MainActivity.matrixDisplay.getText());
+
+        makeLinksFocusable(MainActivity.matrixDisplay);
+        CursorHandler.hideCursor();
+        CursorHandler.locate(cursorPos);
+
     }
 
     /**
@@ -100,8 +145,9 @@ public class InputHandler {
     public static void deleteToken () {
         cursorPos = Math.max(Math.min(cursorPos--, inputExpression.size() - 1), 0);
         System.out.println(cursorPos);
-        if (cursorPos >= 0 && inputExpression.size() > 0)
+        if (cursorPos >= 0 && inputExpression.size() > 0) {
             removeInputTokenAt(cursorPos);
+        }
     }
 
     public static void allClearToken() {
@@ -109,6 +155,7 @@ public class InputHandler {
         cursorPos = 0;
         updateMatrixDisplay();
     }
+
 
     public static void altButtons(String alt) {
         if (alt.equals("shift")) {
@@ -137,5 +184,38 @@ public class InputHandler {
 
     public static void setContext(Context context) {
         InputHandler.context = context;
+    }
+  
+  /*
+ * Methods used above for changing cursor position
+ */
+    private static void makeLinksFocusable(TextView tv) {
+        MovementMethod m = tv.getMovementMethod();
+        if ((m == null) || !(m instanceof LinkMovementMethod)) {
+            if (tv.getLinksClickable()) {
+                tv.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        }
+    }
+
+/*
+ * ClickableString class
+ */
+    private static class ClickableString extends ClickableSpan {
+        private View.OnClickListener mListener;
+        private final int mColor;
+        public ClickableString(int color, View.OnClickListener listener) {
+            mListener = listener;
+            mColor = color;
+        }
+        @Override
+        public void onClick(View v) {
+            mListener.onClick(v);
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(mColor);
+            ds.setUnderlineText(false);
     }
 }
