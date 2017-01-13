@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private Boolean call_load=false;
+    private boolean call_load = false;
     private KeyPad_init keyPad;
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;

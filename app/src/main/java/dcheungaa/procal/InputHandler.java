@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,11 @@ public class InputHandler {
      * @param i index
      * @param keyId {@link InputToken} key id
      */
-    public static void addInputTokenAt (int i, String keyId) {
-        inputExpression.add(i, inputTokensMap.get(keyId));
+    public static void addInputTokenAt (int i, String keyId) throws NullPointerException {
+        InputToken token = inputTokensMap.get(keyId);
+        if (token == null)
+            throw new NullPointerException();
+        inputExpression.add(i, token);
         System.out.println(inputTokensMap.get(keyId).display);
         updateMatrixDisplay();
     }
@@ -80,9 +84,14 @@ public class InputHandler {
      */
     public static void inputToken (String keyId) {
         //From key inputs, will be routed to methods above
-        addInputTokenAt(cursorPos, keyId);
+        try {
+            addInputTokenAt(cursorPos, keyId);
+            cursorPos++;
+        } catch (NullPointerException e) {
+            Toast toast = Toast.makeText(context, keyId + " action not found!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
         resetAltStates();
-        cursorPos++;
     }
 
     /**
