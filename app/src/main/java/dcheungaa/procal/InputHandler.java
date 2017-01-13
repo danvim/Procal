@@ -100,7 +100,7 @@ public class InputHandler {
                     int x=sb.getSpanStart(this);
                     System.out.print("\npressed! x: "+x+"\n");
                     MainActivity.cursor.setX(x);
-                    cursorPos=final_index+1;
+                    cursorPos=final_index;
                     CursorHandler.locate(cursorPos-1);
                     //updateMatrixDisplay();
                 }
