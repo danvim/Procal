@@ -26,7 +26,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 
 public class KeyPad_init {
-    private List<String> keypadButtons = new ArrayList<>();
+    public List<String> keypadButtons = new ArrayList<>();
     private Gson gson = new Gson();
     private final int height;
     private float density;
