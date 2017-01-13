@@ -58,6 +58,7 @@
 
     <style name="Button_Large" parent="Button">
         <item name="android:textSize">34sp</item>
+        <item name="android:height">58dp</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 

@@ -53,11 +53,12 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private Boolean call_load=false;
+    private boolean call_load = false;
     private KeyPad_init keyPad;
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
     public static Tokens tokens = new Tokens();
+
     public static TextView cursor;
 
     public static int fontWidth;
@@ -66,11 +67,16 @@ public class MainActivity extends AppCompatActivity
     public static HorizontalScrollView scrollView;
 
 
+    public static List<CalcBtn> calcBtns = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        InputHandler.setContext(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

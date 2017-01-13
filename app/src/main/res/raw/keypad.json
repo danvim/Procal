@@ -128,6 +128,14 @@
                     "id": "arc_sine",
                     "text": "sin⁻¹"
                 },
+                "hyp": {
+                    "id": "hyp_sine",
+                    "text": "sinh",
+                    "shift": {
+                        "id": "arc_hyp_sine",
+                        "text": "sinh⁻¹"
+                    }
+                },
                 "alpha":{
                     "id":"var_D",
                     "text":"D"
@@ -140,6 +148,14 @@
                 "shift": {
                     "id": "arc_cosine",
                     "text": "cos⁻¹"
+                },
+                "hyp": {
+                    "id": "hyp_cosine",
+                    "text": "cosh",
+                    "shift": {
+                        "id": "arc_hyp_cosine",
+                        "text": "cosh⁻¹"
+                    }
                 }
 
             },
@@ -150,6 +166,14 @@
                 "shift": {
                     "id": "arc_tangent",
                     "text": "tan⁻¹"
+                },
+                "hyp": {
+                    "id": "hyp_tangent",
+                    "text": "tanh",
+                    "shift": {
+                        "id": "arc_hyp_tangent",
+                        "text": "tanh⁻¹"
+                    }
                 }
             }
         ],
@@ -224,11 +248,7 @@
         [
             {
                 "id": "7",
-                "style": "Large",
-                "shift": {
-                    "id": "constant",
-                    "text": "CONST"
-                }
+                "style": "Large"
             },
             {
                 "id": "8",

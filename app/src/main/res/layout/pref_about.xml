@@ -3,26 +3,24 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="false"
+    android:clickable="false"
     android:gravity="center_horizontal"
-    android:padding="30dp">
+    android:padding="0dp">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/icon_about"
         android:elevation="1dp"
-        android:padding="5dp"/>
+        android:padding="0dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="Procal"
         android:textSize="20sp"
-        android:padding="10dp"/>
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="@string/about_html"/>
+        android:padding="15dp"/>
 
 </LinearLayout>

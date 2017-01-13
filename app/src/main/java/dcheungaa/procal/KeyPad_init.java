@@ -30,7 +30,7 @@ public class KeyPad_init {
     private Gson gson = new Gson();
     private final int height;
     private float density;
-    private List <List<CalcBtn>> btn_rows = new ArrayList<>();
+    private List<List<CalcBtn>> btn_rows = new ArrayList<>();
     private int keyPadHeight;   //in px
     private int display_height=160; //the height of llScreen in dp, need to be constant or it is impossible for dynamic layout
 
@@ -64,13 +64,14 @@ public class KeyPad_init {
             row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             List<CalcBtn> btn_row = new ArrayList<>() ;
             for (Key key : keys) {
-                CalcBtn CBtn = new CalcBtn (c);
-                CBtn.init(key);
+                CalcBtn calcBtn = new CalcBtn (c);
+                calcBtn.init(key);
 
-                btn_row.add(CBtn);
+                btn_row.add(calcBtn);
                 keypadButtons.add(key.id);
-                CBtn.setId(keypadButtons.indexOf(key.id));
-                row.addView(CBtn);
+                calcBtn.setId(keypadButtons.indexOf(key.id));
+                row.addView(calcBtn);
+                MainActivity.calcBtns.add(calcBtn);
             }
             rows.addView(row);
             btn_rows.add(btn_row);
