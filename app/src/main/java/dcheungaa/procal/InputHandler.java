@@ -217,5 +217,6 @@ public class InputHandler {
             super.updateDrawState(ds);
             ds.setColor(mColor);
             ds.setUnderlineText(false);
+        }
     }
 }
