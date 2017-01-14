@@ -43,7 +43,7 @@ public class CursorHandler {
         }, shine_interval);
     }
 
-    public static void changeCursorPos(int tap_x) {
+    public static void locateCursorPos(int tap_x) {
         cursor = MainActivity.cursor;
         System.out.print("x before : "+ Integer.toString(tap_x)+"\n");
         int base_x=MainActivity.matrixDisplay.getPaddingLeft();
@@ -67,9 +67,8 @@ public class CursorHandler {
 
     }
 
-    public static void locate(int cursorpos){
+    public static int locate(int cursorpos){
         int x=MainActivity.matrixDisplay.getPaddingLeft();
-
 
 
         for (int i=0; i<Math.min(cursorpos,InputHandler.inputExpression.size()); i++){
@@ -81,6 +80,9 @@ public class CursorHandler {
             }
         }
         MainActivity.cursor.setPadding(x,MainActivity.matrixDisplay.getPaddingTop(),0,0);
+
+        MainActivity.scrollView.scrollTo(x+2*MainActivity.fontWidth,MainActivity.scrollView.getScrollY());
         hideCursor();
+        return x;
     }
 }

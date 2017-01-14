@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity
     public static int fontWidth;
     public static int fontHeight;
 
+    public static HorizontalScrollView scrollView;
+
 
     public static List<CalcBtn> calcBtns = new ArrayList<>();
 
@@ -102,13 +104,15 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
         call_load = true;
 
+        scrollView = (HorizontalScrollView) findViewById(R.id.test);
+
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
                 System.out.print("Pressed Boss\n");
                 if(event.getAction()==MotionEvent.ACTION_UP){
-                    CursorHandler.changeCursorPos((int)event.getX());
+                    CursorHandler.locateCursorPos((int)event.getX());
                 }
                 return true;
             }
