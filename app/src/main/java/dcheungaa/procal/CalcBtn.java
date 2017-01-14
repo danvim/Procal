@@ -41,6 +41,7 @@ public class CalcBtn extends LinearLayout {
     private boolean isLarge;
     private boolean isText;
     private Typeface defaultTypeface;
+    private boolean isAlt = false;
 
     public CalcBtn(Context context) {
         super(context);
@@ -183,25 +184,25 @@ public class CalcBtn extends LinearLayout {
         return (
                 (popupButtons.indexOf(popupButton) == 0) ?
                         (
-                        (popupButtons.size() == 1) ?
-                                (
-                                    // 1. Case Only popupbtn
-                                    (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 3) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
-                                ) : (
-                                    // 2. Case Leftmost popupbtn
-                                    (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth()) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
+                                (popupButtons.size() == 1) ?
+                                        (
+                                                // 1. Case Only popupbtn
+                                                (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 3) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
+                                        ) : (
+                                        // 2. Case Leftmost popupbtn
+                                        (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth()) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
                                 )
                         ) : (
                         (popupButtons.indexOf(popupButton) == popupButtons.size() - 1) ?
                                 (
-                                    // 3. Case Rightmost popupbtn
-                                    (event.getX() >= popupButton.getX() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 2) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
+                                        // 3. Case Rightmost popupbtn
+                                        (event.getX() >= popupButton.getX() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 2) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
                                 ) : (
-                                    // 4. Case Middle popupbtn
-                                    (event.getX() >= popupButton.getX() && event.getX() <= popupButton.getX() + popupButton.getWidth()) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
-                                )
+                                // 4. Case Middle popupbtn
+                                (event.getX() >= popupButton.getX() && event.getX() <= popupButton.getX() + popupButton.getWidth()) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
                         )
-                );
+                )
+        );
     }
 
     public CalcBtn listenPopup(){
@@ -241,17 +242,17 @@ public class CalcBtn extends LinearLayout {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                         //if (!isClicked) {   // ONHOLD
-                             displayPopup();
-                             for (Button popupButton : popupButtons) {
-                                 if (ifValidOnTouch(event, popupButton)) {
-                                     popupButton.setBackgroundResource(R.drawable.popup_button_active);
-                                 } else {
-                                     popupButton.setBackgroundResource(R.drawable.ripple_rounded);
-                                 }
-                             }
-                             isClicked = false;
-                         //}
+                        if (!isAlt) {   // ONHOLD
+                            displayPopup();
+                            for (Button popupButton : popupButtons) {
+                                if (ifValidOnTouch(event, popupButton)) {
+                                    popupButton.setBackgroundResource(R.drawable.popup_button_active);
+                                } else {
+                                    popupButton.setBackgroundResource(R.drawable.ripple_rounded);
+                                }
+                            }
+                            isClicked = false;
+                        }
                         break;
                 }
                 return false;
@@ -264,24 +265,13 @@ public class CalcBtn extends LinearLayout {
         return mainButton.getHeight();
     }
 
-    /**
-     * Adjust the height of CBtn by giving shrinking ratio of padding and text size
-     * @param ratio row height / keypad height
-     */
+    //adjust the height of CBtn by giving shrinking ratio of padding and fontsize
     public void shrink(double ratio){
-        //px = density * sp
-        double density = getResources().getDisplayMetrics().scaledDensity;
-        //set padding by multiplying ratio
+        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
         int newPadding = (int)(mainButton.getPaddingTop()*ratio);
-        //set font size by multiplying ratio adjusted with sp density
-        float newTextSize = (float)(mainButton.getTextSize()*ratio/density);
-
-        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);
-        mainButton.setTextSize(newTextSize);
-        defaultTextSize = newTextSize;
-
-        //after changing font size and padding, some text may go to second line, need to adjust horizontal padding or font size
-        resize_horizontal(mainButton);
+        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);       //set padding by multiplying ratio
+        mainButton.setTextSize((float)(mainButton.getTextSize()*ratio/density));        //set font size by multiplying ratio adjusted with sp density
+        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size
     }
 
     //to ensure the text in main button is within one line
@@ -303,7 +293,7 @@ public class CalcBtn extends LinearLayout {
     public void refreshState() {
         SpannableString sb;
         int color = defaultColor;
-        boolean isAlt = true;
+        isAlt = true;
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null) {
             sb = new SpannableString(key.hyp.shift.text);
             color = context.getResources().getColor(R.color.colorAccent);

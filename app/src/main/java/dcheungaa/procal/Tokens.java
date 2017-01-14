@@ -7,6 +7,11 @@ public class Tokens {
     public static Map<String, InputToken> inputTokensMap = new HashMap<>();
 
     public Tokens() {
+
+        /*
+        inputTokensMap.put(key.id, new InputToken(lexable, display));
+        */
+
         inputTokensMap.put("x_inverse", new InputToken("inverse", "º"));
         inputTokensMap.put("x_factorial", new InputToken("!", "!"));
         inputTokensMap.put("x_cubed", new InputToken("cubed", "³"));
