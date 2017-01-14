@@ -51,20 +51,22 @@ public class InputHandler {
 
     /**
      * Removes the token at index
+     *
      * @param i index
      */
-    public static void removeInputTokenAt (int i) {
+    public static void removeInputTokenAt(int i) {
         inputExpression.remove(i);
         updateMatrixDisplay();
     }
 
     /**
      * Add(insert/overwrite, depends on {@link #isInsert}) the token at index
-     * @param i index
+     *
+     * @param i     index
      * @param keyId {@link InputToken} key id
      */
 
-    public static void addInputTokenAt (int i, String keyId) throws NullPointerException {
+    public static void addInputTokenAt(int i, String keyId) throws NullPointerException {
         InputToken token = inputTokensMap.get(keyId);
         if (token == null)
             throw new NullPointerException();
@@ -76,11 +78,8 @@ public class InputHandler {
     /**
      * This is called by methods above to update the matrix display
      */
-    public static void updateMatrixDisplay () {
+    public static void updateMatrixDisplay() {
 
-        int index=0;
-        int lengthSum=0;
-        int length = MainActivity.matrixDisplay.getText().length();
         final SpannableStringBuilder sb = new SpannableStringBuilder();
         for (final InputToken token : inputExpression) {
             int i = sb.length();
@@ -89,49 +88,29 @@ public class InputHandler {
             } catch (Exception e) {
                 System.out.println("Cannot use token!");
             }
-            //sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            final int final_index=index;
-            final int final_lengthSum=lengthSum;
-
-            ClickableString clickableString=new ClickableString(token.color.getColor(), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int x=sb.getSpanStart(this);
-                    System.out.print("\npressed! x: "+x+"\n");
-                    MainActivity.cursor.setX(x);
-                    cursorPos=final_index;
-                    CursorHandler.locate(cursorPos-1);
-                    //updateMatrixDisplay();
-                }
-            });
-
-            sb.setSpan(clickableString, i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            //if (index==cursorPos) sb.append("|");
-            index++;
-            lengthSum+=sb.length()-i;
-        };
+            sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        ;
         CursorHandler.hideCursor();
         MainActivity.matrixDisplay.setText(sb);
         System.out.println("Text: ");
         System.out.println(MainActivity.matrixDisplay.getText());
 
         makeLinksFocusable(MainActivity.matrixDisplay);
-        CursorHandler.hideCursor();
-        CursorHandler.locate(cursorPos);
 
     }
 
     /**
      * Input a token at cursor position
+     *
      * @param keyId {@link InputToken} key id
      */
-    public static void inputToken (String keyId) {
+    public static void inputToken(String keyId) {
         //From key inputs, will be routed to methods above
         try {
             addInputTokenAt(cursorPos, keyId);
             cursorPos++;
+            CursorHandler.locate(cursorPos);
         } catch (NullPointerException e) {
             Toast toast = Toast.makeText(context, keyId + " action not found!", Toast.LENGTH_SHORT);
             toast.show();
@@ -142,9 +121,10 @@ public class InputHandler {
     /**
      * Delete a token at cursor position
      */
-    public static void deleteToken () {
+    public static void deleteToken() {
         cursorPos = Math.max(Math.min(cursorPos--, inputExpression.size() - 1), 0);
         System.out.println(cursorPos);
+        CursorHandler.locate(cursorPos);
         if (cursorPos >= 0 && inputExpression.size() > 0) {
             removeInputTokenAt(cursorPos);
         }
@@ -153,6 +133,7 @@ public class InputHandler {
     public static void allClearToken() {
         inputExpression.clear();
         cursorPos = 0;
+        CursorHandler.locate(cursorPos);
         updateMatrixDisplay();
     }
 
@@ -185,38 +166,16 @@ public class InputHandler {
     public static void setContext(Context context) {
         InputHandler.context = context;
     }
-  
-  /*
- * Methods used above for changing cursor position
- */
+
+    /*
+   * Methods used above for changing cursor position
+   */
     private static void makeLinksFocusable(TextView tv) {
         MovementMethod m = tv.getMovementMethod();
         if ((m == null) || !(m instanceof LinkMovementMethod)) {
             if (tv.getLinksClickable()) {
                 tv.setMovementMethod(LinkMovementMethod.getInstance());
             }
-        }
-    }
-
-/*
- * ClickableString class
- */
-    private static class ClickableString extends ClickableSpan {
-        private View.OnClickListener mListener;
-        private final int mColor;
-        public ClickableString(int color, View.OnClickListener listener) {
-            mListener = listener;
-            mColor = color;
-        }
-        @Override
-        public void onClick(View v) {
-            mListener.onClick(v);
-        }
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(mColor);
-            ds.setUnderlineText(false);
         }
     }
 }
