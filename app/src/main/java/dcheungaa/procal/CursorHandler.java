@@ -13,13 +13,15 @@ import java.util.TimerTask;
 
 public class CursorHandler {
 
-    private static int cursorIndex=0;     //index of cursor in display string (not index of token)*/
     private static long shine_interval = 1000;
     private static TextView cursor;
     private static Timer cursorTimer=new Timer();
 
     public static void hideCursor(){
         //MainActivity.set_Cursor_Visibility(cursor,View.INVISIBLE);
+        //MainActivity.cursor.setText(" ");
+        //cursorTimer.cancel();
+        //System.out.print("hide\n");
         cursorTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -30,6 +32,9 @@ public class CursorHandler {
 
     public static void showCursor(){
         //MainActivity.set_Cursor_Visibility(cursor,View.VISIBLE);
+        //MainActivity.cursor.setText("|");
+        //cursorTimer.cancel();
+        //System.out.print("show\n");
         cursorTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -38,41 +43,36 @@ public class CursorHandler {
         }, shine_interval);
     }
 
-    public static int findCursorIndex(){
-        cursorIndex=0;
-        for (int i = 0; i<InputHandler.cursorPos; i++){
-            cursorIndex+=InputHandler.inputExpression.get(i).display.length();
-        }
-        return  cursorIndex;
-    }
-
-    /*
-    public static void locate(int x, int y, int ScrollX) {
+    public static void changeCursorPos(int tap_x) {
         cursor = MainActivity.cursor;
-        x = x+ScrollX;
-        int X=0;
-        int i=0;
-        while (true) {
-            if (i < InputHandler.inputExpression.size())
-                X += InputHandler.inputExpression.get(i).display.length() * MainActivity.fontWidth;
-            else {
-                //InputHandler.cursorPos = i;
-                cursor.setX(X - ScrollX);
-                break;
+        System.out.print("x before : "+ Integer.toString(tap_x)+"\n");
+        int base_x=MainActivity.matrixDisplay.getPaddingLeft();
+        for (int i=0; i<InputHandler.inputExpression.size();i++){
+            try {
+                int length = InputHandler.inputExpression.get(i).display.length()*MainActivity.fontWidth;
+                if (tap_x<base_x+length/2){
+                    InputHandler.cursorPos=i;
+                    break;
+                }else{
+                    InputHandler.cursorPos=i+1;
+                    base_x+=length;
+                }
+            }catch (Exception e){
+                System.out.print("this token no display \n");
+                continue;
             }
-            i++;
-            if (X > x) {
-                //InputHandler.cursorPos = i;
-                cursor.setX(X - InputHandler.inputExpression.get(i).display.length() * MainActivity.fontWidth);
-                break;
-            }
-        }
 
-    }*/
+        }
+        locate(InputHandler.cursorPos);
+
+    }
 
     public static void locate(int cursorpos){
         int x=MainActivity.matrixDisplay.getPaddingLeft();
-        for (int i=0; i<=Math.min(cursorpos,InputHandler.inputExpression.size()); i++){
+
+
+
+        for (int i=0; i<Math.min(cursorpos,InputHandler.inputExpression.size()); i++){
             try{
                 x+=InputHandler.inputExpression.get(i).display.length() * MainActivity.fontWidth;
             }
@@ -80,10 +80,7 @@ public class CursorHandler {
                 System.out.print("no expression\n");
             }
         }
-
-        //int padding = x-MainActivity.scrollView.getScrollX();
         MainActivity.cursor.setPadding(x,MainActivity.matrixDisplay.getPaddingTop(),0,0);
-        //System.out.print("cursor.X = "+Integer.toString(x)+" - "+Integer.toString(MainActivity.scrollView.getScrollX())+"\n="+Integer.toString(x-MainActivity.scrollView.getScrollX())+"\n");
-        //System.out.print("cursor left = "+ Integer.toString(MainActivity.cursor.getLeft())+"\n");
+        hideCursor();
     }
 }
