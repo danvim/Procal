@@ -106,28 +106,17 @@ public class MainActivity extends AppCompatActivity
 
         scrollView = (HorizontalScrollView) findViewById(R.id.test);
 
-        /*
-        matrixDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.print("Clicked boss\nX : "+ Float.toString(scrollView.getScrollX())+"\n");
-                //CursorHandler.
-            }
-        });
-        */
-
-        /*
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
+                System.out.print("Pressed Boss\n");
                 if(event.getAction()==MotionEvent.ACTION_UP){
-                    CursorHandler.locate((int)event.getX(),(int)event.getY(),scrollView.getScrollX());
+                    CursorHandler.locateCursorPos((int)event.getX());
                 }
                 return true;
             }
         });
-*/
-        scrollView.getScrollX();
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -142,8 +131,9 @@ public class MainActivity extends AppCompatActivity
             call_load=false;
             fontWidth=cursor.getWidth();
             fontHeight=cursor.getHeight();
-            cursor.setText("|");
+            cursor.setText("▎");
             //cursor.setTop(matrixDisplay.getTop());
+            cursor.setPadding(matrixDisplay.getPaddingLeft(),cursor.getPaddingTop(),cursor.getPaddingRight(),cursor.getPaddingBottom());
             cursor.setLeft(matrixDisplay.getLeft());
             CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
