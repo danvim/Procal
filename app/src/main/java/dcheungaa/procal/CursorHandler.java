@@ -81,8 +81,8 @@ public class CursorHandler {
             }
         }
 
-        int padding = x-MainActivity.scrollView.getScrollX();
-        MainActivity.cursor.setPadding(padding,MainActivity.matrixDisplay.getPaddingTop(),0,0);
+        //int padding = x-MainActivity.scrollView.getScrollX();
+        MainActivity.cursor.setPadding(x,MainActivity.matrixDisplay.getPaddingTop(),0,0);
         //System.out.print("cursor.X = "+Integer.toString(x)+" - "+Integer.toString(MainActivity.scrollView.getScrollX())+"\n="+Integer.toString(x-MainActivity.scrollView.getScrollX())+"\n");
         //System.out.print("cursor left = "+ Integer.toString(MainActivity.cursor.getLeft())+"\n");
     }
