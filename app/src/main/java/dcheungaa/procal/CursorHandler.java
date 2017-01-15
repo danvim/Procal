@@ -2,6 +2,8 @@ package dcheungaa.procal;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import java.util.Timer;
@@ -81,7 +83,19 @@ public class CursorHandler {
         }
         MainActivity.cursor.setPadding(x,MainActivity.matrixDisplay.getPaddingTop(),0,0);
 
-        MainActivity.scrollView.scrollTo(x+2*MainActivity.fontWidth,MainActivity.scrollView.getScrollY());
+
+        final int delta = x - MainActivity.scrollView.getScrollX() - MainActivity.scrollView.getWidth() + MainActivity.fontWidth;
+        if (delta>0){
+            final HorizontalScrollView fhsv=MainActivity.scrollView;
+            MainActivity.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+                @Override
+                public void onGlobalLayout() {                     //<--define listener function
+                    fhsv.scrollTo(fhsv.getScrollX() + delta, MainActivity.scrollView.getScrollY());
+                    fhsv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            });
+        }
+
         hideCursor();
         return x;
     }
