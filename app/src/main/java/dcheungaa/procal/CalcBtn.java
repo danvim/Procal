@@ -280,6 +280,7 @@ public class CalcBtn extends LinearLayout {
 
         mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);
         mainButton.setTextSize(newTextSize);
+        mainButton.setHeight((int)(mainButton.getHeight()*ratio));
         defaultTextSize = newTextSize;
 
         //after changing font size and padding, some text may go to second line, need to adjust horizontal padding or font size
