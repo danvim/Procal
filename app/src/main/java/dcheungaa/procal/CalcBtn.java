@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -16,7 +17,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import android.os.Handler;
 
@@ -32,7 +32,6 @@ public class CalcBtn extends LinearLayout {
     private List <Button> popupButtons = new ArrayList <>();
     private Context context;
     public Button mainButton;
-    private Timer timer;
     private Handler handler;
     private Runnable runnable;
     public Key key;
@@ -41,7 +40,6 @@ public class CalcBtn extends LinearLayout {
     private boolean isLarge;
     private boolean isText;
     private Typeface defaultTypeface;
-    private boolean isAlt = false;
 
     public CalcBtn(Context context) {
         super(context);
@@ -60,6 +58,7 @@ public class CalcBtn extends LinearLayout {
 
     public void init(Key key) {
         this.key = key;
+        final Key mainButtonKey = key;
 
         System.out.println("Adding " + key.id);
 
@@ -83,7 +82,7 @@ public class CalcBtn extends LinearLayout {
         }
         mainButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                silentClick();
+                silentClick(mainButtonKey);
             }
         });
 
@@ -98,14 +97,15 @@ public class CalcBtn extends LinearLayout {
 
             if(key.shift != null) addPopupButton(key.shift);
             if(key.alpha != null) addPopupButton(key.alpha);
+            if(key.hyp != null) addPopupButton(key.hyp);
+            if(key.hyp!= null && key.hyp.shift != null) addPopupButton(key.hyp.shift);  // Ensure first layer (key.hyp) is passed
             listenPopup();
         }
         addView(mainButton);
-        timer = new Timer();
     }
 
     public CalcBtn addPopupButton(Key key){
-        final String keyId = key.id;
+        final Key popupButtonKey = key;
         Button popupButton = new Button(context, null, getResources().getIdentifier(
                 "Button_Popup",
                 "attr",
@@ -122,14 +122,14 @@ public class CalcBtn extends LinearLayout {
         popupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO Call Main_Add_Stack(key.id);
-                InputHandler.inputToken(keyId);
+                silentClick(popupButtonKey);
             }
         });
         popupButtons.add(popupButton);
         return this;
     }
 
-    private void silentClick() {
+    private void silentClick(Key key) {
         // TODO Call Main_Add_Stack(key.id);
         String id = "";
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
@@ -180,57 +180,58 @@ public class CalcBtn extends LinearLayout {
 
     }
 
-    public boolean ifValidOnTouch(MotionEvent event, Button popupButton){
-        return (
-                (popupButtons.indexOf(popupButton) == 0) ?
-                        (
-                                (popupButtons.size() == 1) ?
-                                        (
-                                                // 1. Case Only popupbtn
-                                                (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 3) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
-                                        ) : (
-                                        // 2. Case Leftmost popupbtn
-                                        (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth()) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
-                                )
-                        ) : (
-                        (popupButtons.indexOf(popupButton) == popupButtons.size() - 1) ?
-                                (
-                                        // 3. Case Rightmost popupbtn
-                                        (event.getX() >= popupButton.getX() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 2) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
-                                ) : (
-                                // 4. Case Middle popupbtn
-                                (event.getX() >= popupButton.getX() && event.getX() <= popupButton.getX() + popupButton.getWidth()) && (event.getY() >= - popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight())
-                        )
-                )
-        );
+    public boolean ifValidOnTouch(MotionEvent event, Button popupButton) {
+        // Approach: mainButton as anchor
+        float startX = (popupButtons.size() % 2 == 1) ? (/*Odd*/ 0) : (/*Even*/ this.getWidth()/2);
+        int distance = (popupButtons.size() % 2 == 1) ? (popupButtons.indexOf(popupButton) - (int) Math.floor(popupButtons.size()/2)) : (popupButtons.indexOf(popupButton) - popupButtons.size()/2);
+
+        if (popupButtons.indexOf(popupButton) == 0) {
+            if (popupButtons.size() == 1) {
+                // 1. Case Only popupbtn
+                return (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 3) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            } else {
+                // 2. Case Leftmost popupbtn
+                return (event.getX() >= startX + (distance - 2) * popupButton.getWidth()  && event.getX() <= startX + (distance + 1) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            }
+        } else {
+            if (popupButtons.indexOf(popupButton) == popupButtons.size() - 1) {
+                // 3. Case Rightmost popupbtn
+                return (event.getX() >= startX + (distance) * popupButton.getWidth()  && event.getX() <= startX + (distance + 3) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            } else {
+                // 4. Case Middle popupbtn
+                return (event.getX() >= startX + (distance) * popupButton.getWidth()  && event.getX() <= startX + (distance + 1) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            }
+        }
     }
 
     public CalcBtn listenPopup(){
         mainButton.setOnTouchListener(new OnTouchListener() {
             boolean isClicked = false;
-            // boolean displayed = false;
+
             public boolean onTouch(View v, MotionEvent event) {
 
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
                         isClicked = true;
-                        // Testing Hold for timeout to popup
-                        /*final Handler handler = new Handler();
-                        handler.postDelayed(runnable, 500);
-                        Runnable runnable = new Runnable() {
+                        /*Thread t = new Thread(new Runnable(){
                             @Override
                             public void run() {
-                                isClicked = false;
-                                displayPopup();
-                                handler.postDelayed(this, 500);
-                            }
-                        };*/
+                                while(!Thread.currentThread().isInterrupted()){
+                                    displayPopup();
+                                }
+                            }});
+                        t.start();
+
+                        // Sleep a second, and then interrupt
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {}
+                        t.interrupt();*/
                         break;
                     case MotionEvent.ACTION_UP:
                         if (isClicked){
                             // ONCLICK
                             //silentClick();
-                            timer.cancel();
                         } else {
                             popupWindow.dismiss();
                             for (Button popupButton: popupButtons) {
@@ -242,17 +243,17 @@ public class CalcBtn extends LinearLayout {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (!isAlt) {   // ONHOLD
-                            displayPopup();
-                            for (Button popupButton : popupButtons) {
-                                if (ifValidOnTouch(event, popupButton)) {
-                                    popupButton.setBackgroundResource(R.drawable.popup_button_active);
-                                } else {
-                                    popupButton.setBackgroundResource(R.drawable.ripple_rounded);
-                                }
+                        //if (!isClicked) {   // ONHOLD
+                        displayPopup();
+                        for (Button popupButton : popupButtons) {
+                            if (ifValidOnTouch(event, popupButton)) {
+                                popupButton.setBackgroundResource(R.drawable.popup_button_active);
+                            } else {
+                                popupButton.setBackgroundResource(R.drawable.ripple_rounded);
                             }
-                            isClicked = false;
                         }
+                        isClicked = false;
+                        //}
                         break;
                 }
                 return false;
@@ -265,13 +266,24 @@ public class CalcBtn extends LinearLayout {
         return mainButton.getHeight();
     }
 
-    //adjust the height of CBtn by giving shrinking ratio of padding and fontsize
+    /**
+     * Adjust the height of CBtn by giving shrinking ratio of padding and text size
+     * @param ratio row height / keypad height
+     */
     public void shrink(double ratio){
-        double density = getResources().getDisplayMetrics().scaledDensity;  //px = density * sp
+        //px = density * sp
+        double density = getResources().getDisplayMetrics().scaledDensity;
+        //set padding by multiplying ratio
         int newPadding = (int)(mainButton.getPaddingTop()*ratio);
-        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);       //set padding by multiplying ratio
-        mainButton.setTextSize((float)(mainButton.getTextSize()*ratio/density));        //set font size by multiplying ratio adjusted with sp density
-        resize_horizontal(mainButton);          //after changing font size and padding, some text may go to sencond line, need to adjust horizontal padding or font size
+        //set font size by multiplying ratio adjusted with sp density
+        float newTextSize = (float)(mainButton.getTextSize()*ratio/density);
+
+        mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);
+        mainButton.setTextSize(newTextSize);
+        defaultTextSize = newTextSize;
+
+        //after changing font size and padding, some text may go to second line, need to adjust horizontal padding or font size
+        resize_horizontal(mainButton);
     }
 
     //to ensure the text in main button is within one line
@@ -293,7 +305,7 @@ public class CalcBtn extends LinearLayout {
     public void refreshState() {
         SpannableString sb;
         int color = defaultColor;
-        isAlt = true;
+        boolean isAlt = true;
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null) {
             sb = new SpannableString(key.hyp.shift.text);
             color = context.getResources().getColor(R.color.colorAccent);
