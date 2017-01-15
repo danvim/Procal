@@ -1,0 +1,115 @@
+{
+    "rows":[
+        [
+            {
+                "id": "question_mark",
+                "text": "?"
+            },
+            {
+                "id": "arrow",
+                "text": "→",
+                "lexable": "->"
+            },
+            {
+                "id": "colon",
+                "text": ":"
+            },
+            {
+                "id": "display",
+                "text": "◢",
+                "lexable": "display"
+            },
+            {
+                "id": "double_arrow",
+                "text": "⇒",
+                "lexable": "=>"
+            },
+            {
+                "id": "equal",
+                "text": "="
+            },
+            {
+                "id": "not_equal",
+                "text": "≠",
+                "lexable": "!="
+            }
+        ],
+        [
+            {
+                "id": "larger_than",
+                "text": ">"
+            },
+            {
+                "id": "lesser_than",
+                "text": "<"
+            },
+            {
+                "id": "greater_than_or_equal_to",
+                "text": "≥",
+                "lexable": ">="
+            },
+            {
+                "id": "lesser_than_or_equal_to",
+                "text": "≤",
+                "lexable": "<="
+            }
+        ],
+        [
+            {
+                "id": "while",
+                "text": "While",
+                "display": "While "
+            },
+            {
+                "id": "while_end",
+                "text": "WhileEnd"
+            },
+            {
+                "id": "break",
+                "text": "Break"
+            }
+        ],
+        [
+            {
+                "id": "for",
+                "text": "For",
+                "display": "For "
+            },
+            {
+                "id": "to",
+                "text": "To",
+                "display": "To "
+            },
+            {
+                "id": "next",
+                "text": "Next"
+            },
+            {
+                "id": "step",
+                "text": "Step",
+                "display": "Step "
+            }
+        ],
+        [
+            {
+                "id": "if",
+                "text": "If",
+                "display": "If "
+            },
+            {
+                "id": "then",
+                "text": "Then",
+                "display": "Then "
+            },
+            {
+                "id": "else",
+                "text": "Else",
+                "display": "Else "
+            },
+            {
+                "id": "if_end",
+                "text": "IfEnd"
+            }
+        ]
+    ]
+}

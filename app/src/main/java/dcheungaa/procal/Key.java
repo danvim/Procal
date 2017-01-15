@@ -7,6 +7,8 @@ public class Key {
     String id;
     String text;
     String style;
+    String lexable;
+    String display;
     Key shift;
     Key alpha;
     Key hyp;
