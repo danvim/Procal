@@ -34,10 +34,11 @@ public class InputToken {
 
 enum Color {
     NORMAL (0xff000000),
-    CONSTANT (0xff7B1FA2),
-    GREEK_VARIABLE (0xff00796B),
-    LATIN_VARIABLE (0xff0288D1),
-    MEMORY (0xffC2185B);
+    CONSTANT (0xff607D8B),
+    GREEK_VARIABLE (0xff009688),
+    LATIN_VARIABLE (0xff3F51B5),
+    SPECIAL_VARIABLE (0xffC51162),
+    MEMORY (0xff673AB7);
 
     int value;
 
