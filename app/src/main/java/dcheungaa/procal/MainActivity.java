@@ -109,15 +109,17 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 System.out.print("Pressed Boss\n");
                 if(event.getAction()==MotionEvent.ACTION_UP){
                     CursorHandler.locateCursorPos((int)event.getX());
                 }
                 return true;
+
+
             }
         });
 
+        CursorHandler.blinkCursor();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             //cursor.setTop(matrixDisplay.getTop());
             cursor.setPadding(matrixDisplay.getPaddingLeft(),cursor.getPaddingTop(),cursor.getPaddingRight(),cursor.getPaddingBottom());
             cursor.setLeft(matrixDisplay.getLeft());
-            CursorHandler.hideCursor();
+            //CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
         }
     }

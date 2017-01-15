@@ -1,5 +1,6 @@
 package dcheungaa.procal;
 
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -15,34 +16,28 @@ import java.util.TimerTask;
 
 public class CursorHandler {
 
-    private static long shine_interval = 1000;
     private static TextView cursor;
-    private static Timer cursorTimer=new Timer();
 
-    public static void hideCursor(){
-        //MainActivity.set_Cursor_Visibility(cursor,View.INVISIBLE);
-        //MainActivity.cursor.setText(" ");
-        //cursorTimer.cancel();
-        //System.out.print("hide\n");
-        cursorTimer.schedule(new TimerTask() {
+    public static void blinkCursor(){
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                showCursor();
+                int blinkInterval = 500;    //in milissegunds
+                try{Thread.sleep(blinkInterval);} catch (Exception e) {}
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(MainActivity.cursor.getVisibility() == View.VISIBLE){
+                            MainActivity.cursor.setVisibility(View.INVISIBLE);
+                        }else{
+                            MainActivity.cursor.setVisibility(View.VISIBLE);
+                        }
+                        blinkCursor();
+                    }
+                });
             }
-        }, shine_interval);
-    }
-
-    public static void showCursor(){
-        //MainActivity.set_Cursor_Visibility(cursor,View.VISIBLE);
-        //MainActivity.cursor.setText("|");
-        //cursorTimer.cancel();
-        //System.out.print("show\n");
-        cursorTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                hideCursor();
-            }
-        }, shine_interval);
+        }).start();
     }
 
     public static void locateCursorPos(int tap_x) {
@@ -110,7 +105,6 @@ public class CursorHandler {
 
         }
 
-        hideCursor();
         return x;
     }
 }

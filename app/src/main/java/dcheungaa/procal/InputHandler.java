@@ -90,7 +90,6 @@ public class InputHandler {
             }
             sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        CursorHandler.hideCursor();
         MainActivity.matrixDisplay.setText(sb);
         MainActivity.matrixDisplay.append(" ");
         System.out.println("Text: ");

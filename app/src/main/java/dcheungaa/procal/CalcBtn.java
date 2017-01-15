@@ -176,7 +176,17 @@ public class CalcBtn extends LinearLayout {
                 - mainButton.getHeight() - popupView.getMeasuredHeight() - 24);
         popupWindow.setFocusable(true);
         popupWindow.update();
+    }
 
+    private void highlightPopup(MotionEvent event) {
+        for (Button popupButton : popupButtons) {
+            if (ifValidOnTouch(event, popupButton)) {
+                System.out.println("Highlighting~");
+                popupButton.setBackgroundResource(R.drawable.popup_button_active);
+            } else {
+                popupButton.setBackgroundResource(R.drawable.ripple_rounded);
+            }
+        }
     }
 
     public boolean ifValidOnTouch(MotionEvent event, Button popupButton) {
@@ -185,6 +195,7 @@ public class CalcBtn extends LinearLayout {
         popupButton.getLocationOnScreen(location);
         int x = location[0];
         int w = popupButton.getWidth();
+        System.out.println(event.getRawX() + " vs " + x + " ; " + event.getRawY() + " vs " + (popupButton.getHeight() * 2 - this.getHeight()));
 
         if (popupButtons.indexOf(popupButton) == 0) {
             if (popupButtons.size() == 1) {
@@ -206,20 +217,19 @@ public class CalcBtn extends LinearLayout {
     }
 
     public CalcBtn listenPopup(){
+
         mainButton.setOnTouchListener(new OnTouchListener() {
 
             // Determinant
             boolean popingup;
             long waitDuration = 500;
             final Handler handler = new Handler();
-            final Runnable doPopup = new Runnable() {
-                // Perform these if user has pressed long enough to summon Popup
-                public void run(){
-                    popingup = true;
-                    displayPopup();
+            Runnable doPopup = new Runnable() {@Override public void run() {}};
 
-                }
-            };
+            /*final int MAX_CLICK_DISTANCE = 15;
+            float pressedX;
+            float pressedY;
+            boolean withinClick;*/
 
             public boolean onTouch(View v, final MotionEvent event) {
 
@@ -227,8 +237,26 @@ public class CalcBtn extends LinearLayout {
 
                     case MotionEvent.ACTION_DOWN:
                         popingup = false;
+                        doPopup = new Runnable() {
+                            // Perform these if user has pressed long enough to summon Popup
+                            public void run(){
+                                popingup = true;
+                                displayPopup();
+                                highlightPopup(event);
+                                /*for (Button popupButton : popupButtons){
+                                    int[] location = new int[2];
+                                    popupButton.getLocationOnScreen(location);
+                                    if(event.getRawX() >= location[0] && event.getRawX() <= location[0] + popupButton.getWidth()){
+                                        popupButton.setBackgroundResource(R.drawable.popup_button_active);
+                                    }
+                                }*/
+                            }
+                        };
                         // After waitDuration, execute doPopup
                         handler.postDelayed(doPopup, waitDuration);
+                        /*pressedX = event.getX();
+                        pressedY = event.getY();
+                        withinClick = true;*/
                         break;
 
                     case MotionEvent.ACTION_UP:
@@ -245,17 +273,30 @@ public class CalcBtn extends LinearLayout {
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        handler.removeCallbacks(doPopup);
-                        if(popingup) {
-                            displayPopup();
-                            for (Button popupButton : popupButtons) {
-                                if (ifValidOnTouch(event, popupButton)) {
-                                    popupButton.setBackgroundResource(R.drawable.popup_button_active);
-                                } else {
-                                    popupButton.setBackgroundResource(R.drawable.ripple_rounded);
-                                }
+                        /*if (withinClick && distance(pressedX, pressedY, event.getX(), event.getY()) > MAX_CLICK_DISTANCE) {
+                            withinClick = false;*/
+                            handler.removeCallbacks(doPopup);
+                            if(popingup) {
+                                highlightPopup(event);
                             }
-                        }
+                        /*} else {
+                            // withinClick
+                            popingup = false;
+                            doPopup = new Runnable() {
+                                // Perform these if user has pressed long enough to summon Popup
+                                public void run(){
+                                    popingup = true;
+                                    displayPopup();
+                                    highlightPopup(event);
+                                }
+                            };
+                            // After waitDuration, execute doPopup
+                            handler.postDelayed(doPopup, waitDuration);
+                            pressedX = event.getX();
+                            pressedY = event.getY();
+                            withinClick = true;
+                            break;
+                        }*/
                         break;
                 }
                 return false;
@@ -263,6 +304,17 @@ public class CalcBtn extends LinearLayout {
         });
         return this;
     }
+
+    /*private float distance(float x1, float y1, float x2, float y2) {
+        float dx = x1 - x2;
+        float dy = y1 - y2;
+        float distanceInPx = (float) Math.sqrt(dx * dx + dy * dy);
+        return pxToDp(distanceInPx);
+    }
+
+    private float pxToDp(float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }*/
 
     public int get_height(){
         return mainButton.getHeight();
