@@ -17,6 +17,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
 
 import android.os.Handler;
 
@@ -181,8 +182,8 @@ public class CalcBtn extends LinearLayout {
     }
 
     public boolean ifValidOnTouch(MotionEvent event, Button popupButton) {
-        // Approach: mainButton as anchor
-        float startX = (popupButtons.size() % 2 == 1) ? (/*Odd*/ 0) : (/*Even*/ this.getWidth()/2);
+        /*// Approach: mainButton as anchor
+        float startX = (popupButtons.size() % 2 == 1) ? (*//*Odd*//* 0) : (*//*Even*//* this.getWidth()/2);
         int distance = (popupButtons.size() % 2 == 1) ? (popupButtons.indexOf(popupButton) - (int) Math.floor(popupButtons.size()/2)) : (popupButtons.indexOf(popupButton) - popupButtons.size()/2);
 
         if (popupButtons.indexOf(popupButton) == 0) {
@@ -201,59 +202,76 @@ public class CalcBtn extends LinearLayout {
                 // 4. Case Middle popupbtn
                 return (event.getX() >= startX + (distance) * popupButton.getWidth()  && event.getX() <= startX + (distance + 1) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
             }
+        }*/
+
+        int[] location = new int[2];
+        popupButton.getLocationOnScreen(location);
+        int x = location[0];
+        int w = popupButton.getWidth();
+
+        if (popupButtons.indexOf(popupButton) == 0) {
+            if (popupButtons.size() == 1) {
+                // 1. Case Only popupbtn
+                return (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 3) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            } else {
+                // 2. Case Leftmost popupbtn
+                return (event.getRawX() >= x - 2*w  && event.getRawX() <= x + w) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            }
+        } else {
+            if (popupButtons.indexOf(popupButton) == popupButtons.size() - 1) {
+                // 3. Case Rightmost popupbtn
+                return (event.getRawX() >= x  && event.getRawX() <= x + 3*w) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            } else {
+                // 4. Case Middle popupbtn
+                return (event.getRawX() >= x  && event.getRawX() <= x + w) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
+            }
         }
     }
 
     public CalcBtn listenPopup(){
         mainButton.setOnTouchListener(new OnTouchListener() {
-            boolean isClicked = false;
 
-            public boolean onTouch(View v, MotionEvent event) {
+            boolean popingup;
+            long waitDuration = 500;
+            final Handler handler = new Handler();
+            final Runnable doPopup = new Runnable() {
+                public void run(){
+                    popingup = true;
+                    displayPopup();
+
+                }
+            };
+
+            public boolean onTouch(View v, final MotionEvent event) {
 
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        isClicked = true;
-                        /*Thread t = new Thread(new Runnable(){
-                            @Override
-                            public void run() {
-                                while(!Thread.currentThread().isInterrupted()){
-                                    displayPopup();
-                                }
-                            }});
-                        t.start();
-
-                        // Sleep a second, and then interrupt
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {}
-                        t.interrupt();*/
+                        popingup = false;
+                        handler.postDelayed(doPopup, waitDuration);
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (isClicked){
-                            // ONCLICK
-                            //silentClick();
-                        } else {
-                            popupWindow.dismiss();
-                            for (Button popupButton: popupButtons) {
+                        handler.removeCallbacks(doPopup);
+                        if (popingup) {
+                            for (Button popupButton : popupButtons){
                                 if (ifValidOnTouch(event, popupButton)){
                                     popupButton.performClick();
                                 }
-
                             }
+                            popupWindow.dismiss();
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        //if (!isClicked) {   // ONHOLD
-                        displayPopup();
-                        for (Button popupButton : popupButtons) {
-                            if (ifValidOnTouch(event, popupButton)) {
-                                popupButton.setBackgroundResource(R.drawable.popup_button_active);
-                            } else {
-                                popupButton.setBackgroundResource(R.drawable.ripple_rounded);
+                        handler.removeCallbacks(doPopup);
+                        if(popingup) {
+                            displayPopup();
+                            for (Button popupButton : popupButtons) {
+                                if (ifValidOnTouch(event, popupButton)) {
+                                    popupButton.setBackgroundResource(R.drawable.popup_button_active);
+                                } else {
+                                    popupButton.setBackgroundResource(R.drawable.ripple_rounded);
+                                }
                             }
                         }
-                        isClicked = false;
-                        //}
                         break;
                 }
                 return false;
