@@ -7,7 +7,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
-import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -17,7 +16,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
 
 import android.os.Handler;
 
@@ -182,27 +180,6 @@ public class CalcBtn extends LinearLayout {
     }
 
     public boolean ifValidOnTouch(MotionEvent event, Button popupButton) {
-        /*// Approach: mainButton as anchor
-        float startX = (popupButtons.size() % 2 == 1) ? (*//*Odd*//* 0) : (*//*Even*//* this.getWidth()/2);
-        int distance = (popupButtons.size() % 2 == 1) ? (popupButtons.indexOf(popupButton) - (int) Math.floor(popupButtons.size()/2)) : (popupButtons.indexOf(popupButton) - popupButtons.size()/2);
-
-        if (popupButtons.indexOf(popupButton) == 0) {
-            if (popupButtons.size() == 1) {
-                // 1. Case Only popupbtn
-                return (event.getX() >= popupButton.getX() - popupButton.getWidth() && event.getX() <= popupButton.getX() + popupButton.getWidth() * 3) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
-            } else {
-                // 2. Case Leftmost popupbtn
-                return (event.getX() >= startX + (distance - 2) * popupButton.getWidth()  && event.getX() <= startX + (distance + 1) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
-            }
-        } else {
-            if (popupButtons.indexOf(popupButton) == popupButtons.size() - 1) {
-                // 3. Case Rightmost popupbtn
-                return (event.getX() >= startX + (distance) * popupButton.getWidth()  && event.getX() <= startX + (distance + 3) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
-            } else {
-                // 4. Case Middle popupbtn
-                return (event.getX() >= startX + (distance) * popupButton.getWidth()  && event.getX() <= startX + (distance + 1) * popupButton.getWidth()) && (event.getY() >= -popupButton.getHeight() - this.getHeight() && event.getY() <= popupButton.getHeight() * 2 - this.getHeight());
-            }
-        }*/
 
         int[] location = new int[2];
         popupButton.getLocationOnScreen(location);
@@ -231,10 +208,12 @@ public class CalcBtn extends LinearLayout {
     public CalcBtn listenPopup(){
         mainButton.setOnTouchListener(new OnTouchListener() {
 
+            // Determinant
             boolean popingup;
             long waitDuration = 500;
             final Handler handler = new Handler();
             final Runnable doPopup = new Runnable() {
+                // Perform these if user has pressed long enough to summon Popup
                 public void run(){
                     popingup = true;
                     displayPopup();
@@ -245,11 +224,15 @@ public class CalcBtn extends LinearLayout {
             public boolean onTouch(View v, final MotionEvent event) {
 
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
                     case MotionEvent.ACTION_DOWN:
                         popingup = false;
+                        // After waitDuration, execute doPopup
                         handler.postDelayed(doPopup, waitDuration);
                         break;
+
                     case MotionEvent.ACTION_UP:
+                        // Cancel handler (doPopup) even if it is only half-way, determining popingup
                         handler.removeCallbacks(doPopup);
                         if (popingup) {
                             for (Button popupButton : popupButtons){
@@ -260,6 +243,7 @@ public class CalcBtn extends LinearLayout {
                             popupWindow.dismiss();
                         }
                         break;
+
                     case MotionEvent.ACTION_MOVE:
                         handler.removeCallbacks(doPopup);
                         if(popingup) {
