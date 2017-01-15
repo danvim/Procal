@@ -95,6 +95,20 @@ public class CursorHandler {
                 }
             });
         }
+        else {
+            final int delta_ = x - MainActivity.scrollView.getScrollX() - MainActivity.fontWidth;
+            if (delta_<0){
+                final HorizontalScrollView fhsv=MainActivity.scrollView;
+                MainActivity.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+                    @Override
+                    public void onGlobalLayout() {                     //<--define listener function
+                        fhsv.scrollTo(fhsv.getScrollX() + delta_, MainActivity.scrollView.getScrollY());
+                        fhsv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                });
+            }
+
+        }
 
         hideCursor();
         return x;
