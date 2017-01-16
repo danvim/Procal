@@ -22,6 +22,7 @@ import android.view.Window;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient client;
     private boolean call_load = false;
     private KeyPad_init keyPad;
+    private KeyPad_init varPad;
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
     public static Tokens tokens = new Tokens();
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity
 
 
     public static List<CalcBtn> calcBtns = new ArrayList<>();
+
+    public static ScrollView svVar;
+    public static int screenWidth;
+    public static int screenHeight;
 
 
     @Override
@@ -121,6 +127,17 @@ public class MainActivity extends AppCompatActivity
 
         CursorHandler.blinkCursor();
 
+        //hide VARkeypad
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
+        svVar=(ScrollView)findViewById(R.id.svVar);
+        svVar.setPadding(0,0,0,0);
+        LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
+
+        varPad = new KeyPad_init(this ,resources, display, llVar);
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -139,6 +156,7 @@ public class MainActivity extends AppCompatActivity
             cursor.setLeft(matrixDisplay.getLeft());
             //CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
+            varPad.resize();
         }
     }
 
@@ -148,7 +166,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(svVar.getVisibility()==View.VISIBLE){
+            svVar.setVisibility(View.INVISIBLE);
+        } else{
             super.onBackPressed();
         }
     }

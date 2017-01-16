@@ -131,6 +131,7 @@ public class CalcBtn extends LinearLayout {
     private void silentClick(Key key) {
         // TODO Call Main_Add_Stack(key.id);
         String id = "";
+        MainActivity.svVar.setVisibility(INVISIBLE);
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
             id = key.hyp.shift.id;
         else if (isShift && key.shift != null)
@@ -157,6 +158,9 @@ public class CalcBtn extends LinearLayout {
                 break;
             case "hyperbolic":
                 InputHandler.altButtons("hyperbolic");
+                break;
+            case "recall":
+                InputHandler.openDrawer("recall");
                 break;
             default:
                 InputHandler.inputToken(id);

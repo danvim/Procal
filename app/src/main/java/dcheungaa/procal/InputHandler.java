@@ -14,6 +14,8 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.UpdateAppearance;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -147,6 +149,27 @@ public class InputHandler {
         } else if (alt.equals("hyperbolic"))
             isHyp = !isHyp;
         refreshState();
+    }
+
+    public static void openDrawer(String drawer) {
+        ScrollView sv = null;
+        if (drawer.equals("recall")) {
+            sv=MainActivity.svVar;
+        } 
+        try{
+            sv.setVisibility(View.VISIBLE);/*
+            final ScrollView fsv=sv;
+            MainActivity.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+                @Override
+                public void onGlobalLayout() {                     //<--define listener function
+                    if (fsv.getPaddingLeft()>4){
+                        fsv.setPadding(0,fsv.getPaddingTop(),fsv.getPaddingRight(),fsv.getPaddingBottom());
+                    }
+                    else 
+                        fsv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            });*/
+        }catch (Exception e){}
     }
 
     private static void resetAltStates() {
