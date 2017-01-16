@@ -226,10 +226,10 @@ public class CalcBtn extends LinearLayout {
             final Handler handler = new Handler();
             Runnable doPopup = new Runnable() {@Override public void run() {}};
 
-            /*final int MAX_CLICK_DISTANCE = 15;
+            final int MAX_CLICK_DISTANCE = 50;
             float pressedX;
             float pressedY;
-            boolean withinClick;*/
+            boolean withinClick;
 
             public boolean onTouch(View v, final MotionEvent event) {
 
@@ -242,21 +242,21 @@ public class CalcBtn extends LinearLayout {
                             public void run(){
                                 popingup = true;
                                 displayPopup();
-                                highlightPopup(event);
-                                /*for (Button popupButton : popupButtons){
-                                    int[] location = new int[2];
-                                    popupButton.getLocationOnScreen(location);
-                                    if(event.getRawX() >= location[0] && event.getRawX() <= location[0] + popupButton.getWidth()){
+                                for (Button popupButton : popupButtons) {
+                                    if (ifValidOnTouch(event, popupButton)) {
+                                        System.out.println("Highlighting~");
                                         popupButton.setBackgroundResource(R.drawable.popup_button_active);
+                                    } else {
+                                        popupButton.setBackgroundResource(R.drawable.ripple_rounded);
                                     }
-                                }*/
+                                }
                             }
                         };
                         // After waitDuration, execute doPopup
                         handler.postDelayed(doPopup, waitDuration);
-                        /*pressedX = event.getX();
+                        pressedX = event.getX();
                         pressedY = event.getY();
-                        withinClick = true;*/
+                        withinClick = true;
                         break;
 
                     case MotionEvent.ACTION_UP:
@@ -273,30 +273,34 @@ public class CalcBtn extends LinearLayout {
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        /*if (withinClick && distance(pressedX, pressedY, event.getX(), event.getY()) > MAX_CLICK_DISTANCE) {
-                            withinClick = false;*/
-                            handler.removeCallbacks(doPopup);
+                        handler.removeCallbacks(doPopup);
+                        if (withinClick && distance(pressedX, pressedY, event.getX(), event.getY()) > MAX_CLICK_DISTANCE) {
+                            withinClick = false;
                             if(popingup) {
-                                highlightPopup(event);
+                                for (Button popupButton : popupButtons) {
+                                    if (ifValidOnTouch(event, popupButton)) {
+                                        System.out.println("Highlighting~");
+                                        popupButton.setBackgroundResource(R.drawable.popup_button_active);
+                                    } else {
+                                        popupButton.setBackgroundResource(R.drawable.ripple_rounded);
+                                    }
+                                }
                             }
-                        /*} else {
+                        } else {
                             // withinClick
-                            popingup = false;
-                            doPopup = new Runnable() {
+                            /*doPopup = new Runnable() {
                                 // Perform these if user has pressed long enough to summon Popup
                                 public void run(){
                                     popingup = true;
                                     displayPopup();
                                     highlightPopup(event);
                                 }
-                            };
+                            };*/
                             // After waitDuration, execute doPopup
                             handler.postDelayed(doPopup, waitDuration);
-                            pressedX = event.getX();
-                            pressedY = event.getY();
                             withinClick = true;
                             break;
-                        }*/
+                        }
                         break;
                 }
                 return false;
@@ -305,7 +309,7 @@ public class CalcBtn extends LinearLayout {
         return this;
     }
 
-    /*private float distance(float x1, float y1, float x2, float y2) {
+    private float distance(float x1, float y1, float x2, float y2) {
         float dx = x1 - x2;
         float dy = y1 - y2;
         float distanceInPx = (float) Math.sqrt(dx * dx + dy * dy);
@@ -314,7 +318,7 @@ public class CalcBtn extends LinearLayout {
 
     private float pxToDp(float px) {
         return px / context.getResources().getDisplayMetrics().density;
-    }*/
+    }
 
     public int get_height(){
         return mainButton.getHeight();
