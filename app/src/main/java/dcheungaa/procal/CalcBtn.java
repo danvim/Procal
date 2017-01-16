@@ -39,6 +39,7 @@ public class CalcBtn extends LinearLayout {
     private boolean isLarge;
     private boolean isText;
     private Typeface defaultTypeface;
+    private int mHeight=0;
 
     public CalcBtn(Context context) {
         super(context);
@@ -334,7 +335,9 @@ public class CalcBtn extends LinearLayout {
     public int get_height(){
         return mainButton.getHeight();
     }
-
+    public int get_mheight(){
+        return mHeight;
+    }
     /**
      * Adjust the height of CBtn by giving shrinking ratio of padding and text size
      * @param ratio row height / keypad height
@@ -349,7 +352,9 @@ public class CalcBtn extends LinearLayout {
 
         mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);
         mainButton.setTextSize(newTextSize);
+        mHeight = (int)(mainButton.getHeight()*ratio);
         mainButton.setHeight((int)(mainButton.getHeight()*ratio));
+
         defaultTextSize = newTextSize;
 
         //after changing font size and padding, some text may go to second line, need to adjust horizontal padding or font size

@@ -171,7 +171,8 @@ public class MainActivity extends AppCompatActivity
             cursor.setLeft(matrixDisplay.getLeft());
             //CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
-            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).getHeight();
+            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).get_mheight();
+            System.out.print(Integer.toString(fnbtnHeight));
             varPad.resize(fnbtnHeight,fnbtnHeight*3);
         }
     }
