@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -103,6 +104,34 @@ public class KeyPad_init {
         for (int i = 0x0061; i < 0x007B; i++) {
             var_list.add(i);
         }
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(MATCH_PARENT,MATCH_PARENT);
+        LinearLayout rs=new LinearLayout(c);
+        rs.setLayoutParams(lp);
+        rs.setOrientation(LinearLayout.VERTICAL);
+        for (int i=0; i<var_list.size(); i+=8) {
+            LinearLayout row = new LinearLayout(c);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+            List<CalcBtn> btn_row = new ArrayList<>() ;
+            for (int j =0; j<8; j++) {
+                if (i+j>=var_list.size()) break;
+                CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
+                btn_row.add(calcBtn);
+                row.addView(calcBtn);
+                //MainActivity.calcBtns.add(calcBtn);
+
+                calcBtn.setVarColor();
+            }
+            rs.addView(row);
+            btn_rows.add(btn_row);
+        }
+        rows.addView(rs);
+        rows.addView(new TextView(c));
+        var_list = new ArrayList<>();
+        rs=new LinearLayout(c);
+        rs.setLayoutParams(lp);
+        rs.setOrientation(LinearLayout.VERTICAL);
         //Uppercase Greek
         for (int i = 0x0391; i < 0x03AA; i++) {
             if (i == 0x03A2) continue;
@@ -129,9 +158,10 @@ public class KeyPad_init {
 
                 calcBtn.setVarColor();
             }
-            rows.addView(row);
+            rs.addView(row);
             btn_rows.add(btn_row);
         }
+        rows.addView(rs);
     }
 
     public void KeyPad_resize(){
