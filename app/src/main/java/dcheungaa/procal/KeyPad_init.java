@@ -164,6 +164,14 @@ public class KeyPad_init {
      */
 
     public void resize(int y, int h){
+        double ratio = h/3/btn_rows.get(0).get(0).get_height();
+        for(int i=0;i<btn_rows.size();i++){
+            List<CalcBtn> btn_row = btn_rows.get(i);
+            for (int j=0;j<btn_row.size();j++){
+                CalcBtn btn=btn_row.get(j);
+                btn.shrink(ratio);
+            }
+        }
         MainActivity.svVar.setVisibility(View.INVISIBLE);
         //MainActivity.svVar.setPadding(0,(int)(display_height*density),MainActivity.svVar.getPaddingRight(),MainActivity.svVar.getPaddingBottom());
         RelativeLayout.LayoutParams lp= new RelativeLayout.LayoutParams(MATCH_PARENT,h) ;

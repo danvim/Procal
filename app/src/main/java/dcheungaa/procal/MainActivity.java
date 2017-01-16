@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
         svVar.setElevation(16f);
         LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
         llVar.setElevation(32f);
+        llVar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
 
 
         varPad = new KeyPad_init(this ,resources, display, llVar);
