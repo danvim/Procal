@@ -39,6 +39,9 @@ public class CalcBtn extends LinearLayout {
     private boolean isLarge;
     private boolean isText;
     private Typeface defaultTypeface;
+    private int mHeight = 0;
+
+    boolean STO = false;
 
     public CalcBtn(Context context) {
         super(context);
@@ -144,32 +147,87 @@ public class CalcBtn extends LinearLayout {
             id = key.id;
         System.out.println("Pressed: " + id);
         switch (id) {
-            case "recall":
-                InputHandler.openDrawer(MainActivity.svVar);
+            case "recall": // TODO case "variable"
+                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svVar);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svVar);
+                }
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
+                break;
+            case "store":
+                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svVar);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svVar);
+                }
+                STO = true;
+                InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
+                break;
+            case "function": //TODO add change FUNC key to CMD key in PROG EDIT
+                if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svCmd);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svCmd);
+                }
+                InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svConst);
+                break;
+            case "constant":
+                if(MainActivity.svConst.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svConst);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svConst);
+                }
+                InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
                 break;
             case "delete":
                 InputHandler.deleteToken();
                 InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
             case "all_clear":
                 InputHandler.allClearToken();
                 InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
             case "shift":
                 InputHandler.altButtons("shift");
                 InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
             case "alpha":
                 InputHandler.altButtons("alpha");
                 InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
             case "hyperbolic":
                 InputHandler.altButtons("hyperbolic");
                 InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
             default:
-                InputHandler.inputToken(id);
+                if (STO){
+                    STO = false;
+                    // if Abort storing and pressed other keys, do nothing
+                    if (MainActivity.vars.contains(id)){
+                        // Assign var here
+                    }
+                } else {
+                    InputHandler.inputToken(id);
+                }
                 InputHandler.hideDrawer(MainActivity.svVar);
+                InputHandler.hideDrawer(MainActivity.svCmd);
+                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
         }
         //if (id!="recall")InputHandler.hideDrawer(MainActivity.svVar);
@@ -335,6 +393,8 @@ public class CalcBtn extends LinearLayout {
         return mainButton.getHeight();
     }
 
+    public int get_mheight(){ return mHeight; }
+
     /**
      * Adjust the height of CBtn by giving shrinking ratio of padding and text size
      * @param ratio row height / keypad height
@@ -349,7 +409,9 @@ public class CalcBtn extends LinearLayout {
 
         mainButton.setPadding(newPadding, newPadding, newPadding, newPadding);
         mainButton.setTextSize(newTextSize);
+        mHeight = (int)(mainButton.getHeight()*ratio);
         mainButton.setHeight((int)(mainButton.getHeight()*ratio));
+
         defaultTextSize = newTextSize;
 
         //after changing font size and padding, some text may go to second line, need to adjust horizontal padding or font size
@@ -406,4 +468,9 @@ public class CalcBtn extends LinearLayout {
         sb.setSpan(new ForegroundColorSpan(color), 0, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mainButton.setText(sb);
     }
+
+    public void setVarColor(){
+        mainButton.setTextColor(context.getResources().getColor(R.color.lightBackground));
+        mainButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        }
 }

@@ -58,8 +58,12 @@ public class MainActivity extends AppCompatActivity
     private boolean call_load = false;
     private KeyPad_init keyPad;
     private KeyPad_init varPad;
+    private KeyPad_init cmdPad;
+    private KeyPad_init constPad;
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
+
+    public static List <String> vars = new ArrayList<>();
     public static Tokens tokens = new Tokens();
 
     public static TextView cursor;
@@ -73,6 +77,9 @@ public class MainActivity extends AppCompatActivity
     public static List<CalcBtn> calcBtns = new ArrayList<>();
 
     public static ScrollView svVar;
+    public static ScrollView svCmd;
+    public static ScrollView svConst;
+
     public static int screenWidth;
     public static int screenHeight;
 
@@ -112,13 +119,13 @@ public class MainActivity extends AppCompatActivity
         llkeyPad = (LinearLayout) findViewById(R.id.llKeyPad);
 
         //keypad gen
-        final InputStream in_s = getResources().openRawResource(R.raw.keypad);
+        final InputStream inSKey = getResources().openRawResource(R.raw.keypad);
         Display display = getWindowManager().getDefaultDisplay();
-        RelativeLayout cm=(RelativeLayout) findViewById(R.id.content_main);
-        LinearLayout lls=(LinearLayout) findViewById(R.id.llScreen);
+        RelativeLayout cm = (RelativeLayout) findViewById(R.id.content_main);
+        LinearLayout lls = (LinearLayout) findViewById(R.id.llScreen);
         LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
-        Resources resources=getResources();
-        keyPad = new KeyPad_init(this,resources,in_s,display,cm,lls,rows);
+        Resources resources = getResources();
+        keyPad = new KeyPad_init(this, resources, inSKey, display, cm, lls, rows);
         call_load = true;
 
         scrollView = (HorizontalScrollView) findViewById(R.id.test);
@@ -132,22 +139,46 @@ public class MainActivity extends AppCompatActivity
                 }
                 return true;
 
-
             }
         });
 
         CursorHandler.blinkCursor();
 
-        //hide VARkeypad
+
+
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
-        svVar=(ScrollView)findViewById(R.id.svVar);
-        svVar.setPadding(0,0,0,0);
-        LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
 
-        varPad = new KeyPad_init(this ,resources, display, llVar);
+        //hide VARkeypad
+        svVar = (ScrollView)findViewById(R.id.svVar);
+        svVar.setPadding(0,0,0,0);
+        svVar.setBackgroundResource(R.drawable.popup_container);
+        svVar.setElevation(16f);
+        LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
+        llVar.setElevation(32f);
+        //llVar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        varPad = new KeyPad_init(this, resources, display, llVar);
+
+        final InputStream inSCmd = getResources().openRawResource(R.raw.programming_keys);
+        svCmd = (ScrollView)findViewById(R.id.svCmd);
+        svCmd.setPadding(0,0,0,0);
+        svCmd.setBackgroundResource(R.drawable.popup_container);
+        svCmd.setElevation(16f);
+        LinearLayout llCmd = (LinearLayout) findViewById(R.id.llCmdPad);
+        llCmd.setElevation(32f);
+        //llCmd.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd);
+
+        svConst = (ScrollView)findViewById(R.id.svConst);
+        svConst.setPadding(0,0,0,0);
+        svConst.setBackgroundResource(R.drawable.popup_container);
+        svConst.setElevation(16f);
+        LinearLayout llConst = (LinearLayout) findViewById(R.id.llConstPad);
+        llConst.setElevation(32f);
+        //llConst.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        constPad = new KeyPad_init(this, resources, llConst, display);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -167,8 +198,11 @@ public class MainActivity extends AppCompatActivity
             cursor.setLeft(matrixDisplay.getLeft());
             //CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
-            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).getHeight();
-            varPad.resize(fnbtnHeight,fnbtnHeight*3);
+            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).get_mheight();
+            System.out.print(Integer.toString(fnbtnHeight));
+            varPad.resize(fnbtnHeight, fnbtnHeight*3, svVar);
+            cmdPad.resize(fnbtnHeight, fnbtnHeight*3, svCmd);
+            constPad.resize(fnbtnHeight, fnbtnHeight*3, svConst);
         }
     }
 

@@ -71,29 +71,33 @@ public class Tokens {
         //Uppercase Latin
         for (int i = 0x0041; i < 0x005B; i++) {
             String c = Character.toString((char) i);
-            inputTokensMap.put("var_"+c, new InputToken(c, c,
+            inputTokensMap.put("var_"+c, new InputToken("$"+c, c,
                     (c.matches("A|B|C|D|X|Y|M") ? Color.SPECIAL_VARIABLE : Color.LATIN_VARIABLE)
             ));
+            MainActivity.vars.add("var_"+c);
         }
 
         //Lowercase Latin
         for (int i = 0x0061; i < 0x007B; i++) {
             String c = Character.toString((char) i);
-            inputTokensMap.put("var_"+c, new InputToken(c, c, Color.LATIN_VARIABLE));
+            inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.LATIN_VARIABLE));
+            MainActivity.vars.add("var_"+c);
         }
 
         //Uppercase Greek
         for (int i = 0x0391; i < 0x03AA; i++) {
             if (i == 0x03A2) continue;
             String c = Character.toString((char) i);
-            inputTokensMap.put("var_"+c, new InputToken(c, c, Color.GREEK_VARIABLE));
+            inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.GREEK_VARIABLE));
+            MainActivity.vars.add("var_"+c);
         }
 
         //Lowercase Greek
         for (int i = 0x03B1; i < 0x03CA; i++) {
             if (i == 0x03C2) continue;
             String c = Character.toString((char) i);
-            inputTokensMap.put("var_"+c, new InputToken(c, c, Color.GREEK_VARIABLE));
+            inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.GREEK_VARIABLE));
+            MainActivity.vars.add("var_"+c);
         }
 
         //Constants

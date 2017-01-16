@@ -95,14 +95,40 @@
     <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/svVar"
-        android:layout_height="wrap_content"
-        android:translationZ="100dp">
-
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/llVarPad"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="?android:attr/colorBackground"/>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/svCmd"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/llCmdPad"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="?android:attr/colorBackground"/>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/svConst"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/llConstPad"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:background="?android:attr/colorBackground"/>

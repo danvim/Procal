@@ -9,6 +9,8 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.ScrollView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -103,6 +105,35 @@ public class KeyPad_init {
         for (int i = 0x0061; i < 0x007B; i++) {
             var_list.add(i);
         }
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(MATCH_PARENT,MATCH_PARENT);
+        LinearLayout rs = new LinearLayout(c);
+        rs.setLayoutParams(lp);
+        rs.setOrientation(LinearLayout.VERTICAL);
+        for (int i=0; i<var_list.size(); i+=8) {
+                LinearLayout row = new LinearLayout(c);
+                row.setOrientation(LinearLayout.HORIZONTAL);
+                row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+                List<CalcBtn> btn_row = new ArrayList<>() ;
+                for (int j =0; j<8; j++) {
+                    if (i+j>=var_list.size()) break;
+                    CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
+                    btn_row.add(calcBtn);
+                    row.addView(calcBtn);
+                    //MainActivity.calcBtns.add(calcBtn);
+
+                    calcBtn.setVarColor();
+                }
+                rs.addView(row);
+                btn_rows.add(btn_row);
+            }
+        rows.addView(rs);
+        rows.addView(new TextView(c));
+        var_list = new ArrayList<>();
+        rs = new LinearLayout(c);
+        rs.setLayoutParams(lp);
+        rs.setOrientation(LinearLayout.VERTICAL);
+
         //Uppercase Greek
         for (int i = 0x0391; i < 0x03AA; i++) {
             if (i == 0x03A2) continue;
@@ -123,6 +154,127 @@ public class KeyPad_init {
             for (int j =0; j<8; j++) {
                 if (i+j>=var_list.size()) break;
                 CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
+                btn_row.add(calcBtn);
+                row.addView(calcBtn);
+                MainActivity.calcBtns.add(calcBtn);
+            }
+            rows.addView(row);
+            btn_rows.add(btn_row);
+        }
+    }
+
+    //to generate cmd keypad
+    public KeyPad_init(final Context c ,final Resources resource, final InputStream in_s, Display display, final LinearLayout rows){
+
+        //get windows' height and width
+
+        Point size = new Point();
+        display.getSize(size);
+        height = size.y;
+        width = size.x;
+        density = resource.getDisplayMetrics().density;
+
+
+
+        String json = "";
+
+        try {
+            byte[] b = new byte[in_s.available()];
+            in_s.read(b);
+            json = new String(b);
+        } catch (IOException e) {
+
+        }
+
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        KeypadRows keypadRows = gson.fromJson(jsonObject, KeypadRows.class);
+
+        for (Key[] keys : keypadRows.rows) {
+            LinearLayout row = new LinearLayout(c);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+            List<CalcBtn> btn_row = new ArrayList<>() ;
+            for (Key key : keys) {
+                CalcBtn calcBtn = cmdBtn(c, key);
+                btn_row.add(calcBtn);
+                row.addView(calcBtn);
+                //MainActivity.calcBtns.add(calcBtn);
+                calcBtn.setVarColor();
+
+                Tokens.inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
+
+            }
+            rows.addView(row);
+            btn_rows.add(btn_row);
+        }
+    }
+
+    //to generate const keypad
+    public KeyPad_init(final Context c ,final Resources resource, final LinearLayout rows, Display display){
+        //get windows' height and width
+
+        Point size = new Point();
+        display.getSize(size);
+        height = size.y;
+        width = size.x;
+
+        density = resource.getDisplayMetrics().density;
+
+        String[][] constants = {
+                {"pi", "π"},
+                {"exp", "ⅇ"},
+                {"m_p", "mₚ"},
+                {"m_n", "mₙ"},
+                {"m_e", "me"},
+                {"m_mu", "mµ"},
+                {"a_0", "a₀"},
+                {"h", "ℎ"},
+                {"mu_N", "μɴ"},
+                {"mu_B", "μʙ"},
+                {"h_stroke", "ℏ"},
+                {"alpha", "α"},
+                {"r_e", "re"},
+                {"lambda_c", "λc"},
+                {"gamma_p", "γₚ"},
+                {"lambda_cp", "λcₚ"},
+                {"lambda_cn", "λcₙ"},
+                {"lambda_cn", "λcₙ"},
+                {"R_inf", "R∞"},
+                {"u", "υ"},
+                {"mu_p", "μₚ"},
+                {"mu_e", "μe"},
+                {"mu_n", "μₙ"},
+                {"mu_mu", "μµ"},
+                {"F", "ℱ"},
+                {"F", "ℯ"},
+                {"N_A", "Nᴀ"},
+                {"k", "ƙ"},
+                {"V_m", "Vm"},
+                {"R", "ℛ"},
+                {"c_0", "c₀"},
+                {"c_1", "c₁"},
+                {"c_2", "c₂"},
+                {"sigma", "σ"},
+                {"epsilon_0", "ℇ₀"},
+                {"mu_0", "μ₀"},
+                {"phi_0", "φ₀"},
+                {"g", "g"},
+                {"G_0", "G₀"},
+                {"Z_0", "Z₀"},
+                {"t", "t"},
+                {"G", "G"},
+                {"atm", "atm"}
+        };
+
+        //int index=0;
+        for (int i=0; i < constants.length; i+=8) {
+            LinearLayout row = new LinearLayout(c);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+            List<CalcBtn> btn_row = new ArrayList<>() ;
+            for (int j =0; j<8; j++) {
+                if (i+j >= constants.length) break;
+                CalcBtn calcBtn = constBtn(c, constants[i+j]);
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
                 MainActivity.calcBtns.add(calcBtn);
@@ -161,28 +313,60 @@ public class KeyPad_init {
     * x : scrollview x offset from left, y :y offset from top,
      */
 
-    public void resize(int y, int h){
-        MainActivity.svVar.setVisibility(View.INVISIBLE);
-        //MainActivity.svVar.setPadding(0,(int)(display_height*density),MainActivity.svVar.getPaddingRight(),MainActivity.svVar.getPaddingBottom());
+    public void resize(int y, int h, ScrollView sv){
+        double ratio = h/3/btn_rows.get(0).get(0).get_height();
+        for(int i=0;i<btn_rows.size();i++){
+            List<CalcBtn> btn_row = btn_rows.get(i);
+            for (int j=0;j<btn_row.size();j++){
+                CalcBtn btn = btn_row.get(j);
+                btn.shrink(ratio);
+            }
+        }
+        sv.setVisibility(View.INVISIBLE);
+        //sv.setPadding(0,(int)(display_height*density),MainActivity.svVar.getPaddingRight(),MainActivity.svVar.getPaddingBottom());
         RelativeLayout.LayoutParams lp= new RelativeLayout.LayoutParams(MATCH_PARENT,h) ;
         lp.addRule(RelativeLayout.ALIGN_TOP,MainActivity.llkeyPad.getId());
         //lp.addRule(RelativeLayout.RIGHT_OF,MainActivity.llkeyPad.getId());
         lp.setMargins(0,y,0,0);
-        //MainActivity.svVar.setTop((int)(display_height*density));
-        MainActivity.svVar.setLayoutParams(lp);
-        MainActivity.svVar.setElevation(4*density);
+        //sv.setTop((int)(display_height*density));
+        sv.setLayoutParams(lp);
+        sv.setElevation(4*density);
     }
 
     private CalcBtn varBtn(Context c,int ascii){
-        CalcBtn btn=new CalcBtn(c);
+        CalcBtn cbtn = new CalcBtn(c);
         String ch = Character.toString((char) ascii);
         Key k= new Key();
         k.id = "var_"+ch;
         k.text = ch;
         k.style = "Fn";
-        btn.init(k);
+        cbtn.init(k);
         keypadButtons.add(k.id);
-        btn.setId(keypadButtons.indexOf(k.id));
-        return btn;
+        cbtn.setId(keypadButtons.indexOf(k.id));
+        return cbtn;
+    }
+
+    private CalcBtn cmdBtn(Context c, Key key){
+        CalcBtn cbtn = new CalcBtn(c);
+        Key k= new Key();
+        k.id = key.id;
+        k.text = key.text;
+        k.style = "Fn";
+        cbtn.init(k);
+        keypadButtons.add(k.id);
+        cbtn.setId(keypadButtons.indexOf(k.id));
+        return cbtn;
+    }
+
+    private CalcBtn constBtn(Context c, String[] constant){
+        CalcBtn cbtn = new CalcBtn(c);
+        Key k = new Key();
+        k.id = constant[0];
+        k.text = constant[1];
+        k.style = "Fn";
+        cbtn.init(k);
+        keypadButtons.add(k.id);
+        cbtn.setId(keypadButtons.indexOf(k.id));
+        return cbtn;
     }
 }
