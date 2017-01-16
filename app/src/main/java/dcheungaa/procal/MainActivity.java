@@ -145,7 +145,11 @@ public class MainActivity extends AppCompatActivity
         screenHeight = size.y;
         svVar=(ScrollView)findViewById(R.id.svVar);
         svVar.setPadding(0,0,0,0);
+        svVar.setBackgroundResource(R.drawable.popup_container);
+        svVar.setElevation(16f);
         LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
+        llVar.setElevation(32f);
+
 
         varPad = new KeyPad_init(this ,resources, display, llVar);
 

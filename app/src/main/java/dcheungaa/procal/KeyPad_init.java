@@ -125,7 +125,9 @@ public class KeyPad_init {
                 CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
-                MainActivity.calcBtns.add(calcBtn);
+                //MainActivity.calcBtns.add(calcBtn);
+
+                calcBtn.setVarColor();
             }
             rows.addView(row);
             btn_rows.add(btn_row);
