@@ -122,7 +122,7 @@ public class KeyPad_init {
                     row.addView(calcBtn);
                     //MainActivity.calcBtns.add(calcBtn);
 
-                    calcBtn.setVarColor();
+                    calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
                 }
                 rs.addView(row);
                 btn_rows.add(btn_row);
@@ -156,7 +156,8 @@ public class KeyPad_init {
                 CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
-                MainActivity.calcBtns.add(calcBtn);
+                //MainActivity.calcBtns.add(calcBtn);
+                calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
             }
             rows.addView(row);
             btn_rows.add(btn_row);
@@ -199,7 +200,7 @@ public class KeyPad_init {
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
                 //MainActivity.calcBtns.add(calcBtn);
-                calcBtn.setVarColor();
+                calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
 
                 Tokens.inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
 
@@ -277,7 +278,8 @@ public class KeyPad_init {
                 CalcBtn calcBtn = constBtn(c, constants[i+j]);
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
-                MainActivity.calcBtns.add(calcBtn);
+                calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
+                //MainActivity.calcBtns.add(calcBtn);
             }
             rows.addView(row);
             btn_rows.add(btn_row);

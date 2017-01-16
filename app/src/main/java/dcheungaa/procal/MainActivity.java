@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         svVar.setElevation(16f);
         LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
         llVar.setElevation(32f);
-        //llVar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        llVar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
         varPad = new KeyPad_init(this, resources, display, llVar);
 
         final InputStream inSCmd = getResources().openRawResource(R.raw.programming_keys);
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         svCmd.setElevation(16f);
         LinearLayout llCmd = (LinearLayout) findViewById(R.id.llCmdPad);
         llCmd.setElevation(32f);
-        //llCmd.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        llCmd.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
         cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd);
 
         svConst = (ScrollView)findViewById(R.id.svConst);
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity
         svConst.setElevation(16f);
         LinearLayout llConst = (LinearLayout) findViewById(R.id.llConstPad);
         llConst.setElevation(32f);
-        //llConst.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        llConst.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
         constPad = new KeyPad_init(this, resources, llConst, display);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.

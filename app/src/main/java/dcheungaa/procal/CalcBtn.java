@@ -469,8 +469,8 @@ public class CalcBtn extends LinearLayout {
         mainButton.setText(sb);
     }
 
-    public void setVarColor(){
-        mainButton.setTextColor(context.getResources().getColor(R.color.lightBackground));
-        mainButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+    public void setColor(int color){
+        mainButton.setTextColor(color);
+        //mainButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
         }
 }
