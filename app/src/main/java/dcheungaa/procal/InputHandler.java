@@ -15,6 +15,8 @@ import android.text.style.UpdateAppearance;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -151,25 +153,49 @@ public class InputHandler {
         refreshState();
     }
 
-    public static void openDrawer(String drawer) {
-        ScrollView sv = null;
-        if (drawer.equals("recall")) {
-            sv=MainActivity.svVar;
-        } 
-        try{
-            sv.setVisibility(View.VISIBLE);/*
-            final ScrollView fsv=sv;
-            MainActivity.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
-                @Override
-                public void onGlobalLayout() {                     //<--define listener function
-                    if (fsv.getPaddingLeft()>4){
-                        fsv.setPadding(0,fsv.getPaddingTop(),fsv.getPaddingRight(),fsv.getPaddingBottom());
-                    }
-                    else 
-                        fsv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            });*/
-        }catch (Exception e){}
+    public static void openDrawer(ScrollView sv) {
+        sv.setVisibility(View.VISIBLE);
+        TranslateAnimation animation = new TranslateAnimation(
+                Animation.ABSOLUTE,MainActivity.screenWidth,
+                Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,0
+        );
+        //animation.setRepeatCount(Animation.INFINITE);
+        animation.setDuration(500);
+        animation.setInterpolator(MainActivity.context,android.R.interpolator.fast_out_slow_in);
+        sv.startAnimation(animation);
+    }
+
+    public static void hideDrawer(final ScrollView sv) {
+        if (sv.getVisibility()==View.INVISIBLE) return;
+        TranslateAnimation animation = new TranslateAnimation(
+                Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,MainActivity.screenWidth,
+                Animation.ABSOLUTE,0,
+                Animation.ABSOLUTE,0
+        );
+        //animation.setRepeatCount(Animation.INFINITE);
+        animation.setDuration(500);
+        animation.setInterpolator(MainActivity.context,android.R.interpolator.fast_out_slow_in);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                sv.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        sv.startAnimation(animation);
+
     }
 
     private static void resetAltStates() {

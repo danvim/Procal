@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -75,13 +76,16 @@ public class MainActivity extends AppCompatActivity
     public static int screenWidth;
     public static int screenHeight;
 
+    public static LinearLayout llkeyPad;
+    public static Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        context = this;
         InputHandler.setContext(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,6 +93,11 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        //
+        //DrawerLayout.LayoutParams lp =(android.support.v4.widget.DrawerLayout.LayoutParams) drawer.getLayoutParams();
+        //lp.setMargins(0,200,0,200);
+        //drawer.setLayoutParams(lp);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -99,6 +108,8 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay.setTypeface(FONT_FX50);
         cursor = (TextView) findViewById(R.id.tv_cursor);
         cursor.setTypeface(FONT_FX50);
+
+        llkeyPad = (LinearLayout) findViewById(R.id.llKeyPad);
 
         //keypad gen
         final InputStream in_s = getResources().openRawResource(R.raw.keypad);
@@ -156,7 +167,8 @@ public class MainActivity extends AppCompatActivity
             cursor.setLeft(matrixDisplay.getLeft());
             //CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
-            varPad.resize();
+            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).getHeight();
+            varPad.resize(fnbtnHeight,fnbtnHeight*3);
         }
     }
 
@@ -167,7 +179,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(svVar.getVisibility()==View.VISIBLE){
-            svVar.setVisibility(View.INVISIBLE);
+            InputHandler.hideDrawer(MainActivity.svVar);
         } else{
             super.onBackPressed();
         }

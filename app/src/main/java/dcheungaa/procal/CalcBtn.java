@@ -131,7 +131,7 @@ public class CalcBtn extends LinearLayout {
     private void silentClick(Key key) {
         // TODO Call Main_Add_Stack(key.id);
         String id = "";
-        MainActivity.svVar.setVisibility(INVISIBLE);
+        //MainActivity.svVar.setVisibility(INVISIBLE);
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
             id = key.hyp.shift.id;
         else if (isShift && key.shift != null)
@@ -144,28 +144,35 @@ public class CalcBtn extends LinearLayout {
             id = key.id;
         System.out.println("Pressed: " + id);
         switch (id) {
+            case "recall":
+                InputHandler.openDrawer(MainActivity.svVar);
+                break;
             case "delete":
                 InputHandler.deleteToken();
+                InputHandler.hideDrawer(MainActivity.svVar);
                 break;
             case "all_clear":
                 InputHandler.allClearToken();
+                InputHandler.hideDrawer(MainActivity.svVar);
                 break;
             case "shift":
                 InputHandler.altButtons("shift");
+                InputHandler.hideDrawer(MainActivity.svVar);
                 break;
             case "alpha":
                 InputHandler.altButtons("alpha");
+                InputHandler.hideDrawer(MainActivity.svVar);
                 break;
             case "hyperbolic":
                 InputHandler.altButtons("hyperbolic");
-                break;
-            case "recall":
-                InputHandler.openDrawer("recall");
+                InputHandler.hideDrawer(MainActivity.svVar);
                 break;
             default:
                 InputHandler.inputToken(id);
+                InputHandler.hideDrawer(MainActivity.svVar);
                 break;
         }
+        //if (id!="recall")InputHandler.hideDrawer(MainActivity.svVar);
     }
 
     private String getKeyId() {

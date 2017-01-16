@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -32,7 +33,7 @@ public class KeyPad_init {
     private final int height;
     private final int width;
     private float density;
-    private List<List<CalcBtn>> btn_rows = new ArrayList<>();
+    public List<List<CalcBtn>> btn_rows = new ArrayList<>();
     private int keyPadHeight;   //in px
     private int display_height=160; //the height of llScreen in dp, need to be constant or it is impossible for dynamic layout
 
@@ -114,12 +115,12 @@ public class KeyPad_init {
         }
 
         //int index=0;
-        for (int i=0; i<var_list.size(); i+=6) {
+        for (int i=0; i<var_list.size(); i+=8) {
             LinearLayout row = new LinearLayout(c);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             List<CalcBtn> btn_row = new ArrayList<>() ;
-            for (int j =0; j<6; j++) {
+            for (int j =0; j<8; j++) {
                 if (i+j>=var_list.size()) break;
                 CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
                 btn_row.add(calcBtn);
@@ -160,9 +161,16 @@ public class KeyPad_init {
     * x : scrollview x offset from left, y :y offset from top,
      */
 
-    public void resize(){
+    public void resize(int y, int h){
         MainActivity.svVar.setVisibility(View.INVISIBLE);
         //MainActivity.svVar.setPadding(0,(int)(display_height*density),MainActivity.svVar.getPaddingRight(),MainActivity.svVar.getPaddingBottom());
+        RelativeLayout.LayoutParams lp= new RelativeLayout.LayoutParams(MATCH_PARENT,h) ;
+        lp.addRule(RelativeLayout.ALIGN_TOP,MainActivity.llkeyPad.getId());
+        //lp.addRule(RelativeLayout.RIGHT_OF,MainActivity.llkeyPad.getId());
+        lp.setMargins(0,y,0,0);
+        //MainActivity.svVar.setTop((int)(display_height*density));
+        MainActivity.svVar.setLayoutParams(lp);
+        MainActivity.svVar.setElevation(4*density);
     }
 
     private CalcBtn varBtn(Context c,int ascii){
