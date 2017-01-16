@@ -145,7 +145,7 @@ public class CalcBtn extends LinearLayout {
             id = key.id;
         System.out.println("Pressed: " + id);
         switch (id) {
-            case "recall":
+            case "variable":
                 InputHandler.openDrawer(MainActivity.svVar);
                 break;
             case "delete":

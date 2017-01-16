@@ -14,7 +14,11 @@
             {
                 "id": "constant",
                 "text": "CONST",
-                "style": "Fn"
+                "style": "Fn",
+                "shift": {
+                    "id": "variable",
+                    "text": "VAR"
+                }
             },
             {
                 "id": "x_inverse",
