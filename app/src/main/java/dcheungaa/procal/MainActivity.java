@@ -22,6 +22,7 @@ import android.view.Window;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient client;
     private boolean call_load = false;
     private KeyPad_init keyPad;
+    private KeyPad_init varPad;
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
     public static Tokens tokens = new Tokens();
@@ -69,13 +72,20 @@ public class MainActivity extends AppCompatActivity
 
     public static List<CalcBtn> calcBtns = new ArrayList<>();
 
+    public static ScrollView svVar;
+    public static int screenWidth;
+    public static int screenHeight;
+
+    public static LinearLayout llkeyPad;
+    public static Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        context = this;
         InputHandler.setContext(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,6 +93,11 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        //
+        //DrawerLayout.LayoutParams lp =(android.support.v4.widget.DrawerLayout.LayoutParams) drawer.getLayoutParams();
+        //lp.setMargins(0,200,0,200);
+        //drawer.setLayoutParams(lp);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -93,6 +108,8 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay.setTypeface(FONT_FX50);
         cursor = (TextView) findViewById(R.id.tv_cursor);
         cursor.setTypeface(FONT_FX50);
+
+        llkeyPad = (LinearLayout) findViewById(R.id.llKeyPad);
 
         //keypad gen
         final InputStream in_s = getResources().openRawResource(R.raw.keypad);
@@ -121,6 +138,17 @@ public class MainActivity extends AppCompatActivity
 
         CursorHandler.blinkCursor();
 
+        //hide VARkeypad
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
+        svVar=(ScrollView)findViewById(R.id.svVar);
+        svVar.setPadding(0,0,0,0);
+        LinearLayout llVar = (LinearLayout) findViewById(R.id.llVarPad);
+
+        varPad = new KeyPad_init(this ,resources, display, llVar);
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -139,6 +167,8 @@ public class MainActivity extends AppCompatActivity
             cursor.setLeft(matrixDisplay.getLeft());
             //CursorHandler.hideCursor();
             keyPad.KeyPad_resize();
+            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).getHeight();
+            varPad.resize(fnbtnHeight,fnbtnHeight*3);
         }
     }
 
@@ -148,7 +178,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(svVar.getVisibility()==View.VISIBLE){
+            InputHandler.hideDrawer(MainActivity.svVar);
+        } else{
             super.onBackPressed();
         }
     }
