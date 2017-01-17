@@ -215,6 +215,13 @@ public class CalcBtn extends LinearLayout {
                 InputHandler.hideDrawer(MainActivity.svCmd);
                 InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+            case "execute":
+                for (InputToken token : InputHandler.inputExpression){
+                    InputHandler.lexableExpression.add(token.lexable);
+                    InputHandler.lexableString += token.lexable;
+                }
+                // Throw to API
+                break;
             default:
                 if (STO){
                     STO = false;

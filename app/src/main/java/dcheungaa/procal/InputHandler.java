@@ -37,6 +37,8 @@ public class InputHandler {
      * This is where the input expression is stored.
      */
     public static List<InputToken> inputExpression = new ArrayList();
+    public static List<String> lexableExpression = new ArrayList();
+    public static String lexableString = new String();
     /**
      * This is the flashing text cursor in the matrix display to determine where to insert/overwrite or delete.
      */
