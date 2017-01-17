@@ -41,6 +41,10 @@ public class KeyPad_init {
 
     //to generate main key_pad
     public KeyPad_init(final Context c ,final Resources resource, final InputStream in_s, Display display, final RelativeLayout contentMain, final LinearLayout llScreen, final LinearLayout rows){
+
+        contentMain.setVisibility(View.INVISIBLE);
+        rows.setVisibility(View.INVISIBLE);
+
         //get windows' height and width
 
         Point size = new Point();
@@ -286,7 +290,7 @@ public class KeyPad_init {
         }
     }
 
-    public void KeyPad_resize(){
+    public void KeyPad_resize(RelativeLayout contentMain, LinearLayout rows){
 
         for(int i=0;i<btn_rows.size();i++){
             List<CalcBtn> btn_row = btn_rows.get(i);
@@ -309,6 +313,9 @@ public class KeyPad_init {
                 btn.shrink((double)(rows_height)/(double)(keyPadHeight));
             }
         }
+
+        contentMain.setVisibility(View.VISIBLE);
+        rows.setVisibility(View.VISIBLE);
     }
 
     /*drawable keypad resize
@@ -324,9 +331,9 @@ public class KeyPad_init {
                 btn.shrink(ratio);
             }
         }
-        sv.setVisibility(View.INVISIBLE);
+        //sv.setVisibility(View.INVISIBLE);
         //sv.setPadding(0,(int)(display_height*density),MainActivity.svVar.getPaddingRight(),MainActivity.svVar.getPaddingBottom());
-        RelativeLayout.LayoutParams lp= new RelativeLayout.LayoutParams(MATCH_PARENT,h) ;
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(MATCH_PARENT,h) ;
         lp.addRule(RelativeLayout.ALIGN_TOP,MainActivity.llkeyPad.getId());
         //lp.addRule(RelativeLayout.RIGHT_OF,MainActivity.llkeyPad.getId());
         lp.setMargins(0,y,0,0);

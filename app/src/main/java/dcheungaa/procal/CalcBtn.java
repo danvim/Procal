@@ -1,7 +1,10 @@
 package dcheungaa.procal;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -174,12 +177,18 @@ public class CalcBtn extends LinearLayout {
                 isSTO = true;
                 break;
 
-            case "function": //TODO add change FUNC key to CMD key in PROG EDIT
+            case "function":
+                Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
+                Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.from_left_to_right, /*R.anim.from_right_to_left*/0).toBundle();
+                MainActivity.context.startActivity(FuncIntent, bundle);
+
+                /*
+                //TODO add change FUNC key to CMD key in PROG EDIT
                 if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svCmd);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svCmd);
-                }
+                }*/
                 break;
 
             case "constant":

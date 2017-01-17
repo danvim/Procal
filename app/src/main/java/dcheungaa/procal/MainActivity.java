@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this, resources, inSKey, display, cm, lls, rows);
         call_load = true;
 
-        scrollView = (HorizontalScrollView) findViewById(R.id.test);
+        scrollView = (HorizontalScrollView) findViewById(R.id.llScrollView);
 
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity
 
         //hide VARkeypad
         svVar = (ScrollView)findViewById(R.id.svVar);
+        svVar.setVisibility(View.INVISIBLE);
         svVar.setPadding(0,0,0,0);
         svVar.setBackgroundResource(R.drawable.popup_container);
         svVar.setElevation(16f);
@@ -164,6 +166,7 @@ public class MainActivity extends AppCompatActivity
 
         final InputStream inSCmd = getResources().openRawResource(R.raw.programming_keys);
         svCmd = (ScrollView)findViewById(R.id.svCmd);
+        svCmd.setVisibility(View.INVISIBLE);
         svCmd.setPadding(0,0,0,0);
         svCmd.setBackgroundResource(R.drawable.popup_container);
         svCmd.setElevation(16f);
@@ -173,6 +176,7 @@ public class MainActivity extends AppCompatActivity
         cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd);
 
         svConst = (ScrollView)findViewById(R.id.svConst);
+        svConst.setVisibility(View.INVISIBLE);
         svConst.setPadding(0,0,0,0);
         svConst.setBackgroundResource(R.drawable.popup_container);
         svConst.setElevation(16f);
@@ -198,7 +202,9 @@ public class MainActivity extends AppCompatActivity
             cursor.setPadding(matrixDisplay.getPaddingLeft(),cursor.getPaddingTop(),cursor.getPaddingRight(),cursor.getPaddingBottom());
             cursor.setLeft(matrixDisplay.getLeft());
             //CursorHandler.hideCursor();
-            keyPad.KeyPad_resize();
+            RelativeLayout cm = (RelativeLayout) findViewById(R.id.content_main);
+            LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
+            keyPad.KeyPad_resize(cm, rows);
             int fnbtnHeight = keyPad.btn_rows.get(0).get(0).get_mheight();
             System.out.print(Integer.toString(fnbtnHeight));
             varPad.resize(fnbtnHeight, fnbtnHeight*3, svVar);
@@ -249,7 +255,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, UserSettingActivity.class);
+            Intent intent = new Intent(MainActivity.context, UserSettingActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_save) {
@@ -304,6 +310,5 @@ public class MainActivity extends AppCompatActivity
     public static void set_Cursor_Visibility(TextView c,int visible){
         c.setVisibility(visible);
     }
-
 
 }
