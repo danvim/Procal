@@ -1,5 +1,6 @@
 package dcheungaa.procal;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,14 +75,14 @@ public class Tokens {
             inputTokensMap.put("var_"+c, new InputToken("$"+c, c,
                     (c.matches("A|B|C|D|X|Y|M") ? Color.SPECIAL_VARIABLE : Color.LATIN_VARIABLE)
             ));
-            MainActivity.vars.add("var_"+c);
+            //MainActivity.vars.add(Arrays.asList("var_"+c));
         }
 
         //Lowercase Latin
         for (int i = 0x0061; i < 0x007B; i++) {
             String c = Character.toString((char) i);
             inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.LATIN_VARIABLE));
-            MainActivity.vars.add("var_"+c);
+            //MainActivity.vars.add(Arrays.asList("var_"+c));
         }
 
         //Uppercase Greek
@@ -89,6 +90,7 @@ public class Tokens {
             if (i == 0x03A2) continue;
             String c = Character.toString((char) i);
             inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.GREEK_VARIABLE));
+            //MainActivity.vars.add(Arrays.asList("var_"+c));
             MainActivity.vars.add("var_"+c);
         }
 
@@ -97,7 +99,7 @@ public class Tokens {
             if (i == 0x03C2) continue;
             String c = Character.toString((char) i);
             inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.GREEK_VARIABLE));
-            MainActivity.vars.add("var_"+c);
+            //MainActivity.vars.add(Arrays.asList("var_"+c));
         }
 
         //Constants

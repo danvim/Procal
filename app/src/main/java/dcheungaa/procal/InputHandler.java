@@ -53,6 +53,8 @@ public class InputHandler {
     public static boolean isShift = false;
     public static boolean isAlpha = false;
     public static boolean isHyp = false;
+    public static boolean isRCL = false;
+    public static boolean isSTO = false;
 
 
     /**

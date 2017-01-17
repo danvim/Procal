@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
 
+    //public static List <List<String>> vars = new ArrayList<>();
     public static List <String> vars = new ArrayList<>();
     public static Tokens tokens = new Tokens();
 

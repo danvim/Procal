@@ -22,6 +22,8 @@ import android.os.Handler;
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
 import static dcheungaa.procal.InputHandler.isShift;
+import static dcheungaa.procal.InputHandler.isRCL;
+import static dcheungaa.procal.InputHandler.isSTO;
 
 
 public class CalcBtn extends LinearLayout {
@@ -40,8 +42,6 @@ public class CalcBtn extends LinearLayout {
     private boolean isText;
     private Typeface defaultTypeface;
     private int mHeight = 0;
-
-    boolean STO = false;
 
     public CalcBtn(Context context) {
         super(context);
@@ -147,74 +147,69 @@ public class CalcBtn extends LinearLayout {
             id = key.id;
         System.out.println("Pressed: " + id);
         switch (id) {
-            case "recall": // TODO case "variable"
+
+            case "variable":
                 if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svVar);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svVar);
                 }
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
+            case "recall":
+                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svVar);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svVar);
+                }
+                isRCL = true;
+                break;
+
             case "store":
                 if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svVar);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svVar);
                 }
-                STO = true;
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
+                isSTO = true;
                 break;
+
             case "function": //TODO add change FUNC key to CMD key in PROG EDIT
                 if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svCmd);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svCmd);
                 }
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
             case "constant":
                 if(MainActivity.svConst.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svConst);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svConst);
                 }
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
                 break;
+
             case "delete":
                 InputHandler.deleteToken();
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
             case "all_clear":
                 InputHandler.allClearToken();
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
             case "shift":
                 InputHandler.altButtons("shift");
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
             case "alpha":
                 InputHandler.altButtons("alpha");
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
             case "hyperbolic":
                 InputHandler.altButtons("hyperbolic");
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
                 break;
+
             case "execute":
                 for (InputToken token : InputHandler.inputExpression){
                     InputHandler.lexableExpression.add(token.lexable);
@@ -222,22 +217,33 @@ public class CalcBtn extends LinearLayout {
                 }
                 // Throw to API
                 break;
+
             default:
-                if (STO){
-                    STO = false;
+                // if the key before pressing this key is {RCL || STO}
+                if (isRCL){
+                    isRCL = false;
                     // if Abort storing and pressed other keys, do nothing
                     if (MainActivity.vars.contains(id)){
-                        // Assign var here
-                    }
-                } else {
-                    InputHandler.inputToken(id);
-                }
-                InputHandler.hideDrawer(MainActivity.svVar);
-                InputHandler.hideDrawer(MainActivity.svCmd);
-                InputHandler.hideDrawer(MainActivity.svConst);
+                        // if RCL is followed by any vars
+                        InputHandler.allClearToken();
+                        InputHandler.inputToken(id);
+                        // TODO auto-EXE
+                        break;}
+                    break;}
+                if (isSTO){
+                    isSTO = false;
+                    // if Abort storing and pressed other keys, do nothing
+                    if (MainActivity.vars.contains(id)){
+                        // if STO is followed by any vars
+                        // TODO Assign EXE -> var here
+                        break;}
+                    break;}
+                InputHandler.inputToken(id);
                 break;
         }
-        //if (id!="recall")InputHandler.hideDrawer(MainActivity.svVar);
+        if (!id.equals("variable") && !id.equals("recall") && !id.equals("store")) InputHandler.hideDrawer(MainActivity.svVar);
+        if (!id.equals("function")) InputHandler.hideDrawer(MainActivity.svCmd);
+        if (!id.equals("constant")) InputHandler.hideDrawer(MainActivity.svConst);
     }
 
     private String getKeyId() {
