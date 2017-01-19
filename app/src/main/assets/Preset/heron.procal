@@ -1,0 +1,4 @@
+/* Heron's Formula */
+?->$a: ?->$b: ?->$c:
+($a+$b+$c)/2 -> $s:
+sqrt($s*($s-$a)*($s-$b)*($s-$c)) 

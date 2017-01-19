@@ -1,0 +1,18 @@
+/* Simulataneous Linear & Quadratic Equations */
+?->$A: ?->$B: $A/$B->$D: 
+?->$A: $A/$B->$C:
+?->$M: ?->$Y: ?->$X: ?->$A:
+$M + ($X($D^2)) - $D$Y ->$M:
+?->$B:
+$B$D - $C$Y + 2$C$D$X - $A -> $Y:
+?->$A: $X($C^2) + $B$C - $A -> $X:
+If $M Then
+	$Y + sqrt($Y^2 - 4$M$X):
+	Ans/(2$M) -> $A: 
+	$A display
+	$C-$D$A display
+	$Y/$M - $A display
+Else
+	$X/$Y display
+IfEnd :
+$C - $D*Ans

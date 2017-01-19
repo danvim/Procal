@@ -1,0 +1,5 @@
+/* Simutaneous Lineae Equations in 2 Unknowns */
+?->$a: ?->$b: ?->$c: ?->$d: ?->$x: ?->$y:
+$a$x-$b$d->$m:
+($c$x-$b$y)/$m display
+($a$y-$c$d)/$m 

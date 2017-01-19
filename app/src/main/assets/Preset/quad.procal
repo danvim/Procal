@@ -1,0 +1,5 @@
+/* Quadratic Equation */
+?->$a: ?->$b: ?->$c:
+$b squared - 4$a$c -> $d:
+(-$b + sqrt($d))/(2$a) display
+(-$b - sqrt($d))/(2$a) 

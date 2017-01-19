@@ -1,0 +1,4 @@
+/* Fibonacci Sequence */
+? -> $n:
+(1+sqrt(5))/2 -> $a:
+Rnd($a^$n/sqrt(5))

@@ -1,0 +1,10 @@
+/* 2x2 X 2xn Matrix Multiplication */
+?->$n: /* Enter the number of column in the second matrix */
+?->$a: ?->$b: 
+?->$c: ?->$d:
+
+For 1 -> $N To $n:
+	?->$x: ?->$y:
+	$a$x + $b$y display
+	$c$x + $d$y display
+Next:

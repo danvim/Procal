@@ -1,10 +1,13 @@
 package dcheungaa.procal;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Handler;
+import android.widget.Toast;
 
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
@@ -178,17 +182,17 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "function":
-                Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
-                Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.from_left_to_right, /*R.anim.from_right_to_left*/0).toBundle();
-                MainActivity.context.startActivity(FuncIntent, bundle);
+                /*Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
+                Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.pull_out_left, R.anim.pull_out_right).toBundle();
+                MainActivity.context.startActivity(FuncIntent, bundle);*/
+                Toast.makeText(context, (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ? "true" : "false"), Toast.LENGTH_LONG).show();
 
-                /*
                 //TODO add change FUNC key to CMD key in PROG EDIT
                 if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svCmd);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svCmd);
-                }*/
+                }
                 break;
 
             case "constant":
@@ -461,21 +465,21 @@ public class CalcBtn extends LinearLayout {
         int color = defaultColor;
         boolean isAlt = true;
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null) {
-            sb = new SpannableString(key.hyp.shift.text);
+            sb = new SpannableString(Html.fromHtml(key.hyp.shift.text));
             color = context.getResources().getColor(R.color.colorAccent);
         } else if (isShift && key.shift != null) {
-            sb = new SpannableString(key.shift.text);
+            sb = new SpannableString(Html.fromHtml(key.shift.text));
             color = context.getResources().getColor(R.color.colorAccent);
         } else if (isAlpha && key.alpha != null) {
-            sb = new SpannableString(key.alpha.text);
+            sb = new SpannableString(Html.fromHtml(key.alpha.text));
             color = context.getResources().getColor(R.color.colorPurple);
         } else if (isHyp && key.hyp != null) {
-            sb = new SpannableString(key.hyp.text);
+            sb = new SpannableString(Html.fromHtml(key.hyp.text));
         } else if (key.text != null) {
-            sb = new SpannableString(key.text);
+            sb = new SpannableString(Html.fromHtml(key.text));
             isAlt = false;
         } else {
-            sb = new SpannableString(key.id);
+            sb = new SpannableString(Html.fromHtml(key.id));
             isAlt = false;
         }
         if (isLarge && !isText && sb.length() >= 3 && isAlt)

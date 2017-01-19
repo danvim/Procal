@@ -1,0 +1,12 @@
+/* 3x3 X 3xn Matrix Multiplication */
+?->$n: /* Enter the number of column in the second matrix */
+?->$a: ?->$b: ?->$c:
+?->$d: ?->$e: ?->$f:
+?->$g: ?->$h: ?->$i:
+
+For 1 -> $N To $n:
+	?->$x: ?->$y: ?->$z:
+	$a$x + $b$y + $c$z display
+	$d$x + $e$y + $f$z display
+	$g$x + $h$y + $i$z display
+Next:

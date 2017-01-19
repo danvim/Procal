@@ -1,0 +1,24 @@
+/* Difference in Days */
+?->$a: ?->$b: ?->$c:
+If ($b == 1) or ($b == 2) Then
+	$b + 9 -> $b:
+	$a + 4799 -> $a:
+Else
+	$b - 3 -> $b:
+	$a + 4800 -> $a:
+IfEnd:
+
+$c + floor((153$b+2)/5) + 365$a + floor($a/4) - floor($a/100) + floor($a/400) - 32045 -> $j:
+
+?->$d: ?->$e: ?->$f:
+If ($e == 1) or ($e == 2) Then
+	$e + 9 -> $e:
+	$d + 4799 -> $d:
+Else
+	$e - 3 -> $e:
+	$d + 4800 -> $d:
+IfEnd:
+
+$f + floor((153$e+2)/5) + 365$d + floor($d/4) - floor($d/100) + floor($d/400) - 32045 -> $k:
+
+$k - $j display:

@@ -1,0 +1,4 @@
+/* 2x2 Determinant */
+?->$a: ?->$b:
+?->$c: ?->$d:
+$a$d - $b$c display
