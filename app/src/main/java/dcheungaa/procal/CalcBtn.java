@@ -26,6 +26,9 @@ import java.util.List;
 import android.os.Handler;
 import android.widget.Toast;
 
+import fx50.Fx50ParseResult;
+import fx50.Main;
+
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
 import static dcheungaa.procal.InputHandler.isShift;
@@ -229,6 +232,14 @@ public class CalcBtn extends LinearLayout {
                     InputHandler.lexableString += token.lexable;
                 }
                 // Throw to API
+                try {
+                    Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.lexableString);
+                    if (parseResult.getErrorString() != null)
+                        throw new Exception(parseResult.getErrorString());
+                    MainActivity.matrixDisplay.setText(parseResult.getStringResult());
+                } catch (Exception e) {
+                    MainActivity.matrixDisplay.setText(e.getMessage());
+                }
                 break;
 
             default:

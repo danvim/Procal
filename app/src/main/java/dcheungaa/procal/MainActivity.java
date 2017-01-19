@@ -46,6 +46,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import fx50.Fx50Parser;
+
 import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -93,9 +95,17 @@ public class MainActivity extends AppCompatActivity
     public static LinearLayout llkeyPad;
     public static Context context;
 
+    public static Fx50IO fx50IO = new Fx50IO();
+    public static Fx50Parser fx50Parser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            fx50Parser = new Fx50Parser(fx50IO);
+        } catch (Exception e) {
+            System.out.println("Fx50 Parser failed to initiate: " + e.getMessage());
+        }
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
