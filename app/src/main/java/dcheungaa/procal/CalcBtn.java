@@ -1,39 +1,35 @@
 package dcheungaa.procal;
 
 import android.Manifest;
-import android.content.Intent;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Button;
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.View;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Handler;
-import android.widget.Toast;
-
 import fx50.Fx50ParseResult;
-import fx50.Main;
 
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
-import static dcheungaa.procal.InputHandler.isShift;
 import static dcheungaa.procal.InputHandler.isRCL;
 import static dcheungaa.procal.InputHandler.isSTO;
+import static dcheungaa.procal.InputHandler.isShift;
 
 
 public class CalcBtn extends LinearLayout {
