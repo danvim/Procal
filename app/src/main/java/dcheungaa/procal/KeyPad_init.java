@@ -232,7 +232,7 @@ public class KeyPad_init {
                 //MainActivity.calcBtns.add(calcBtn);
                 calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
 
-                Tokens.inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
+                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(lexablePrefix + key.id), (key.display != null)?(key.display):(key.text)));
 
             }
             rows.addView(row);
