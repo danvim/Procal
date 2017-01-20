@@ -12,7 +12,7 @@
     <string name="share">Share</string>
     <string name="export">Export</string>
     <string name="history">History</string>
-    <string name="default_result">123.456789</string>
+    <string name="default_result">0</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->

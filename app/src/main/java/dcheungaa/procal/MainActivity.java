@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity
     private KeyPad_init varPad;
     private KeyPad_init cmdPad;
     private KeyPad_init constPad;
-    private List<String> keypadButtons = new ArrayList<>();
     public static TextView matrixDisplay;
+    public static TextView resultDisplay;
 
     //public static List <List<String>> vars = new ArrayList<>();
     public static List <String> vars = new ArrayList<>();
@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        resultDisplay = (TextView) findViewById(R.id.resultDisplay);
 
         //Set font
         matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
@@ -208,7 +210,7 @@ public class MainActivity extends AppCompatActivity
             call_load=false;
             fontWidth=cursor.getWidth();
             fontHeight=cursor.getHeight();
-            cursor.setText("▎");
+            cursor.setText(Character.toString((char) 0x258E));
             //cursor.setTop(matrixDisplay.getTop());
             cursor.setPadding(matrixDisplay.getPaddingLeft(),cursor.getPaddingTop(),cursor.getPaddingRight(),cursor.getPaddingBottom());
             cursor.setLeft(matrixDisplay.getLeft());

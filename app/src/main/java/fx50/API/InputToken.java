@@ -1,10 +1,10 @@
 package fx50.API;
 
 public class InputToken {
-    String lexable; // "sqrt(", for parsing
-    String display; // "√(", for displaying
-    Color color = Color.NORMAL;
-    boolean spaced = true;
+    public String lexable; // "sqrt(", for parsing
+    public String display; // "√(", for displaying
+    public Color color = Color.NORMAL;
+    public boolean spaced = true;
 
     public InputToken(String lexable, String display, boolean spaced, Color color) {
         this.lexable = lexable;

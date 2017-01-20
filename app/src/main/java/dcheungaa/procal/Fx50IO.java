@@ -9,7 +9,7 @@ import fx50.IO;
 public class Fx50IO extends IO {
     @Override
     public String getInput() {
-        return InputHandler.lexableString;
+        return InputHandler.getLexableString();
     }
 
     @Override

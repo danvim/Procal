@@ -1,8 +1,11 @@
 package dcheungaa.procal;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import fx50.API.Color;
+import fx50.API.InputToken;
+import fx50.API.InputTokenHelper;
 
 public class Tokens {
     public static Map<String, InputToken> inputTokensMap = new HashMap<>();
@@ -13,7 +16,7 @@ public class Tokens {
         inputTokensMap.put(key.id, new InputToken(lexable, display));
         */
 
-        inputTokensMap.put("x_inverse", new InputToken("inverse", "º"));
+        /*inputTokensMap.put("x_inverse", new InputToken("inverse", "º"));
         inputTokensMap.put("x_factorial", new InputToken("!", "!"));
         inputTokensMap.put("x_cubed", new InputToken("cubed", "³"));
         inputTokensMap.put("cube_root", new InputToken("3root(", "³√("));
@@ -63,7 +66,7 @@ public class Tokens {
         inputTokensMap.put("exponential", new InputToken("E", "ᴇ", false));
         inputTokensMap.put("pi", new InputToken("&pi", "π", Color.CONSTANT));
         inputTokensMap.put("answer", new InputToken("Ans", "Ans"));
-
+*/
         //Digits
         for (int i = 0; i < 10; i++) {
             inputTokensMap.put("" + i, new InputToken("" + i, "" + i, false));
@@ -86,19 +89,21 @@ public class Tokens {
         }
 
         //Uppercase Greek
+        int greekIndex = 0;
         for (int i = 0x0391; i < 0x03AA; i++) {
             if (i == 0x03A2) continue;
             String c = Character.toString((char) i);
-            inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.GREEK_VARIABLE));
+            inputTokensMap.put("var_"+ InputTokenHelper.greekAlphabet[greekIndex++], new InputToken("$"+c, c, Color.GREEK_VARIABLE));
             //MainActivity.vars.add(Arrays.asList("var_"+c));
             MainActivity.vars.add("var_"+c);
         }
 
         //Lowercase Greek
+        greekIndex = 0;
         for (int i = 0x03B1; i < 0x03CA; i++) {
             if (i == 0x03C2) continue;
             String c = Character.toString((char) i);
-            inputTokensMap.put("var_"+c, new InputToken("$"+c, c, Color.GREEK_VARIABLE));
+            inputTokensMap.put("var_"+ InputTokenHelper.greekAlphabet[greekIndex++], new InputToken("$"+c, c, Color.GREEK_VARIABLE));
             //MainActivity.vars.add(Arrays.asList("var_"+c));
         }
 
@@ -153,4 +158,12 @@ public class Tokens {
 
         System.out.println("Token map has entries: " + inputTokensMap.size());
     }
+    public static String fromUnicode(int... unicodePoints) {
+        String returnString = "";
+        for (int unicodePoint:unicodePoints) {
+            returnString += Character.toString((char) unicodePoint);
+        }
+        return returnString;
+    }
+
 }

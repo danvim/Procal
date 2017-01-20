@@ -1,10 +1,12 @@
 package fx50.nodes;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import fx50.API.InputToken;
 import fx50.CalcMath.CalcMath;
 
-import java.math.BigDecimal;
-import java.util.List;
+import static fx50.CalcMath.CalcMath.isInt;
 
 /**
  * Permutation Node
@@ -23,7 +25,8 @@ public class PermutationNode implements CalculatorNode {
         BigDecimal rightResult = right.evaluate();
         if (leftResult.compareTo(rightResult) == -1 ||
                 leftResult.compareTo(BigDecimal.ZERO) == -1 ||
-                rightResult.compareTo(BigDecimal.ZERO) == -1) {
+                rightResult.compareTo(BigDecimal.ZERO) == -1 ||
+                !isInt(leftResult) || !isInt(rightResult)) {
             throw new ArithmeticException("Math error: n and r must be positive non-zero integers and n must be greater or equals to r");
         }
         return CalcMath.permutation(left.evaluate(),right.evaluate());

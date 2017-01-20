@@ -1,20 +1,12 @@
 package dcheungaa.procal;
 
-import android.text.ParcelableSpan;
-import android.text.SpannableString;
 import android.content.Context;
-
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UpdateAppearance;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ScrollView;
@@ -23,8 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import fx50.API.InputToken;
 
 import static dcheungaa.procal.Tokens.inputTokensMap;
 
@@ -38,7 +30,6 @@ public class InputHandler {
      */
     public static List<InputToken> inputExpression = new ArrayList();
     public static List<String> lexableExpression = new ArrayList();
-    public static String lexableString = new String();
     /**
      * This is the flashing text cursor in the matrix display to determine where to insert/overwrite or delete.
      */
@@ -202,6 +193,14 @@ public class InputHandler {
 
     }
 
+    public static String getLexableString() {
+        String lexableString = "";
+        for (InputToken token:inputExpression) {
+            lexableString += token.spaced ? " " + token.lexable + " " : token.lexable;
+        }
+        return lexableString;
+    }
+
     private static void resetAltStates() {
         isShift = false;
         isAlpha = false;
@@ -219,9 +218,10 @@ public class InputHandler {
         InputHandler.context = context;
     }
 
-    /*
-   * Methods used above for changing cursor position
-   */
+    /**
+     * Methods used above for changing cursor position
+     * @param tv TextView to make selectable
+     */
     private static void makeLinksFocusable(TextView tv) {
         MovementMethod m = tv.getMovementMethod();
         if ((m == null) || !(m instanceof LinkMovementMethod)) {

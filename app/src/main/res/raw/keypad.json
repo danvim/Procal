@@ -24,18 +24,26 @@
                 "id": "x_inverse",
                 "text": "x⁻¹",
                 "style": "Fn",
+                "lexable": "inverse",
+                "display": "º",
                 "shift": {
                     "id": "x_factorial",
-                    "text": "x!"
+                    "text": "x!",
+                    "lexable": "!",
+                    "display": "!"
                 }
             },
             {
                 "id": "x_cubed",
                 "text": "x³",
                 "style": "Fn",
+                "lexeble": "cubed",
+                "display": "³",
                 "shift": {
                     "id": "cube_root",
-                    "text": "³√"
+                    "text": "³√",
+                    "lexable": "3root(",
+                    "display": "³√("
                 }
             },
             {
@@ -49,6 +57,8 @@
                 "id": "complex_fraction",
                 "text": "a b/c",
                 "style": "Fn",
+                "lexable": "over",
+                "display": "∕",
                 "shift": {
                     "id": "improper_fraction",
                     "text": "d/c"
@@ -57,42 +67,61 @@
             {
                 "id": "square_root",
                 "text": "√",
-                "style": "Fn"
+                "style": "Fn",
+                "lexable": "sqrt(",
+                "display": "√("
             },
             {
                 "id": "x_squared",
                 "text": "x²",
-                "style": "Fn"
+                "style": "Fn",
+                "lexable": "squared",
+                "display": "²"
             },
             {
                 "id": "power",
                 "text": "^",
                 "style": "Fn",
+                "lexable": "^(",
+                "display": "^(",
                 "shift": {
                     "id": "x_root",
-                    "text": "ˣ√"
+                    "text": "ˣ√",
+                    "lexable": "root(",
+                    "display": "ˣ√("
                 }
             },
             {
                 "id": "log",
                 "text": "log",
                 "style": "Fn",
+                "lexable": "log(",
+                "display": "log(",
                 "shift": {
                     "id": "10_power_x",
-                    "text": "10ˣ"
+                    "text": "10ˣ",
+                    "lexable": "10^(",
+                    "display": "⒑^("
                 }
             },
             {
                 "id": "natural_log",
                 "text": "ln",
                 "style": "Fn",
+                "lexable": "ln(",
+                "display": "ln(",
                 "shift": {
                     "id": "exp_power_x",
-                    "text": "eˣ"
+                    "text": "ℯˣ",
+                    "lexable": "&exp^(",
+                    "display": "ⅇ^("
                 },
                 "alpha":{
                     "id":"exp",
-                    "text":"<i>e</i>"
+                    "text":"ℯ",
+                    "lexable": "&exp^(",
+                    "display": "ⅇ^(",
+                    "color": "CONSTANT"
                 }
             }
         ],
@@ -101,6 +130,8 @@
                 "id": "negation",
                 "text": "(-)",
                 "style": "Fn",
+                "lexable": "(-)",
+                "display": "-",
                 "alpha":{
                     "id":"var_A",
                     "text":"A"
@@ -110,6 +141,8 @@
                 "id": "sexagesimal",
                 "text": "° ′ ″",
                 "style": "Fn",
+                "lexable": "'",
+                "display": "˚",
                 "alpha":{
                     "id":"var_B",
                     "text":"B"
@@ -128,16 +161,24 @@
                 "id": "sine",
                 "text": "sin",
                 "style": "Fn",
+                "lexable": "sin(",
+                "display": "sin(",
                 "shift": {
                     "id": "arc_sine",
-                    "text": "sin⁻¹"
+                    "text": "sin⁻¹",
+                    "lexable": "asin(",
+                    "display": "sinº("
                 },
                 "hyp": {
                     "id": "hyp_sine",
                     "text": "sinh",
+                    "lexable": "sinh(",
+                    "display": "sinh(",
                     "shift": {
                         "id": "arc_hyp_sine",
-                        "text": "sinh⁻¹"
+                        "text": "sinh⁻¹",
+                        "lexable": "asinh(",
+                        "display": "sinhº("
                     }
                 },
                 "alpha":{
@@ -149,16 +190,24 @@
                 "id": "cosine",
                 "text": "cos",
                 "style": "Fn",
+                "lexable": "cos(",
+                "display": "cos(",
                 "shift": {
                     "id": "arc_cosine",
-                    "text": "cos⁻¹"
+                    "text": "cos⁻¹",
+                    "lexable": "acos(",
+                    "display": "cosº("
                 },
                 "hyp": {
                     "id": "hyp_cosine",
                     "text": "cosh",
+                    "lexable": "cosh(",
+                    "display": "cosh(",
                     "shift": {
                         "id": "arc_hyp_cosine",
-                        "text": "cosh⁻¹"
+                        "text": "cosh⁻¹",
+                        "lexable": "acosh(",
+                        "display": "coshº("
                     }
                 }
 
@@ -167,16 +216,24 @@
                 "id": "tangent",
                 "text": "tan",
                 "style": "Fn",
+                "lexable": "tan(",
+                "display": "tan(",
                 "shift": {
                     "id": "arc_tangent",
-                    "text": "tan⁻¹"
+                    "text": "tan⁻¹",
+                    "lexable": "atan(",
+                    "display": "tanº("
                 },
                 "hyp": {
                     "id": "hyp_tangent",
                     "text": "tanh",
+                    "lexable": "tanh(",
+                    "display": "tanh(",
                     "shift": {
                         "id": "arc_hyp_tangent",
-                        "text": "tanh⁻¹"
+                        "text": "tanh⁻¹",
+                        "lexable": "atanh(",
+                        "display": "tanhº("
                     }
                 }
             }
@@ -206,16 +263,22 @@
                 "style": "Fn",
                 "shift": {
                     "id": "percent",
-                    "text": "%"
+                    "text": "%",
+                    "lexable": "%",
+                    "display": "%"
                 }
             },
             {
                 "id": "right_parenthesis",
                 "text": ")",
                 "style": "Fn",
+                "lexable": ")",
+                "display": ")",
                 "shift": {
                     "id": "absolute",
-                    "text": "Abs"
+                    "text": "Abs",
+                    "lexable": "Abs(",
+                    "display": "Abs("
                 },
                 "alpha":{
                     "id":"var_X",
@@ -226,9 +289,13 @@
                 "id": "comma",
                 "text": "，",
                 "style": "Fn",
+                "lexable": ",",
+                "display": ",",
                 "shift": {
                     "id": "semicolon",
-                    "text": "；"
+                    "text": "；",
+                    "lexable": ";",
+                    "display": ";"
                 },
                 "alpha":{
                     "id":"var_Y",
@@ -239,9 +306,15 @@
                 "id": "memory_plus",
                 "text": "M+",
                 "style": "Fn",
+                "lexable": "M+",
+                "display": "M+",
+                "color": "MEMORY",
                 "shift": {
                     "id": "memory_minus",
-                    "text": "M-"
+                    "text": "M-",
+                    "lexable": "M-",
+                    "display": "M-",
+                    "color": "MEMORY"
                 },
                 "alpha":{
                     "id":"var_M",
@@ -293,19 +366,27 @@
             {
                 "id": "multiply",
                 "text": "×",
+                "lexable": "*",
+                "display": "×",
                 "style": "Large",
                 "shift": {
                     "id": "permutation",
-                    "text": "nPr"
+                    "text": "nPr",
+                    "lexable": "P",
+                    "display": "ℙ"
                 }
             },
             {
                 "id": "divide",
                 "text": "÷",
                 "style": "Large",
+                "lexable": "/",
+                "display": "÷",
                 "shift": {
                     "id": "combination",
-                    "text": "nCr"
+                    "text": "nCr",
+                    "lexable": "C",
+                    "display": "ℂ"
                 }
             }
         ],
@@ -326,18 +407,26 @@
                 "id": "add",
                 "text": "+",
                 "style": "Large",
+                "lexable": "+",
+                "display": "+",
                 "shift": {
                     "id": "polar",
-                    "text": "Pol"
+                    "text": "Pol",
+                    "lexable": "Pol(",
+                    "display": "Pol("
                 }
             },
             {
                 "id": "subtract",
                 "text": "−",
                 "style": "Large",
+                "lexable": "-",
+                "display": "−",
                 "shift": {
                     "id": "rectangular",
-                    "text": "Rec"
+                    "text": "Rec",
+                    "lexable": "Rec(",
+                    "display": "Rec("
                 }
             }
         ],
@@ -347,31 +436,45 @@
                 "style": "Large",
                 "shift": {
                     "id": "round",
-                    "text": "Rnd"
+                    "text": "Rnd",
+                    "lexable": "Rnd(",
+                    "display": "Rnd("
                 }
             },
             {
                 "id": "dot",
                 "text": "•",
                 "style": "Large",
+                "lexable": "0",
+                "display": "0",
                 "shift": {
                     "id": "random",
-                    "text": "Ran#"
+                    "text": "Ran#",
+                    "lexable": "Ran#",
+                    "display": "Ran#"
                 }
             },
             {
                 "id": "exponential",
                 "text": "EXP",
                 "style": "Large_Text",
+                "lexable": "E",
+                "display": "ᴇ",
+                "spaced": false,
                 "shift": {
                     "id": "pi",
-                    "text": "π"
+                    "text": "π",
+                    "lexable": "&pi",
+                    "display": "π",
+                    "color": "CONSTANT"
                 }
             },
             {
                 "id": "answer",
                 "text": "ANS",
-                "style": "Large_Text"
+                "style": "Large_Text",
+                "lexable": "Ans",
+                "display": "Ans"
             },
             {
                 "id": "execute",

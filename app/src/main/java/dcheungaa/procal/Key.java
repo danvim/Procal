@@ -9,6 +9,8 @@ public class Key {
     String style;
     String lexable;
     String display;
+    String color;
+    Boolean spaced;
     Key shift;
     Key alpha;
     Key hyp;

@@ -5,12 +5,10 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,12 +16,16 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
+import fx50.API.Color;
+import fx50.API.InputToken;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static dcheungaa.procal.Tokens.inputTokensMap;
 
 /**
  * Created by Administrator on 10/1/2017.
@@ -33,7 +35,6 @@ public class KeyPad_init {
     public List<String> keypadButtons = new ArrayList<>();
     private Gson gson = new Gson();
     private final int height;
-    private final int width;
     private float density;
     public List<List<CalcBtn>> btn_rows = new ArrayList<>();
     private int keyPadHeight;   //in px
@@ -50,19 +51,18 @@ public class KeyPad_init {
         Point size = new Point();
         display.getSize(size);
         height = size.y;
-        width = size.x;
         density = resource.getDisplayMetrics().density;
-
-
 
         String json = "";
 
         try {
-            byte[] b = new byte[in_s.available()];
-            in_s.read(b);
-            json = new String(b);
+            InputStreamReader jsonStreamReader = new InputStreamReader(in_s, "UTF-8");
+            int i = 0;
+            while ((i = jsonStreamReader.read()) != -1)
+                json += (char) i;
+            System.out.println(json);
         } catch (IOException e) {
-
+            System.out.println("Cannot read keypad json");
         }
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
@@ -80,11 +80,38 @@ public class KeyPad_init {
                 btn_row.add(calcBtn);
                 keypadButtons.add(key.id);
                 calcBtn.setId(keypadButtons.indexOf(key.id));
+
+                //Create InputToken if the button is lexable
+
+                putKeyInTokenMap(key);
+                if (key.shift != null)
+                    putKeyInTokenMap(key.shift);
+                if (key.alpha != null)
+                    putKeyInTokenMap(key.alpha);
+                if (key.hyp != null) {
+                    putKeyInTokenMap(key.hyp);
+                    if (key.hyp.shift != null)
+                        putKeyInTokenMap(key.hyp.shift);
+                }
                 row.addView(calcBtn);
                 MainActivity.calcBtns.add(calcBtn);
             }
             rows.addView(row);
             btn_rows.add(btn_row);
+        }
+    }
+
+    private void putKeyInTokenMap(Key key) {
+        if (key.lexable != null && key.display != null) {
+            if (key.color != null && key.spaced != null)
+                inputTokensMap.put(key.id, new InputToken(key.lexable, key.display, key.spaced, Color.valueOf(key.color)));
+            else if (key.spaced != null)
+                inputTokensMap.put(key.id, new InputToken(key.lexable, key.display, key.spaced));
+            else if (key.color != null)
+                inputTokensMap.put(key.id, new InputToken(key.lexable, key.display, Color.valueOf(key.color)));
+            else
+                inputTokensMap.put(key.id, new InputToken(key.lexable, key.display));
+            System.out.println("Putting in tokens map:" + key.id);
         }
     }
 
@@ -95,7 +122,6 @@ public class KeyPad_init {
         Point size = new Point();
         display.getSize(size);
         height = size.y;
-        width = size.x;
 
         density = resource.getDisplayMetrics().density;
 
@@ -176,7 +202,6 @@ public class KeyPad_init {
         Point size = new Point();
         display.getSize(size);
         height = size.y;
-        width = size.x;
         density = resource.getDisplayMetrics().density;
 
 
@@ -206,7 +231,7 @@ public class KeyPad_init {
                 //MainActivity.calcBtns.add(calcBtn);
                 calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
 
-                Tokens.inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
+                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
 
             }
             rows.addView(row);
@@ -221,7 +246,6 @@ public class KeyPad_init {
         Point size = new Point();
         display.getSize(size);
         height = size.y;
-        width = size.x;
 
         density = resource.getDisplayMetrics().density;
 

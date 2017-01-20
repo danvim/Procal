@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import fx50.API.InputToken;
 import fx50.Fx50ParseResult;
 
 import static dcheungaa.procal.InputHandler.isAlpha;
@@ -223,16 +224,15 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
-                for (InputToken token : InputHandler.inputExpression){
+                for (InputToken token : InputHandler.inputExpression) {
                     InputHandler.lexableExpression.add(token.lexable);
-                    InputHandler.lexableString += token.lexable;
                 }
                 // Throw to API
                 try {
-                    Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.lexableString);
+                    Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.getLexableString());
                     if (parseResult.getErrorString() != null)
                         throw new Exception(parseResult.getErrorString());
-                    MainActivity.matrixDisplay.setText(parseResult.getStringResult());
+                    MainActivity.resultDisplay.setText(parseResult.getStringResult());
                 } catch (Exception e) {
                     MainActivity.matrixDisplay.setText(e.getMessage());
                 }
