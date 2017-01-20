@@ -186,8 +186,9 @@ public class MainActivity extends AppCompatActivity
         LinearLayout llCmd = (LinearLayout) findViewById(R.id.llCmdPad);
         llCmd.setElevation(32f);
         llCmd.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
-        cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd);
+        cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd, "");
 
+        final InputStream inSConst = getResources().openRawResource(R.raw.constant_keypad);
         svConst = (ScrollView)findViewById(R.id.svConst);
         svConst.setVisibility(View.INVISIBLE);
         svConst.setPadding(0,0,0,0);
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity
         LinearLayout llConst = (LinearLayout) findViewById(R.id.llConstPad);
         llConst.setElevation(32f);
         llConst.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
-        constPad = new KeyPad_init(this, resources, llConst, display);
+        constPad = new KeyPad_init(this, resources, inSConst, display, llConst, "&");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

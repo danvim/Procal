@@ -1,0 +1,203 @@
+{
+    "rows":[
+      [
+        {
+          "id": "pi",
+          "text": "π"
+        },
+        {
+          "id": "exp",
+          "text": "ℯ",
+          "display": "ⅇ"
+        },
+        {
+          "id": "m_p",
+          "text": "mₚ"
+        },
+        {
+          "id": "m_n",
+          "text": "mₙ"
+        },
+        {
+          "id": "m_e",
+          "text": "m<sub>e</sub>",
+          "display": "me"
+        },
+        {
+          "id": "m_mu",
+          "text": "m<sub>µ</sub>",
+          "display": "mµ"
+        },
+        {
+          "id": "a_0",
+          "text": "a₀",
+          "display": "a₀"
+        },
+        {
+          "id": "h",
+          "text": "<i>h</i>",
+          "display": "ℎ"
+        }
+      ],
+      [
+        {
+          "id": "mu_N",
+          "text": "μ<sub>ɴ</sub>",
+          "display": "μɴ"
+        },
+        {
+          "id": "mu_B",
+          "text": "μ<sub>ʙ</sub>"
+        },
+        {
+          "id": "h_stroke",
+          "text": "ℏ",
+          "display":"ℏ"
+        },
+        {
+          "id": "alpha",
+          "text": "α"
+        },
+        {
+          "id": "r_e",
+          "text": "r<sub>e</sub>",
+          "display": "re"
+        },
+        {
+          "id": "lambda_c",
+          "text": "λc"
+        },
+        {
+          "id": "gamma_p",
+          "text": "γₚ"
+        },
+        {
+          "id": "lambda_cp",
+          "text": "λcₚ"
+        }
+      ],
+      [
+        {
+          "id": "lambda_cn",
+          "text": "λcₙ"
+        },
+        {
+          "id": "R_inf",
+          "text": "R<sub>∞</sub>",
+          "display": "R∞"
+        },
+        {
+          "id": "u",
+          "text": "u",
+          "display": "υ"
+        },
+        {
+          "id": "mu_p",
+          "text": "μₚ"
+        },
+        {
+          "id": "mu_e",
+          "text": "μ<sub>e</sub>",
+          "display": "μe"
+        },
+        {
+          "id": "mu_n",
+          "text": "μₙ"
+        },
+        {
+          "id": "mu_mu",
+          "text": "μ<sub>µ</sub>",
+          "display": "μµ"
+        },
+        {
+          "id": "F",
+          "text": "F",
+          "display": "ℱ"
+        }
+      ],
+      [
+        {
+          "id": "e",
+          "text": "e",
+          "display": "ℯ"
+        },
+        {
+          "id": "N_A",
+          "text": "N<sub>ᴀ</sub>",
+          "display": "Nᴀ"
+        },
+        {
+          "id": "k",
+          "text": "k",
+          "display": "ƙ"
+        },
+        {
+          "id": "V_m",
+          "text": "V<sub>m</sub>",
+          "display": "Vm"
+        },
+        {
+          "id": "R",
+          "text": "R",
+          "display": "ℛ"
+        },
+        {
+          "id": "c_0",
+          "text": "c₀"
+        },
+        {
+          "id": "c_1",
+          "text": "c₁"
+        },
+        {
+          "id": "c_2",
+          "text": "c₂"
+        }
+      ],
+      [
+        {
+          "id": "sigma",
+          "text": "σ"
+        },
+        {
+          "id": "epsilon_0",
+          "text": "ε₀",
+          "display": "ℇ₀"
+        },
+        {
+          "id": "mu_0",
+          "text": "μ₀"
+        },
+        {
+          "id": "phi_0",
+          "text": "φ₀"
+        },
+        {
+          "id": "g",
+          "text": "g"
+        },
+        {
+          "id": "G_0",
+          "text": "G₀"
+        },
+        {
+          "id": "Z_0",
+          "text": "Z₀"
+        },
+        {
+          "id": "t",
+          "text": "t"
+        }
+      ],
+      [
+        {
+          "id": "G",
+          "text": "G"
+        },
+        {
+          "id": "atm",
+          "text": "atm"
+        }
+      ]
+    ]
+}

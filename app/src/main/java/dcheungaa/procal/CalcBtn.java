@@ -25,6 +25,7 @@ import java.util.List;
 
 import fx50.API.InputToken;
 import fx50.Fx50ParseResult;
+import fx50.API.InputToken;
 
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
@@ -183,8 +184,8 @@ public class CalcBtn extends LinearLayout {
 
             case "function":
                 /*Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
-                Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.pull_out_left, R.anim.pull_out_right).toBundle();
-                MainActivity.context.startActivity(FuncIntent, bundle);*/
+                //Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.pull_out_left, R.anim.pull_out_right).toBundle();
+                MainActivity.context.startActivity(FuncIntent);*/
                 Toast.makeText(context, (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ? "true" : "false"), Toast.LENGTH_LONG).show();
 
                 //TODO add change FUNC key to CMD key in PROG EDIT

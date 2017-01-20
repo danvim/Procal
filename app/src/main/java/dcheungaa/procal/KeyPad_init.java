@@ -195,7 +195,8 @@ public class KeyPad_init {
     }
 
     //to generate cmd keypad
-    public KeyPad_init(final Context c ,final Resources resource, final InputStream in_s, Display display, final LinearLayout rows){
+    //to generate const keypad
+    public KeyPad_init(final Context c ,final Resources resource, final InputStream in_s, Display display, final LinearLayout rows, String lexablePrefix){
 
         //get windows' height and width
 
@@ -231,7 +232,7 @@ public class KeyPad_init {
                 //MainActivity.calcBtns.add(calcBtn);
                 calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
 
-                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
+                Tokens.inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(key.text), (key.display != null)?(key.display):(key.text)));
 
             }
             rows.addView(row);
@@ -239,13 +240,14 @@ public class KeyPad_init {
         }
     }
 
-    //to generate const keypad
+    /*//to generate const keypad
     public KeyPad_init(final Context c ,final Resources resource, final LinearLayout rows, Display display){
         //get windows' height and width
 
         Point size = new Point();
         display.getSize(size);
         height = size.y;
+        width = size.x;
 
         density = resource.getDisplayMetrics().density;
 
@@ -312,7 +314,7 @@ public class KeyPad_init {
             rows.addView(row);
             btn_rows.add(btn_row);
         }
-    }
+    }*/
 
     public void KeyPad_resize(RelativeLayout contentMain, LinearLayout rows){
 

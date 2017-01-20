@@ -19,6 +19,7 @@ import java.util.List;
 import fx50.API.InputToken;
 
 import static dcheungaa.procal.Tokens.inputTokensMap;
+import fx50.API.InputToken;
 
 /**
  * Created by Daniel on 11/1/2017.
@@ -30,6 +31,7 @@ public class InputHandler {
      */
     public static List<InputToken> inputExpression = new ArrayList();
     public static List<String> lexableExpression = new ArrayList();
+
     /**
      * This is the flashing text cursor in the matrix display to determine where to insert/overwrite or delete.
      */

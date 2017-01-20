@@ -2,6 +2,8 @@ package dcheungaa.procal;
 
 import java.util.HashMap;
 import java.util.Map;
+import fx50.API.InputToken;
+import fx50.API.Color;
 
 import fx50.API.Color;
 import fx50.API.InputToken;
@@ -107,56 +109,7 @@ public class Tokens {
             //MainActivity.vars.add(Arrays.asList("var_"+c));
         }
 
-        //Constants
-        String[][] constants = {
-                {"pi", "π"},
-                {"exp", "ⅇ"},
-                {"m_p", "mₚ"},
-                {"m_n", "mₙ"},
-                {"m_e", "me"},
-                {"m_mu", "mµ"},
-                {"a_0", "a₀"},
-                {"h", "ℎ"},
-                {"mu_N", "μɴ"},
-                {"mu_B", "μʙ"},
-                {"h_stroke", "ℏ"},
-                {"alpha", "α"},
-                {"r_e", "re"},
-                {"lambda_c", "λc"},
-                {"gamma_p", "γₚ"},
-                {"lambda_cp", "λcₚ"},
-                {"lambda_cn", "λcₙ"},
-                {"R_inf", "R∞"},
-                {"u", "υ"},
-                {"mu_p", "μₚ"},
-                {"mu_e", "μe"},
-                {"mu_n", "μₙ"},
-                {"mu_mu", "μµ"},
-                {"F", "ℱ"},
-                {"e", "ℯ"},
-                {"N_A", "Nᴀ"},
-                {"k", "ƙ"},
-                {"V_m", "Vm"},
-                {"R", "ℛ"},
-                {"c_0", "c₀"},
-                {"c_1", "c₁"},
-                {"c_2", "c₂"},
-                {"sigma", "σ"},
-                {"epsilon_0", "ℇ₀"},
-                {"mu_0", "μ₀"},
-                {"phi_0", "φ₀"},
-                {"g", "g"},
-                {"G_0", "G₀"},
-                {"Z_0", "Z₀"},
-                {"t", "t"},
-                {"G", "G"},
-                {"atm", "atm"}
-        };
-        for (String[] constant : constants) {
-            inputTokensMap.put(constant[0], new InputToken("&" + constant[0], constant[1], Color.CONSTANT));
-        }
-
-        System.out.println("Token map has entries: " + inputTokensMap.size());
+        //System.out.println("Token map has entries: " + inputTokensMap.size());
     }
     public static String fromUnicode(int... unicodePoints) {
         String returnString = "";
