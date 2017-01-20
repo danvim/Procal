@@ -58,35 +58,42 @@
             {
                 "id": "while",
                 "text": "While",
+                "lexable": "While",
                 "display": "While "
             },
             {
                 "id": "while_end",
-                "text": "WhileEnd"
+                "text": "WhileEnd",
+                "lexable": "WhileEnd"
             },
             {
                 "id": "break",
-                "text": "Break"
+                "text": "Break",
+                "lexable": "Break"
             }
         ],
         [
             {
                 "id": "for",
                 "text": "For",
+                "lexable": "For",
                 "display": "For "
             },
             {
                 "id": "to",
                 "text": "To",
+                "lexable": "To",
                 "display": "To "
             },
             {
                 "id": "next",
-                "text": "Next"
+                "text": "Next",
+                "lexable": "Next"
             },
             {
                 "id": "step",
                 "text": "Step",
+                "lexable": "Step",
                 "display": "Step "
             }
         ],
@@ -94,21 +101,25 @@
             {
                 "id": "if",
                 "text": "If",
+                "lexable": "If",
                 "display": "If "
             },
             {
                 "id": "then",
                 "text": "Then",
+                "lexable": "Then",
                 "display": "Then "
             },
             {
                 "id": "else",
                 "text": "Else",
+                "lexable": "Else",
                 "display": "Else "
             },
             {
                 "id": "if_end",
-                "text": "IfEnd"
+                "text": "IfEnd",
+                "lexable": "IfEnd"
             }
         ]
     ]

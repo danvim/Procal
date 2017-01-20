@@ -40,6 +40,18 @@ public class CursorHandler {
         }).start();
     }
 
+    public static void toggleVisibility(){
+        cursor.setVisibility(cursor.getVisibility() == View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    public static void hide(){
+        cursor.setVisibility(View.INVISIBLE);
+    }
+
+    public static void show(){
+        cursor.setVisibility(View.VISIBLE);
+    }
+
     public static void locateCursorPos(int tap_x) {
         cursor = MainActivity.cursor;
         System.out.print("x before : "+ Integer.toString(tap_x)+"\n");

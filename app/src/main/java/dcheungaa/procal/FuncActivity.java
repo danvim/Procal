@@ -18,10 +18,15 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.*;
 
 /**
@@ -55,28 +60,45 @@ public class FuncActivity extends ActionBarActivity {
 
     public static void funcActivity_init(){
         String mainDirectory = "Procal";
-        String presetProgDirectory = "/Preset Programs";
-        String userProgDirectory = "/User Programs";
-        File f = new File(Environment.getExternalStorageDirectory(), mainDirectory);
-        boolean isDirectoryCreated = f.exists();
+        String presetProgDirectory = "/Preset";
+        String userProgDirectory = "/User";
+        File procalFolder = new File(Environment.getExternalStorageDirectory(), mainDirectory);
+        /*boolean isDirectoryCreated = procalFolder.exists();
         if (!isDirectoryCreated) {
-            f.mkdir();
-            System.out.println(f.mkdir()+" YAS "+f.getAbsolutePath());
+            procalFolder.mkdir();
+            System.out.println(procalFolder.mkdir()+" YAS "+procalFolder.getAbsolutePath());
         } else {
             System.out.println("ERROR: Did not recognise non-existence");
+        }*/
+        File presetFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, presetProgDirectory);
+        File userFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, userProgDirectory);
+
+        if (!presetFolder.exists()) {
+            copyFolder("Preset");
         }
-        // if /Procal is empty: First use
-        if (f.listFiles() == null) {
-            File f1 = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, presetProgDirectory);
-            if (!f1.exists()) {
-                f1.mkdirs();
-                copyFolder("Preset");
-            }
-            File f2 = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, userProgDirectory);
-            if (!f2.exists()) {
-                f2.mkdirs();
-            }
+        if (!userFolder.exists()) {
+            userFolder.mkdirs();
         }
+
+        File[] presetProcals = presetFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.contains(".procal");
+            }
+        });
+        File[] userProcals = userFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.contains(".procal");
+            }
+        });
+
+        List<String> presetContents = extractProcalContents(presetProcals);
+        List<String> userContents = extractProcalContents(userProcals);
+
+        System.out.println("presetContents has length: " + presetContents.size());
+        System.out.println("userContents has length: " + userContents.size());
+
     }
 
     private static void copyFolder(String name) {
@@ -147,6 +169,24 @@ public class FuncActivity extends ActionBarActivity {
         }
     }
 
+    private static List<String> extractProcalContents(File[] procalFiles){
+        List<String> procalContents = new ArrayList<>();
+        for (File presetProcal: procalFiles){
+            String fileContent = "";
+            try {
+                FileReader fileReader = new FileReader(presetProcal);
+                int i = 0;
+                while ((i = fileReader.read()) != -1)
+                    fileContent += (char) i;
+                procalContents.add(fileContent);
+                //MainActivity.fx50Parser.parse(fileContent);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return procalContents;
+    }
+
     /* Checks if external storage is available for read and write *//*
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -189,7 +229,7 @@ public class FuncActivity extends ActionBarActivity {
             case android.R.id.home:
                 finish();
                 /*this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);*/
-                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
                 return (true);
             case R.id.action_add:
                 Toast.makeText(MainActivity.context, "Add", Toast.LENGTH_LONG).show();

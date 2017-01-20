@@ -210,11 +210,13 @@ public class KeyPad_init {
         String json = "";
 
         try {
-            byte[] b = new byte[in_s.available()];
-            in_s.read(b);
-            json = new String(b);
+            InputStreamReader jsonStreamReader = new InputStreamReader(in_s, "UTF-8");
+            int i = 0;
+            while ((i = jsonStreamReader.read()) != -1)
+                json += (char) i;
+            System.out.println(json);
         } catch (IOException e) {
-
+            System.out.println("Cannot read keypad json");
         }
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();

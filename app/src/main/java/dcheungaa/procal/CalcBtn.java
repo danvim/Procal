@@ -2,6 +2,7 @@ package dcheungaa.procal;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -139,41 +140,41 @@ public class CalcBtn extends LinearLayout {
         return this;
     }
 
-    private void silentClick(Key key) {
-        // TODO Call Main_Add_Stack(key.id);
-        String id = "";
-        //MainActivity.svVar.setVisibility(INVISIBLE);
-        if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
-            id = key.hyp.shift.id;
-        else if (isShift && key.shift != null)
-            id = key.shift.id;
-        else if (isAlpha && key.alpha != null)
-            id = key.alpha.id;
-        else if (isHyp && key.hyp != null)
-            id = key.hyp.id;
-        else
-            id = key.id;
-        System.out.println("Pressed: " + id);
-        switch (id) {
+                private void silentClick(Key key) {
+                // TODO Call Main_Add_Stack(key.id);
+                String id = "";
+                //MainActivity.svVar.setVisibility(INVISIBLE);
+                if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
+                    id = key.hyp.shift.id;
+                else if (isShift && key.shift != null)
+                    id = key.shift.id;
+                else if (isAlpha && key.alpha != null)
+                    id = key.alpha.id;
+                else if (isHyp && key.hyp != null)
+                    id = key.hyp.id;
+                else
+                    id = key.id;
+                System.out.println("Pressed: " + id);
+                switch (id) {
 
-            case "variable":
-                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
-                    InputHandler.openDrawer(MainActivity.svVar);
-                } else {
-                    InputHandler.hideDrawer(MainActivity.svVar);
-                }
-                break;
+                    case "variable":
+                        if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                            InputHandler.openDrawer(MainActivity.svVar);
+                        } else {
+                            InputHandler.hideDrawer(MainActivity.svVar);
+                        }
+                        break;
 
-            case "recall":
-                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
-                    InputHandler.openDrawer(MainActivity.svVar);
-                } else {
-                    InputHandler.hideDrawer(MainActivity.svVar);
-                }
-                isRCL = true;
-                break;
+                    case "recall":
+                        if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                            InputHandler.openDrawer(MainActivity.svVar);
+                        } else {
+                            InputHandler.hideDrawer(MainActivity.svVar);
+                        }
+                        isRCL = true;
+                        break;
 
-            case "store":
+                    case "store":
                 if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svVar);
                 } else {
@@ -186,7 +187,7 @@ public class CalcBtn extends LinearLayout {
                 /*Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
                 //Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.pull_out_left, R.anim.pull_out_right).toBundle();
                 MainActivity.context.startActivity(FuncIntent);*/
-                Toast.makeText(context, (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ? "true" : "false"), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ? "true" : "false"), Toast.LENGTH_LONG).show();
 
                 //TODO add change FUNC key to CMD key in PROG EDIT
                 if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
@@ -234,9 +235,13 @@ public class CalcBtn extends LinearLayout {
                     if (parseResult.getErrorString() != null)
                         throw new Exception(parseResult.getErrorString());
                     MainActivity.resultDisplay.setText(parseResult.getStringResult());
+                    System.out.println(parseResult.getStringResult());
+                    System.out.println(parseResult.getBigDecimalResult());
                 } catch (Exception e) {
                     MainActivity.matrixDisplay.setText(e.getMessage());
+                    e.printStackTrace(System.out);
                 }
+                CursorHandler.hide();
                 break;
 
             default:

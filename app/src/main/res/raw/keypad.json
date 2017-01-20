@@ -261,6 +261,8 @@
                 "id": "left_parenthesis",
                 "text": "(",
                 "style": "Fn",
+                "lexable": "(",
+                "display": "(",
                 "shift": {
                     "id": "percent",
                     "text": "%",
@@ -445,8 +447,9 @@
                 "id": "dot",
                 "text": "•",
                 "style": "Large",
-                "lexable": "0",
-                "display": "0",
+                "lexable": ".",
+                "display": ".",
+                "spaced": false,
                 "shift": {
                     "id": "random",
                     "text": "Ran#",
