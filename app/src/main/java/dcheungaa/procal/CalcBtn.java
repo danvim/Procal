@@ -140,41 +140,58 @@ public class CalcBtn extends LinearLayout {
         return this;
     }
 
-                private void silentClick(Key key) {
-                // TODO Call Main_Add_Stack(key.id);
-                String id = "";
-                //MainActivity.svVar.setVisibility(INVISIBLE);
-                if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
-                    id = key.hyp.shift.id;
-                else if (isShift && key.shift != null)
-                    id = key.shift.id;
-                else if (isAlpha && key.alpha != null)
-                    id = key.alpha.id;
-                else if (isHyp && key.hyp != null)
-                    id = key.hyp.id;
-                else
-                    id = key.id;
-                System.out.println("Pressed: " + id);
-                switch (id) {
+    private void silentClick(Key key) {
+        // TODO Call Main_Add_Stack(key.id);
+        String id = "";
+        //MainActivity.svVar.setVisibility(INVISIBLE);
+        if (isShift && isHyp && key.hyp != null && key.hyp.shift != null)
+            id = key.hyp.shift.id;
+        else if (isShift && key.shift != null)
+            id = key.shift.id;
+        else if (isAlpha && key.alpha != null)
+            id = key.alpha.id;
+        else if (isHyp && key.hyp != null)
+            id = key.hyp.id;
+        else
+            id = key.id;
+        System.out.println("Pressed: " + id);
 
-                    case "variable":
-                        if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
-                            InputHandler.openDrawer(MainActivity.svVar);
-                        } else {
-                            InputHandler.hideDrawer(MainActivity.svVar);
-                        }
-                        break;
 
-                    case "recall":
-                        if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
-                            InputHandler.openDrawer(MainActivity.svVar);
-                        } else {
-                            InputHandler.hideDrawer(MainActivity.svVar);
-                        }
-                        isRCL = true;
-                        break;
+        if (InputHandler.isEXE){
 
-                    case "store":
+            if (!"execute".contains(id)){
+                //the following is normal button which will contribute next calculation
+                InputHandler.allClearToken();
+                InputHandler.isEXE = false;
+                if ("x_inverse x_cubed x_squared power memory_plus memory_minus multiply divide add subtract".contains(id)){
+                    //this will add ANS
+                    InputHandler.inputToken("answer");
+                }
+                if (!CursorHandler.cusorVisible) {CursorHandler.cusorVisible=true;CursorHandler.blinkCursor();}
+            }else{
+                //TODO: add some special button id handler which have special effect in display mode, like d/c will convert fraction<->decimal
+            }
+        }
+        switch (id) {
+
+            case "variable":
+                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svVar);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svVar);
+                }
+                break;
+
+            case "recall":
+                if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
+                    InputHandler.openDrawer(MainActivity.svVar);
+                } else {
+                    InputHandler.hideDrawer(MainActivity.svVar);
+                }
+                isRCL = true;
+                break;
+
+            case "store":
                 if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svVar);
                 } else {
@@ -226,6 +243,7 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
+                InputHandler.isEXE = true;
                 for (InputToken token : InputHandler.inputExpression) {
                     InputHandler.lexableExpression.add(token.lexable);
                 }

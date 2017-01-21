@@ -48,7 +48,7 @@ public class InputHandler {
     public static boolean isHyp = false;
     public static boolean isRCL = false;
     public static boolean isSTO = false;
-
+    public static boolean isEXE = false;
 
     /**
      * Removes the token at index
