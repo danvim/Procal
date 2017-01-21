@@ -1,4 +1,4 @@
-package dcheungaa.procal;
+package dcheungaa.procal.Func;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -6,10 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -18,7 +22,6 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
@@ -27,7 +30,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.*;
+
+import dcheungaa.procal.InputHandler;
+import dcheungaa.procal.MainActivity;
+import dcheungaa.procal.ProcalDocParser.Parser;
+import dcheungaa.procal.ProcalDocParser.ProcalDoc;
+import dcheungaa.procal.R;
+
+import static dcheungaa.procal.MainActivity.func_initialised;
 
 /**
  * Created by Bryan on 1/17/2017.
@@ -36,6 +46,12 @@ import java.util.function.*;
 public class FuncActivity extends ActionBarActivity {
 
     static Context context = MainActivity.context;
+    public FuncAdapter funcAdapter;
+    public List<FuncItem> funcItemList = new ArrayList<>();
+    public static RecyclerView recyclerView;
+
+    static List<String> presetContents;
+    static List<String> userContents;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -45,31 +61,14 @@ public class FuncActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.func);
+        setContentView(R.layout.func_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*File path = Environment.getCacheDir();
-        var path = global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-        var pathFile = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads);
-        String pathString = path.toString();
-        System.out.println("File Path is "+ pathString);*/
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
 
-    public static void funcActivity_init(){
         String mainDirectory = "Procal";
         String presetProgDirectory = "/Preset";
         String userProgDirectory = "/User";
-        File procalFolder = new File(Environment.getExternalStorageDirectory(), mainDirectory);
-        /*boolean isDirectoryCreated = procalFolder.exists();
-        if (!isDirectoryCreated) {
-            procalFolder.mkdir();
-            System.out.println(procalFolder.mkdir()+" YAS "+procalFolder.getAbsolutePath());
-        } else {
-            System.out.println("ERROR: Did not recognise non-existence");
-        }*/
+
         File presetFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, presetProgDirectory);
         File userFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, userProgDirectory);
 
@@ -93,12 +92,55 @@ public class FuncActivity extends ActionBarActivity {
             }
         });
 
-        List<String> presetContents = extractProcalContents(presetProcals);
-        List<String> userContents = extractProcalContents(userProcals);
+        presetContents = extractProcalContents(presetProcals);
+        userContents = extractProcalContents(userProcals);
 
         System.out.println("presetContents has length: " + presetContents.size());
         System.out.println("userContents has length: " + userContents.size());
 
+        for (String procalContent : presetContents) {
+            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent);
+            System.out.println("procalDoc == "+procalDoc.title+", "+procalDoc.desc+", "+procalContent);
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent));
+        }
+
+        for (String procalContent : userContents) {
+            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent);
+            System.out.println("procalDoc == "+procalDoc.title+", "+procalDoc.desc+", "+procalContent);
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent));
+        }
+
+
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        final FuncAdapter funcAdapter = new FuncAdapter(funcItemList);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        final DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
+        recyclerView.setItemAnimator(defaultItemAnimator);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(funcAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.FuncItemClickListener(){
+            @Override
+            public void onClick(View view, int position) {
+                FuncItem funcItem = funcItemList.get(position);
+                InputHandler.runProgram(funcItem.getProcalContent());
+                finish();
+                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                Toast.makeText(getApplicationContext(), funcItem.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                FuncItem funcItem = funcItemList.get(position);
+                Toast.makeText(getApplicationContext(), "Edit | Delete | Share | Details", Toast.LENGTH_SHORT).show();
+            }
+        }));
+
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private static void copyFolder(String name) {

@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import dcheungaa.procal.Func.FuncItem;
 import fx50.Fx50Parser;
 
 
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity
 
     public static Fx50IO fx50IO = new Fx50IO();
     public static Fx50Parser fx50Parser;
+
+    public List<FuncItem> funcItemList = new ArrayList<>();
+    public static boolean func_initialised = false;
 
 
     @Override
@@ -163,7 +167,9 @@ public class MainActivity extends AppCompatActivity
                         1234);
             }
         }
-        FuncActivity.funcActivity_init();
+
+
+
 
 
         Point size = new Point();

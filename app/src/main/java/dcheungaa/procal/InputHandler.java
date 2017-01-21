@@ -223,6 +223,23 @@ public class InputHandler {
         CursorHandler.hide();
     }
 
+    public static void runProgram(String lexableString){
+        DisplayModeHandler.displayMode = true;
+        // Throw to API
+        try {
+            Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(lexableString);
+            if (parseResult.getErrorString() != null)
+                throw new Exception(parseResult.getErrorString());
+            MainActivity.resultDisplay.setText(parseResult.getStringResult());
+            System.out.println(parseResult.getStringResult());
+            System.out.println(parseResult.getBigDecimalResult());
+        } catch (Exception e) {
+            MainActivity.matrixDisplay.setText(e.getMessage());
+            e.printStackTrace(System.out);
+        }
+        CursorHandler.hide();
+    }
+
     private static void resetAltStates() {
         isShift = false;
         isAlpha = false;
