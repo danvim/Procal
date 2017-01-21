@@ -139,7 +139,11 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!CursorHandler.cusorVisible && InputHandler.isEXE) {CursorHandler.cusorVisible=true;CursorHandler.blinkCursor();}
+                if (!CursorHandler.cusorVisible && DisplayModeHandler.displayMode) {
+                    CursorHandler.cusorVisible=true;
+                    CursorHandler.blinkCursor();
+                    DisplayModeHandler.displayMode = false;
+                }
                 System.out.print("Pressed Boss\n");
                 if(event.getAction()==MotionEvent.ACTION_UP){
                     CursorHandler.locateCursorPos((int)event.getX());

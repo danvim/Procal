@@ -156,22 +156,8 @@ public class CalcBtn extends LinearLayout {
             id = key.id;
         System.out.println("Pressed: " + id);
 
+        DisplayModeHandler.handle(id);
 
-        if (InputHandler.isEXE){
-
-            if (!"execute".contains(id)){
-                //the following is normal button which will contribute next calculation
-                InputHandler.allClearToken();
-                InputHandler.isEXE = false;
-                if ("x_inverse x_cubed x_squared power memory_plus memory_minus multiply divide add subtract".contains(id)){
-                    //this will add ANS
-                    InputHandler.inputToken("answer");
-                }
-                if (!CursorHandler.cusorVisible) {CursorHandler.cusorVisible=true;CursorHandler.blinkCursor();}
-            }else{
-                //TODO: add some special button id handler which have special effect in display mode, like d/c will convert fraction<->decimal
-            }
-        }
         switch (id) {
 
             case "variable":
@@ -243,23 +229,7 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
-                InputHandler.isEXE = true;
-                for (InputToken token : InputHandler.inputExpression) {
-                    InputHandler.lexableExpression.add(token.lexable);
-                }
-                // Throw to API
-                try {
-                    Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.getLexableString());
-                    if (parseResult.getErrorString() != null)
-                        throw new Exception(parseResult.getErrorString());
-                    MainActivity.resultDisplay.setText(parseResult.getStringResult());
-                    System.out.println(parseResult.getStringResult());
-                    System.out.println(parseResult.getBigDecimalResult());
-                } catch (Exception e) {
-                    MainActivity.matrixDisplay.setText(e.getMessage());
-                    e.printStackTrace(System.out);
-                }
-                CursorHandler.hide();
+                InputHandler.execute();
                 break;
 
             default:
