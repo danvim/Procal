@@ -20,15 +20,13 @@ import android.widget.PopupWindow;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-=======
+
 import fx50.API.InputToken;
 import fx50.Fx50ParseResult;
 import fx50.API.InputToken;
 
 import static dcheungaa.procal.InputHandler.execute;
 import static dcheungaa.procal.InputHandler.inputExpression;
->>>>>>> origin/master
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
 import static dcheungaa.procal.InputHandler.isRCL;
@@ -241,6 +239,22 @@ public class CalcBtn extends LinearLayout {
 
             case "execute":
                 InputHandler.execute();
+                break;
+
+            case "memory_plus":
+                if (inputExpression.size()==0) InputHandler.inputToken("answer");
+                InputHandler.cursorPos = inputExpression.size();
+                InputHandler.inputToken(id);
+                InputHandler.execute();
+                System.out.print("M+ call EXE\n");
+                break;
+
+            case "memory_minus":
+                if (inputExpression.size()==0) InputHandler.inputToken("answer");
+                InputHandler.cursorPos = inputExpression.size();
+                InputHandler.inputToken(id);
+                InputHandler.execute();
+                System.out.print("M- call EXE\n");
                 break;
 
             default:
