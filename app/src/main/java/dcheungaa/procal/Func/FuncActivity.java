@@ -21,6 +21,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -37,8 +38,6 @@ import dcheungaa.procal.ProcalDocParser.Parser;
 import dcheungaa.procal.ProcalDocParser.ProcalDoc;
 import dcheungaa.procal.R;
 
-import static dcheungaa.procal.MainActivity.func_initialised;
-
 /**
  * Created by Bryan on 1/17/2017.
  */
@@ -50,8 +49,8 @@ public class FuncActivity extends ActionBarActivity {
     public List<FuncItem> funcItemList = new ArrayList<>();
     public static RecyclerView recyclerView;
 
-    static List<String> presetContents;
-    static List<String> userContents;
+    static List<String> presetContents = new ArrayList<>();
+    static List<String> userContents = new ArrayList<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -73,6 +72,7 @@ public class FuncActivity extends ActionBarActivity {
         File userFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, userProgDirectory);
 
         if (!presetFolder.exists()) {
+            presetFolder.mkdirs();
             copyFolder("Preset");
         }
         if (!userFolder.exists()) {
@@ -100,13 +100,11 @@ public class FuncActivity extends ActionBarActivity {
 
         for (String procalContent : presetContents) {
             ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent);
-            System.out.println("procalDoc == "+procalDoc.title+", "+procalDoc.desc+", "+procalContent);
             funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent));
         }
 
         for (String procalContent : userContents) {
             ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent);
-            System.out.println("procalDoc == "+procalDoc.title+", "+procalDoc.desc+", "+procalContent);
             funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent));
         }
 
@@ -213,19 +211,21 @@ public class FuncActivity extends ActionBarActivity {
 
     private static List<String> extractProcalContents(File[] procalFiles){
         List<String> procalContents = new ArrayList<>();
-        for (File presetProcal: procalFiles){
-            String fileContent = "";
-            try {
-                FileReader fileReader = new FileReader(presetProcal);
-                int i = 0;
-                while ((i = fileReader.read()) != -1)
-                    fileContent += (char) i;
-                procalContents.add(fileContent);
-                //MainActivity.fx50Parser.parse(fileContent);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
+        if (procalFiles != null)
+            for (File presetProcal: procalFiles){
+                String fileContent = "";
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(presetProcal));
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null)
+                        fileContent += line + "\n";
+                    bufferedReader.close();
+                    procalContents.add(fileContent);
+                    //MainActivity.fx50Parser.parse(fileContent);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
             }
-        }
         return procalContents;
     }
 

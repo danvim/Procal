@@ -13,7 +13,6 @@ public class Parser {
 
     public static ProcalDoc extractProcalDoc(String input) {
         Matcher docMatcher = docPattern.matcher(input);
-        System.out.println("docMatcher is this == "+docMatcher.toString());
         ProcalDoc procalDoc = new ProcalDoc();
         if (docMatcher.find()) {
             String docContent = docMatcher.group(1);

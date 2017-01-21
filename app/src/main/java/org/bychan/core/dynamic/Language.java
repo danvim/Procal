@@ -7,7 +7,9 @@ import org.bychan.core.basic.ReplBuilder;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java8.util.stream.Collectors;
+
+import java8.util.stream.StreamSupport;
 
 /**
  * A language with a defined syntax.
@@ -43,7 +45,8 @@ public class Language<N> {
 
 
     private Collection<DynamicToken<N>> toTokens(final List<TokenDefinition<N>> leveledDefinitions, final TokenFinder<N> tokenFinder) {
-        return leveledDefinitions.stream().map(tokenDef -> new DynamicToken<>(tokenDef, tokenFinder)).collect(Collectors.toList());
+        //return leveledDefinitions.stream().map(tokenDef -> new DynamicToken<>(tokenDef, tokenFinder)).collect(Collectors.toList());
+        return StreamSupport.stream(leveledDefinitions).map(tokenDef -> new DynamicToken<>(tokenDef, tokenFinder)).collect(Collectors.toList());
     }
 
 

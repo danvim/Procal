@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static java.util.stream.Collectors.toList;
+import java8.util.stream.StreamSupport;
+
+import static java8.util.stream.Collectors.toList;
 
 /**
  * Created by alext on 2015-03-25.
@@ -12,6 +14,6 @@ import static java.util.stream.Collectors.toList;
 public class PatternUtils {
 
     public static List<String> quote( final Collection<String> strings) {
-        return strings.stream().map(Pattern::quote).collect(toList());
+        return StreamSupport.stream(strings).map(Pattern::quote).collect(toList());
     }
 }
