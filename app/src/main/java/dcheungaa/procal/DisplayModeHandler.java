@@ -11,7 +11,7 @@ public class DisplayModeHandler {
     public static void handle(String id){
         if (displayMode){
 
-            if (!"execute".contains(id)){
+            if (!"execute shift alpha".contains(id)){
                 //the following is normal button which will contribute next calculation
                 InputHandler.allClearToken();
                 displayMode = false;

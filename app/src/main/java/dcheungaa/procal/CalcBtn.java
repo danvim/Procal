@@ -28,6 +28,8 @@ import fx50.API.InputToken;
 import fx50.Fx50ParseResult;
 import fx50.API.InputToken;
 
+import static dcheungaa.procal.InputHandler.execute;
+import static dcheungaa.procal.InputHandler.inputExpression;
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
 import static dcheungaa.procal.InputHandler.isRCL;
@@ -171,19 +173,29 @@ public class CalcBtn extends LinearLayout {
             case "recall":
                 if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svVar);
+                    isRCL = true;
+                    System.out.print("set is RCL true\n");
                 } else {
                     InputHandler.hideDrawer(MainActivity.svVar);
+                    isRCL = false;
+                    System.out.print("set is RCL false\n");
                 }
-                isRCL = true;
+
                 break;
 
             case "store":
                 if(MainActivity.svVar.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svVar);
+                    isSTO = true;
+                    System.out.print("set is STO true\n");
+                    //TODO : if in program mode, it will just give a -> then open drawer
+
                 } else {
                     InputHandler.hideDrawer(MainActivity.svVar);
+                    isSTO = false;
+                    System.out.print("set is STO false\n");
                 }
-                isSTO = true;
+
                 break;
 
             case "function":
@@ -234,25 +246,33 @@ public class CalcBtn extends LinearLayout {
 
             default:
                 // if the key before pressing this key is {RCL || STO}
-                if (isRCL){
-                    isRCL = false;
-                    // if Abort storing and pressed other keys, do nothing
-                    if (MainActivity.vars.contains(id)){
-                        // if RCL is followed by any vars
-                        InputHandler.allClearToken();
+                System.out.print(Boolean.toString(isRCL)+" "+Boolean.toString(isSTO)+"\n");
+                if (( isRCL || isSTO) ){
+                    if (isRCL&& id.contains("var_")){
                         InputHandler.inputToken(id);
-                        // TODO auto-EXE
-                        break;}
-                    break;}
-                if (isSTO){
+                        if (inputExpression.size()==1){
+                            System.out.print("RCL call EXE\n");
+                            InputHandler.execute();
+
+                        }
+                    }
+
+                    if(isSTO&& id.contains("var_")){
+                        if (inputExpression.size()==0) InputHandler.inputToken("answer");
+                        InputHandler.cursorPos = inputExpression.size();
+
+                        InputHandler.inputToken("arrow");
+                        InputHandler.inputToken(id);
+                        InputHandler.execute();
+                        System.out.print("STO call EXE\n");
+                    }
+
+                    isRCL = false;
                     isSTO = false;
-                    // if Abort storing and pressed other keys, do nothing
-                    if (MainActivity.vars.contains(id)){
-                        // if STO is followed by any vars
-                        // TODO Assign EXE -> var here
-                        break;}
-                    break;}
-                InputHandler.inputToken(id);
+                    System.out.print("S1 set false\n");
+                }else{
+                    InputHandler.inputToken(id);
+                }
                 break;
         }
         if (!id.equals("variable") && !id.equals("recall") && !id.equals("store")) InputHandler.hideDrawer(MainActivity.svVar);
