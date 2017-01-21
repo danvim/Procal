@@ -17,17 +17,21 @@ import java.util.TimerTask;
 public class CursorHandler {
 
     private static TextView cursor;
+    public static Boolean cusorVisible=true;
 
     public static void blinkCursor(){
         final Handler handler = new Handler();
+        cusorVisible=true;
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 int blinkInterval = 500;    //in milissegunds
                 try{Thread.sleep(blinkInterval);} catch (Exception e) {}
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        if (!cusorVisible) return;
                         if(MainActivity.cursor.getVisibility() == View.VISIBLE){
                             MainActivity.cursor.setVisibility(View.INVISIBLE);
                         }else{
@@ -45,7 +49,8 @@ public class CursorHandler {
     }
 
     public static void hide(){
-        cursor.setVisibility(View.INVISIBLE);
+        MainActivity.cursor.setVisibility(View.INVISIBLE);
+        cusorVisible = false;
     }
 
     public static void show(){

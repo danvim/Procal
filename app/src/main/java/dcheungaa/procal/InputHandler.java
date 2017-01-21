@@ -20,6 +20,7 @@ import fx50.API.InputToken;
 
 import static dcheungaa.procal.Tokens.inputTokensMap;
 import fx50.API.InputToken;
+import fx50.Fx50ParseResult;
 
 /**
  * Created by Daniel on 11/1/2017.
@@ -48,7 +49,6 @@ public class InputHandler {
     public static boolean isHyp = false;
     public static boolean isRCL = false;
     public static boolean isSTO = false;
-
 
     /**
      * Removes the token at index
@@ -201,6 +201,26 @@ public class InputHandler {
             lexableString += token.spaced ? " " + token.lexable + " " : token.lexable;
         }
         return lexableString;
+    }
+
+    public static void execute(){
+        DisplayModeHandler.displayMode = true;
+        for (InputToken token : InputHandler.inputExpression) {
+            InputHandler.lexableExpression.add(token.lexable);
+        }
+        // Throw to API
+        try {
+            Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.getLexableString());
+            if (parseResult.getErrorString() != null)
+                throw new Exception(parseResult.getErrorString());
+            MainActivity.resultDisplay.setText(parseResult.getStringResult());
+            System.out.println(parseResult.getStringResult());
+            System.out.println(parseResult.getBigDecimalResult());
+        } catch (Exception e) {
+            MainActivity.matrixDisplay.setText(e.getMessage());
+            e.printStackTrace(System.out);
+        }
+        CursorHandler.hide();
     }
 
     private static void resetAltStates() {
