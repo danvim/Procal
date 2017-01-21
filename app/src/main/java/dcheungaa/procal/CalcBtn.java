@@ -1,6 +1,7 @@
 package dcheungaa.procal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -20,15 +21,9 @@ import android.widget.PopupWindow;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-=======
-import fx50.API.InputToken;
-import fx50.Fx50ParseResult;
-import fx50.API.InputToken;
+import dcheungaa.procal.Func.FuncActivity;
 
-import static dcheungaa.procal.InputHandler.execute;
 import static dcheungaa.procal.InputHandler.inputExpression;
->>>>>>> origin/master
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
 import static dcheungaa.procal.InputHandler.isRCL;
@@ -198,17 +193,17 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "function":
-                /*Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
+                Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
                 //Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.pull_out_left, R.anim.pull_out_right).toBundle();
-                MainActivity.context.startActivity(FuncIntent);*/
+                MainActivity.context.startActivity(FuncIntent);
                 //Toast.makeText(context, (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ? "true" : "false"), Toast.LENGTH_LONG).show();
 
                 //TODO add change FUNC key to CMD key in PROG EDIT
-                if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
+                /*if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
                     InputHandler.openDrawer(MainActivity.svCmd);
                 } else {
                     InputHandler.hideDrawer(MainActivity.svCmd);
-                }
+                }*/
                 break;
 
             case "constant":

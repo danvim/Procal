@@ -40,6 +40,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
     testCompile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'net.sourceforge.streamsupport:streamsupport:1.5.3'
     compile 'net.sourceforge.streamsupport:streamsupport-cfuture:1.5.3'
     compile 'net.sourceforge.streamsupport:streamsupport-atomic:1.5.3'
