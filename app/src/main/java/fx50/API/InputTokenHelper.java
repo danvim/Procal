@@ -23,7 +23,7 @@ public class InputTokenHelper {
             "pi",
             "rho",
             "sigma",
-            "",
+            "sigma",
             "tau",
             "upsilon",
             "phi",

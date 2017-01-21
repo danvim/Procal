@@ -1,7 +1,5 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalcMath.Fn;
 import org.bychan.core.basic.Lexeme;
 import org.bychan.core.dynamic.UserParserCallback;
 
@@ -11,7 +9,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import fx50.API.InputToken;
+import fx50.CalcMath.Fn;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 import static fx50.CalculatorHelper.Tokens.comma;
 import static fx50.CalculatorHelper.Tokens.lparen;
@@ -82,7 +84,7 @@ public class FunctionNode implements CalculatorNode {
     }
 
     public String toString() {
-        return  functionName + "(" + argNodes.stream().<String>map(Object::toString).collect(Collectors.joining(",")) + ")";
+        return  functionName + "(" + StreamSupport.stream(argNodes).map(Object::toString).collect(Collectors.joining(",")) + ")";
     }
 
     public List<InputToken> toInputTokens() {

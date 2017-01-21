@@ -1,7 +1,5 @@
 package fx50.CalcMath;
 
-import org.nevec.rjm.BigDecimalMath;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 

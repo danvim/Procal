@@ -1,6 +1,5 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
 import org.bychan.core.basic.Lexeme;
 import org.bychan.core.dynamic.UserParserCallback;
 
@@ -9,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fx50.API.InputToken;
+
 import static fx50.ParsingHelper.nextMustBeSeparator;
 
 /**
@@ -16,14 +17,12 @@ import static fx50.ParsingHelper.nextMustBeSeparator;
  */
 public class GotoNode implements CalculatorNode {
     private final String label;
-    private UserParserCallback<CalculatorNode> parser;
 
     //TODO Erroneous
     public GotoNode(CalculatorNode left, UserParserCallback<CalculatorNode> parser, Lexeme<CalculatorNode> lexeme) {
         label = lexeme.getText().replaceAll("Goto +", "");
         if (label.equals(""))
             parser.abort("Label string missing");
-        this.parser = parser;
         nextMustBeSeparator(parser, "label");
     }
 

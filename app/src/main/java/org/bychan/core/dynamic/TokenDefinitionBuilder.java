@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import java8.util.stream.StreamSupport;
+
 public class TokenDefinitionBuilder<N> {
     private final TokenDefinitionOwner<N> tokenDefinitionOwner;
     private TokenMatcher matcher;
@@ -115,7 +117,7 @@ public class TokenDefinitionBuilder<N> {
 
     public TokenDefinitionBuilder<N> matchesAny(List<String> strings) {
         return matches((input, searchStart) ->
-                strings.stream().map(StringMatcher::new).map(
+                StreamSupport.stream(strings).map(StringMatcher::new).map(
                         m -> m.tryMatch(input, searchStart)).filter(Objects::nonNull).findFirst().orElse(null));
     }
 }

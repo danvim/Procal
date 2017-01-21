@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -39,7 +40,6 @@ import java.util.List;
 
 import dcheungaa.procal.Func.FuncItem;
 import fx50.Fx50Parser;
-
 
 
 public class MainActivity extends AppCompatActivity
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
     public static int screenWidth;
     public static int screenHeight;
 
-    public static LinearLayout llkeyPad;
+    public static LinearLayout llKeyPad;
     public static Context context;
 
     public static Fx50IO fx50IO = new Fx50IO();
@@ -126,16 +126,14 @@ public class MainActivity extends AppCompatActivity
         cursor = (TextView) findViewById(R.id.tv_cursor);
         cursor.setTypeface(FONT_FX50);
 
-        llkeyPad = (LinearLayout) findViewById(R.id.llKeyPad);
-
         //keypad gen
         final InputStream inSKey = getResources().openRawResource(R.raw.keypad);
         Display display = getWindowManager().getDefaultDisplay();
         RelativeLayout cm = (RelativeLayout) findViewById(R.id.content_main);
         LinearLayout lls = (LinearLayout) findViewById(R.id.llScreen);
-        LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
+        llKeyPad = (LinearLayout) findViewById(R.id.llKeyPad);
         Resources resources = getResources();
-        keyPad = new KeyPad_init(this, resources, inSKey, display, cm, lls, rows);
+        keyPad = new KeyPad_init(this, resources, inSKey, display, cm, lls, llKeyPad);
         call_load = true;
 
         scrollView = (HorizontalScrollView) findViewById(R.id.llScrollView);
@@ -143,8 +141,8 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!CursorHandler.cusorVisible && DisplayModeHandler.displayMode) {
-                    CursorHandler.cusorVisible=true;
+                if (!CursorHandler.cursorVisible && DisplayModeHandler.displayMode) {
+                    CursorHandler.cursorVisible =true;
                     CursorHandler.blinkCursor();
                     DisplayModeHandler.displayMode = false;
                 }
@@ -161,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             } else {
-                System.out.println("YASSS");
+                System.out.println("Requesting writing permission");
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1234);
@@ -177,7 +175,7 @@ public class MainActivity extends AppCompatActivity
         screenWidth = size.x;
         screenHeight = size.y;
 
-        //hide VARkeypad
+        //hide VAR keypad
         svVar = (ScrollView)findViewById(R.id.svVar);
         svVar.setVisibility(View.INVISIBLE);
         svVar.setPadding(0,0,0,0);
@@ -230,11 +228,11 @@ public class MainActivity extends AppCompatActivity
             RelativeLayout cm = (RelativeLayout) findViewById(R.id.content_main);
             LinearLayout rows = (LinearLayout) findViewById(R.id.llKeyPad);
             keyPad.KeyPad_resize(cm, rows);
-            int fnbtnHeight = keyPad.btn_rows.get(0).get(0).get_mheight();
-            System.out.print(Integer.toString(fnbtnHeight));
-            varPad.resize(fnbtnHeight, fnbtnHeight*3, svVar);
-            cmdPad.resize(fnbtnHeight, fnbtnHeight*3, svCmd);
-            constPad.resize(fnbtnHeight, fnbtnHeight*3, svConst);
+            int fnBtnHeight = keyPad.btn_rows.get(0).get(0).get_mheight();
+            System.out.print(Integer.toString(fnBtnHeight));
+            varPad.resize(fnBtnHeight, fnBtnHeight*3, svVar);
+            cmdPad.resize(fnBtnHeight, fnBtnHeight*3, svCmd);
+            constPad.resize(fnBtnHeight, fnBtnHeight*3, svConst);
         }
     }
 
@@ -275,6 +273,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    @NonNull
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();

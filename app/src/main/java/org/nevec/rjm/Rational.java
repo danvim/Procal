@@ -272,7 +272,7 @@ public class Rational implements Cloneable, Comparable<Rational>
 
                 /* extract a sign such that we calculate |n|^(1/r), still r carrying any sign
                 */
-                final boolean flipsign = ( compareTo(ZERO) == -1 && (rthroot % 2) != 0) ? true : false ; 
+                final boolean flipsign = (compareTo(ZERO) == -1 && (rthroot % 2) != 0);
 
                 /* delegate the main work to ifactor#root()
                 */

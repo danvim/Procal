@@ -81,11 +81,11 @@ public class CalcMath {
         for (Constants c: Constants.values()) {
             int indentation = 12;
             System.out.print(c.name());
-            for (int i = c.name().length() + 1; i < 12; i++) {
+            for (int i = c.name().length() + 1; i < indentation; i++) {
                 System.out.print(" ");
             }
             System.out.println(c.name);
-            for (int i = 1; i < 12; i++) {
+            for (int i = 1; i < indentation; i++) {
                 System.out.print(" ");
             }
             System.out.println(c.value + " " + c.unit);

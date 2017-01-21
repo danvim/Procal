@@ -26,6 +26,7 @@ import fx50.API.InputToken;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static dcheungaa.procal.Tokens.inputTokensMap;
+import static fx50.API.InputTokenHelper.getGreekNameFromUnicode;
 
 /**
  * Created by Administrator on 10/1/2017.
@@ -57,7 +58,7 @@ public class KeyPad_init {
 
         try {
             InputStreamReader jsonStreamReader = new InputStreamReader(in_s, "UTF-8");
-            int i = 0;
+            int i;
             while ((i = jsonStreamReader.read()) != -1)
                 json += (char) i;
             System.out.println(json);
@@ -126,14 +127,17 @@ public class KeyPad_init {
         density = resource.getDisplayMetrics().density;
 
         List <Integer> var_list = new ArrayList<>();
+        List <String> var_name_list = new ArrayList<>();
 
         //Uppercase Latin
         for (int i = 0x0041; i < 0x005B; i++) {
             var_list.add(i);
+            var_name_list.add(Character.toString((char) i));
         }
         //Lowercase Latin
         for (int i = 0x0061; i < 0x007B; i++) {
             var_list.add(i);
+            var_name_list.add(Character.toString((char) i));
         }
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(MATCH_PARENT,MATCH_PARENT);
@@ -147,7 +151,7 @@ public class KeyPad_init {
                 List<CalcBtn> btn_row = new ArrayList<>() ;
                 for (int j =0; j<8; j++) {
                     if (i+j>=var_list.size()) break;
-                    CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
+                    CalcBtn calcBtn = varBtn(c, var_list.get(i+j), var_name_list.get(i+j));
                     btn_row.add(calcBtn);
                     row.addView(calcBtn);
                     //MainActivity.calcBtns.add(calcBtn);
@@ -168,11 +172,13 @@ public class KeyPad_init {
         for (int i = 0x0391; i < 0x03AA; i++) {
             if (i == 0x03A2) continue;
             var_list.add(i);
+            var_name_list.add(getGreekNameFromUnicode(i));
         }
         //Lowercase Greek
         for (int i = 0x03B1; i < 0x03CA; i++) {
             if (i == 0x03C2) continue;
             var_list.add(i);
+            var_name_list.add(getGreekNameFromUnicode(i));
         }
 
         //int index=0;
@@ -183,7 +189,7 @@ public class KeyPad_init {
             List<CalcBtn> btn_row = new ArrayList<>() ;
             for (int j =0; j<8; j++) {
                 if (i+j>=var_list.size()) break;
-                CalcBtn calcBtn = varBtn(c,var_list.get(i+j));
+                CalcBtn calcBtn = varBtn(c, var_list.get(i+j), getGreekNameFromUnicode(var_list.get(i+j)));
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
                 //MainActivity.calcBtns.add(calcBtn);
@@ -211,7 +217,7 @@ public class KeyPad_init {
 
         try {
             InputStreamReader jsonStreamReader = new InputStreamReader(in_s, "UTF-8");
-            int i = 0;
+            int i;
             while ((i = jsonStreamReader.read()) != -1)
                 json += (char) i;
             System.out.println(json);
@@ -362,25 +368,25 @@ public class KeyPad_init {
         //sv.setVisibility(View.INVISIBLE);
         //sv.setPadding(0,(int)(display_height*density),MainActivity.svVar.getPaddingRight(),MainActivity.svVar.getPaddingBottom());
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(MATCH_PARENT,h) ;
-        lp.addRule(RelativeLayout.ALIGN_TOP,MainActivity.llkeyPad.getId());
-        //lp.addRule(RelativeLayout.RIGHT_OF,MainActivity.llkeyPad.getId());
+        lp.addRule(RelativeLayout.ALIGN_TOP,MainActivity.llKeyPad.getId());
+        //lp.addRule(RelativeLayout.RIGHT_OF,MainActivity.llKeyPad.getId());
         lp.setMargins(0,y,0,0);
         //sv.setTop((int)(display_height*density));
         sv.setLayoutParams(lp);
         sv.setElevation(4*density);
     }
 
-    private CalcBtn varBtn(Context c,int ascii){
-        CalcBtn cbtn = new CalcBtn(c);
-        String ch = Character.toString((char) ascii);
+    private CalcBtn varBtn(Context c, int unicodePoint, String name){
+        CalcBtn calcBtn = new CalcBtn(c);
+        String ch = Character.toString((char) unicodePoint);
         Key k= new Key();
-        k.id = "var_"+ch;
+        k.id = "var_"+name;
         k.text = ch;
         k.style = "Fn";
-        cbtn.init(k);
+        calcBtn.init(k);
         keypadButtons.add(k.id);
-        cbtn.setId(keypadButtons.indexOf(k.id));
-        return cbtn;
+        calcBtn.setId(keypadButtons.indexOf(k.id));
+        return calcBtn;
     }
 
     private CalcBtn cmdBtn(Context c, Key key){

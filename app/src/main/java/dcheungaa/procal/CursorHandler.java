@@ -2,13 +2,9 @@ package dcheungaa.procal;
 
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Administrator on 13/1/2017.
@@ -17,21 +13,23 @@ import java.util.TimerTask;
 public class CursorHandler {
 
     private static TextView cursor;
-    public static Boolean cusorVisible=true;
+    public static Boolean cursorVisible = true;
 
     public static void blinkCursor(){
         final Handler handler = new Handler();
-        cusorVisible=true;
+        cursorVisible = true;
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                int blinkInterval = 500;    //in milissegunds
-                try{Thread.sleep(blinkInterval);} catch (Exception e) {}
+                int blinkInterval = 500;    //in milliseconds
+                try{Thread.sleep(blinkInterval);} catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (!cusorVisible) return;
+                        if (!cursorVisible) return;
                         if(MainActivity.cursor.getVisibility() == View.VISIBLE){
                             MainActivity.cursor.setVisibility(View.INVISIBLE);
                         }else{
@@ -50,7 +48,7 @@ public class CursorHandler {
 
     public static void hide(){
         MainActivity.cursor.setVisibility(View.INVISIBLE);
-        cusorVisible = false;
+        cursorVisible = false;
     }
 
     public static void show(){
@@ -71,9 +69,8 @@ public class CursorHandler {
                     InputHandler.cursorPos=i+1;
                     base_x+=length;
                 }
-            }catch (Exception e){
+            } catch (Exception e){
                 System.out.print("this token no display \n");
-                continue;
             }
 
         }
@@ -81,11 +78,11 @@ public class CursorHandler {
 
     }
 
-    public static int locate(int cursorpos){
+    public static int locate(int cursorPos){
         int x=MainActivity.matrixDisplay.getPaddingLeft();
 
 
-        for (int i=0; i<Math.min(cursorpos,InputHandler.inputExpression.size()); i++){
+        for (int i=0; i<Math.min(cursorPos,InputHandler.inputExpression.size()); i++){
             try{
                 x+=InputHandler.inputExpression.get(i).display.length() * MainActivity.fontWidth;
             }

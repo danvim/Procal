@@ -1,11 +1,12 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalcMath.BigFraction;
 import org.nevec.rjm.BigDecimalMath;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import fx50.API.InputToken;
+import fx50.CalcMath.BigFraction;
 
 /**
  * Power Node

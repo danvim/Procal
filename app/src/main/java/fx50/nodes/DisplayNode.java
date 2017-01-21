@@ -4,7 +4,6 @@ import fx50.API.InputToken;
 import fx50.CalculatorHelper;
 import org.bychan.core.dynamic.UserParserCallback;
 
-import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;

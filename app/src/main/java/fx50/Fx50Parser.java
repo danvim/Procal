@@ -1,11 +1,12 @@
 package fx50;
 
-import fx50.nodes.CalculatorNode;
 import org.bychan.core.basic.ParseResult;
 import org.bychan.core.dynamic.Language;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+
+import fx50.nodes.CalculatorNode;
 
 import static fx50.CalcMath.CalcMath.sigfig;
 import static fx50.ParsingHelper.sanitizeInput;
@@ -13,10 +14,8 @@ import static fx50.ParsingHelper.sanitizeInput;
 public class Fx50Parser {
     private Language<CalculatorNode> l = CalculatorHelper.getFx50Language();
     private Fx50ParseResult parseResult;
-    private IO io;
 
     public Fx50Parser(IO io) throws Exception {
-        this.io = io;
         CalculatorHelper.setIO(io);
     }
 

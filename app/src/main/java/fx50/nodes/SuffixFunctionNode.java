@@ -1,7 +1,5 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalcMath.SuffixFn;
 import org.bychan.core.basic.Lexeme;
 import org.bychan.core.dynamic.UserParserCallback;
 
@@ -10,6 +8,9 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import fx50.API.InputToken;
+import fx50.CalcMath.SuffixFn;
 
 /**
  * Suffix Function Node
@@ -44,7 +45,7 @@ public class SuffixFunctionNode implements CalculatorNode {
     public BigDecimal evaluate() {
         args.clear();
 
-        BigDecimal result = new BigDecimal(0);
+        BigDecimal result;
 
         BigDecimal leftResult = left.evaluate();
 

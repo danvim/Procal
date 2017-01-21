@@ -1,15 +1,17 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
 import org.bychan.core.dynamic.UserParserCallback;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static fx50.CalculatorHelper.Tokens.*;
+import fx50.API.InputToken;
+
+import static fx50.CalculatorHelper.Tokens.conditionElse;
+import static fx50.CalculatorHelper.Tokens.conditionIfEnd;
+import static fx50.CalculatorHelper.Tokens.conditionThen;
 import static fx50.ParsingHelper.indent;
 import static fx50.ParsingHelper.nextMustBeSeparator;
 import static fx50.ParsingHelper.optionalColon;
@@ -24,18 +26,18 @@ public class ConditionNode implements CalculatorNode {
     private CalculatorNode thenNode;
     private final CalculatorNode elseNode;
 
-    public ConditionNode(CalculatorNode left, UserParserCallback parser) {
+    public ConditionNode(CalculatorNode left, UserParserCallback<CalculatorNode> parser) {
         //Only accepts 1 expression
-        ifNode = (CalculatorNode) parser.expression(left, 3);
+        ifNode = parser.expression(left, 3);
 
         optionalColon(parser);
 
         parser.expectSingleLexeme(conditionThen.getKey());
-        thenNode = (CalculatorNode) parser.expression(left);
+        thenNode = parser.expression(left);
 
         if (parser.nextIs(conditionElse.getKey())) {
             parser.expectSingleLexeme(conditionElse.getKey());
-            elseNode = (CalculatorNode) parser.expression(left);
+            elseNode = parser.expression(left);
         } else
             elseNode = null;
 

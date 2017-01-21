@@ -1,17 +1,13 @@
 package fx50.nodes;
 
 import fx50.API.InputToken;
-import fx50.CalculatorHelper;
 import fx50.Fx50ParseResult;
 import fx50.Fx50Parser;
 
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import static fx50.CalculatorHelper.io;
 

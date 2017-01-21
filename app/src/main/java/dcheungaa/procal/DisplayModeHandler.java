@@ -19,7 +19,7 @@ public class DisplayModeHandler {
                     //this will add ANS
                     InputHandler.inputToken("answer");
                 }
-                if (!CursorHandler.cusorVisible) {CursorHandler.cusorVisible=true;CursorHandler.blinkCursor();}
+                if (!CursorHandler.cursorVisible) {CursorHandler.cursorVisible =true;CursorHandler.blinkCursor();}
             }else{
                 //TODO: add some special button id handler which have special effect in display mode, like d/c will convert fraction<->decimal
             }

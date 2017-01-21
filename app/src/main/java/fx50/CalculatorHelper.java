@@ -1,15 +1,58 @@
 package fx50;
 
-import fx50.nodes.*;
 import org.bychan.core.dynamic.Language;
 import org.bychan.core.dynamic.LanguageBuilder;
 import org.bychan.core.dynamic.TokenDefinitionBuilder;
 
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import fx50.nodes.AdditionNode;
+import fx50.nodes.AnswerNode;
+import fx50.nodes.AssignmentNode;
+import fx50.nodes.BooleanAndNode;
+import fx50.nodes.BooleanEqualNode;
+import fx50.nodes.BooleanGreaterThanNode;
+import fx50.nodes.BooleanGreaterThanOrEqualNode;
+import fx50.nodes.BooleanLesserThanNode;
+import fx50.nodes.BooleanLesserThanOrEqualNode;
+import fx50.nodes.BooleanNotEqualNode;
+import fx50.nodes.BooleanNotNode;
+import fx50.nodes.BooleanOrNode;
+import fx50.nodes.BooleanXnorNode;
+import fx50.nodes.BooleanXorNode;
+import fx50.nodes.BreakNode;
+import fx50.nodes.CalculatorNode;
+import fx50.nodes.ClearMemoryNode;
+import fx50.nodes.CombinationNode;
+import fx50.nodes.ConditionNode;
+import fx50.nodes.ConstantNode;
+import fx50.nodes.DisplayNode;
+import fx50.nodes.DivisionNode;
+import fx50.nodes.ExponentialNode;
+import fx50.nodes.FactorialNode;
+import fx50.nodes.ForLoopNode;
+import fx50.nodes.FunctionNode;
+import fx50.nodes.InputPromptNode;
+import fx50.nodes.MMinusNode;
+import fx50.nodes.MPlusNode;
+import fx50.nodes.ModulusNode;
+import fx50.nodes.MultiplicationNode;
+import fx50.nodes.NegationNode;
+import fx50.nodes.NumberNode;
+import fx50.nodes.ParenthesisNode;
+import fx50.nodes.PercentNode;
+import fx50.nodes.PermutationNode;
+import fx50.nodes.PowerNode;
+import fx50.nodes.RandomNumberNode;
+import fx50.nodes.RootNode;
+import fx50.nodes.ShorthandIfNode;
+import fx50.nodes.StatementNode;
+import fx50.nodes.SubtractionNode;
+import fx50.nodes.SuffixFunctionNode;
+import fx50.nodes.VariableNode;
+import fx50.nodes.WhileLoopNode;
 
 /**
  * CalculatorHelper

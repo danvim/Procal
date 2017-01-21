@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
-    private static Pattern docPattern = Pattern.compile("\\/\\*\\* *\\n([\\s\\S]*?)\\n *\\*\\/");
+    private static Pattern docPattern = Pattern.compile("/\\*\\* *\\n([\\s\\S]*?)\\n *\\*/");
     private static Pattern docLinePattern = Pattern.compile(" *\\*( *[\\S]+?(?: \\S+)*?)$");
     private static Pattern docLineAtPattern = Pattern.compile("(@[\\w]+) +(\\w+) +([\\s\\S]+)$");
 

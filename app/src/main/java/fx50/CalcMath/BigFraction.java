@@ -16,7 +16,7 @@ public class BigFraction{
     private BigDecimal numerator;
     private BigDecimal denominator;
     private static int accuracy = 7;
-    private static int brutethresold = 13;
+    private static int bruteThreshold = 13;
     private ArrayList<Integer> digits = new ArrayList<>();
     private int digit = 0;
 
@@ -63,7 +63,7 @@ public class BigFraction{
     public BigFraction (BigDecimal decimal){
         long numerator;
         long denominator;
-        if (decimal.scale() >= brutethresold){ //By brute forcing
+        if (decimal.scale() >= bruteThreshold){ //By brute forcing
             this.digit = decimal.intValue();
             if (this.digit != 0){
                 this.digits.add(0);
@@ -119,9 +119,9 @@ public class BigFraction{
         return this.numerator.divide(this.denominator);
     }
 
-    public BigFraction add(BigFraction frac){
-        return (new BigFraction(this.numerator.multiply(frac.denominator).add(frac.numerator.multiply(this.denominator)),
-                this.denominator.multiply(frac.denominator))).simplify();
+    public BigFraction add(BigFraction fraction){
+        return (new BigFraction(this.numerator.multiply(fraction.denominator).add(fraction.numerator.multiply(this.denominator)),
+                this.denominator.multiply(fraction.denominator))).simplify();
     }
 
     public BigFraction subtract(BigFraction frac){

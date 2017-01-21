@@ -1,11 +1,12 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalculatorHelper;
 import org.bychan.core.dynamic.UserParserCallback;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import fx50.API.InputToken;
+import fx50.CalculatorHelper;
 
 import static fx50.ParsingHelper.nextIsStatementEnd;
 
@@ -17,11 +18,11 @@ public class StatementNode implements CalculatorNode {
     protected final CalculatorNode right;
     protected final boolean isLast;
 
-    public StatementNode(CalculatorNode left, UserParserCallback parser) {
+    public StatementNode(CalculatorNode left, UserParserCallback<CalculatorNode> parser) {
         this.left = left;
         isLast = nextIsStatementEnd(parser);
         if (!isLast)
-            this.right = (CalculatorNode) parser.expression(left);
+            this.right = parser.expression(left);
         else this.right = null;
     }
 

@@ -16,7 +16,7 @@
         android:background="?android:attr/colorBackground">
 
         <Button
-            android:text="DEG"
+            android:text="@string/degree_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button12"
@@ -24,7 +24,7 @@
             style="@style/Button_Fn" />
 
         <Button
-            android:text="RAD"
+            android:text="@string/radian_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button11"
@@ -32,7 +32,7 @@
             style="@style/Button_Fn" />
 
         <Button
-            android:text="GRA"
+            android:text="@string/gradian_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button10"
