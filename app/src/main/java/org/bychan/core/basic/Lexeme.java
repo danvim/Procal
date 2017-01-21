@@ -1,8 +1,5 @@
 package org.bychan.core.basic;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import org.bychan.core.dynamic.TokenMatcher;
 
 /**
@@ -31,27 +28,11 @@ public interface Lexeme<N> {
 
     LexingMatch getMatch();
 
+    String getText();
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    default String getText() {
-        return getMatch().getText();
-    }
+    TokenMatcher getMatcher();
 
+    Object getLexerValue();
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    default TokenMatcher getMatcher() {
-        return getMatch().getMatcher();
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    default Object getLexerValue() {
-        return getMatch().getLexerValue();
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    default String group(int i) {
-        return getMatch().group(i);
-    }
+    String group(int i);
 }

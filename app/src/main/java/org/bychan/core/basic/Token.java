@@ -1,8 +1,5 @@
 package org.bychan.core.basic;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import org.bychan.core.dynamic.TokenKey;
 import org.bychan.core.dynamic.TokenMatcher;
 
@@ -26,15 +23,7 @@ public interface Token<N> {
      */
     boolean keepAfterLexing();
 
+    String getName();
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    default String getName() {
-        return getClass().getSimpleName();
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    default TokenKey getKey() {
-        return TokenKey.byName(getName());
-    }
+    TokenKey getKey();
 }

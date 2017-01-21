@@ -68,4 +68,20 @@ public class DynamicLexeme<N> implements Lexeme<N> {
         return match;
     }
 
+    public String getText() {
+        return getMatch().getText();
+    }
+
+    public TokenMatcher getMatcher() {
+        return getMatch().getMatcher();
+    }
+
+    public Object getLexerValue() {
+        return getMatch().getLexerValue();
+    }
+
+    public String group(int i) {
+        return getMatch().group(i);
+    }
+
 }

@@ -1,13 +1,10 @@
 package dcheungaa.procal;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,14 +16,9 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import fx50.API.InputToken;
-import fx50.Fx50ParseResult;
-import fx50.API.InputToken;
 
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
@@ -327,11 +319,15 @@ public class CalcBtn extends LinearLayout {
             float pressedY;
             boolean withinClick;
 
+            private Rect rect = new Rect();
+
             public boolean onTouch(View v, final MotionEvent event) {
 
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
                     case MotionEvent.ACTION_DOWN:
+                        rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                        System.out.println("########" + rect.flattenToString());
                         popingup = false;
                         doPopup = new Runnable() {
                             // Perform these if user has pressed long enough to summon Popup
@@ -369,8 +365,16 @@ public class CalcBtn extends LinearLayout {
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        handler.removeCallbacks(doPopup);
-                        if (withinClick && distance(pressedX, pressedY, event.getX(), event.getY()) > MAX_CLICK_DISTANCE) {
+                        System.out.println("%%%%%%%%" + (int)event.getX() + "," + (int)event.getY());
+                        if (popingup)
+                            handler.removeCallbacks(doPopup);
+                        else if(!rect.contains((int)event.getX(), (int)event.getY())){
+                            // User moved outside mainButton
+                            System.out.println("$$$$$$$$$$$$$$$");
+                            handler.removeCallbacks(doPopup);
+                        }
+                        //if (withinClick && distance(pressedX, pressedY, event.getX(), event.getY()) > MAX_CLICK_DISTANCE) {
+                        if (true) {
                             withinClick = false;
                             if(popingup) {
                                 for (Button popupButton : popupButtons) {

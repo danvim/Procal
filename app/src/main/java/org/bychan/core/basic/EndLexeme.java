@@ -1,5 +1,7 @@
 package org.bychan.core.basic;
 
+import org.bychan.core.dynamic.TokenMatcher;
+
 /**
  * A token signaling the end of the lexing stream
  *
@@ -62,5 +64,21 @@ public class EndLexeme<N> implements Lexeme<N> {
     @Override
     public int hashCode() {
         return lexingMatch.hashCode();
+    }
+
+    public String getText() {
+        return getMatch().getText();
+    }
+
+    public TokenMatcher getMatcher() {
+        return getMatch().getMatcher();
+    }
+
+    public Object getLexerValue() {
+        return getMatch().getLexerValue();
+    }
+
+    public String group(int i) {
+        return getMatch().group(i);
     }
 }
