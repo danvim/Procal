@@ -24,8 +24,10 @@ public class PowerNode implements CalculatorNode {
         BigDecimal lft = left.evaluate().setScale(15, BigDecimal.ROUND_HALF_UP);
         BigDecimal rgt = right.evaluate().setScale(15, BigDecimal.ROUND_HALF_UP);
         if (lft.compareTo(BigDecimal.ZERO) >= 0) {
-            if (rgt.compareTo(BigDecimal.ZERO) == 0){
-                throw new ArithmeticException("0^0 is undefined.");
+            if (lft.compareTo(BigDecimal.ZERO) == 0){
+                if (rgt.compareTo(BigDecimal.ZERO) == 0) {
+                    throw new ArithmeticException("0^0 is undefined.");
+                }
             }
             return BigDecimalMath.pow(lft, rgt);
         } else {
