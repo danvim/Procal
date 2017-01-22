@@ -1,0 +1,27 @@
+/**
+ * Polygon Area - by Length and Angle
+ * Calculates polygon area based on plane geometry
+ * @param length and angle of n-gon in clockwise/anticlockwise direction until the (n-1)th side and (n-2)th angle
+ * @return length of the last side, area
+ * @sampleIn 2, 30, 2, 300, 2, 30, 2
+ * @sampleOut 2.2680, 2
+ */
+0->$M: 0->$X:
+?->$Y:
+While 1:
+	?->$A: ?->$B:
+	$A - $X -> $A:
+	$A / 360 * 2&pi -> $A:
+	If $A > 2&pi Then
+		$A - 2&pi -> $A
+	IfEnd:
+	sqrt($Y^2 + $B^2 - 2$Y$B*(cos($A))) -> $C:
+	.5 $Y$B * (sin($A)) M+:
+	acos(($B^2 + $C^2 - $Y^2) / (2$B$C)) / (2&pi) * 360 -> $X display
+	If ($A < 0) or ($A > &pi) Then
+		-$X -> $X:
+	IfEnd:
+	$M -> $A display
+	$C -> $B display
+	$C -> $Y:
+WhileEnd

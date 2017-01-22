@@ -1,6 +1,11 @@
 /**
- * Difference in Days
- * Gives the difference between 2 given days
+ * Day Difference
+ * This finds the difference between two dates d1-m1-y1 and d2-m2-y2 in dd-mm-yyyy format.
+ * Enter the earlier date first.
+ * @param y1, m1, d1, y2, m2, d2
+ * @return Day difference
+ * @sampleIn 2005, 10, 12, 2010, 10, 15
+ * @sampleOut 1829
  */
 ?->$a: ?->$b: ?->$c:
 If ($b == 1) or ($b == 2) Then
@@ -11,7 +16,7 @@ Else
 	$a + 4800 -> $a:
 IfEnd:
 
-$c + floor((153$b+2)/5) + 365$a + floor($a/4) - floor($a/100) + floor($a/400) - 32045 -> $j:
+$c + Floor((153$b+2)/5) + 365$a + Floor($a/4) - Floor($a/100) + Floor($a/400) - 32045 -> $j:
 
 ?->$d: ?->$e: ?->$f:
 If ($e == 1) or ($e == 2) Then
@@ -22,6 +27,6 @@ Else
 	$d + 4800 -> $d:
 IfEnd:
 
-$f + floor((153$e+2)/5) + 365$d + floor($d/4) - floor($d/100) + floor($d/400) - 32045 -> $k:
+$f + Floor((153$e+2)/5) + 365$d + Floor($d/4) - Floor($d/100) + Floor($d/400) - 32045 -> $k:
 
 $k - $j display:

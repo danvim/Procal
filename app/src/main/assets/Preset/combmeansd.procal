@@ -1,0 +1,20 @@
+/**
+ * Combined Mean and Standard Deviation
+ * Consider two sets with size N1, N2, mean M1, M2 and SD S1, S2,
+ * this calculates its combined sum of sqaures SOS, mean M and SD S.
+ * mode = 0 for population SD;
+ * mode = 1 for sample SD.
+ * @param mode, N1, M1, S1, N2, M2, S2
+ * @return SOS, M, S
+ * @sampleIn 0, 20, 40, 2, 30, 30, 3
+ * @sampleOut 59350, 34, 5.568
+ */
+?->$M: ?->$A: ?->$B: ?->$C: ?->$D: ?->$X: ?->$Y:
+$A($B^2 + $C^2) - $M($C^2 + $Y^2) + $D($X^2 + $Y^2) -> $Y:
+$Y display
+($A$B + $D$X)/($A+$D) -> $X:
+$X display
+sqrt(($Y - ($A+$D) * $X^2) / ($A+$D-$M)) -> $Y:
+$Y display
+	
+/* M = 0 for population SD, 1 for sample SD */ 

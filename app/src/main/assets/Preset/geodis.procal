@@ -1,0 +1,12 @@
+/**
+ * Geometric Distribution
+ * Given X ~ Ge(a), find P(b <= X <= c)
+ * @param a, b, c
+ * @return P(b <= X <= c)
+ * @sampleIn 0.3, 3, 7
+ * @sampleOut 0.4076
+ * @sampleIn 0.3, 3, 3
+ * @sampleOut 0.147
+ */
+?->$A: ?->$B: 1-$A->$A: ?->$C:
+$A^($B - 1) - $A^($C)

@@ -1,7 +1,11 @@
 /**
  * Quadratic Equation
- * Raises Math Error if discriminant < 0
-*/
+ * Solves equation in form of Ax^2 + Bx + C = 0 
+ * @param A, B, C
+ * @return roots of equation
+ * @sampleIn 1, 3, 2
+ * @sampleOut -1, -2
+ */
 ?->$a: ?->$b: ?->$c:
 $b squared - 4$a$c -> $d:
 (-$b + sqrt($d))/(2$a) display
