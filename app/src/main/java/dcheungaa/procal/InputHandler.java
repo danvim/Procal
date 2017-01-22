@@ -49,6 +49,7 @@ public class InputHandler {
     public static boolean isRCL = false;
     public static boolean isSTO = false;
 
+    public static boolean error = false;
     /**
      * Removes the token at index
      *
@@ -216,7 +217,17 @@ public class InputHandler {
             System.out.println(parseResult.getStringResult());
             System.out.println(parseResult.getBigDecimalResult());
         } catch (Exception e) {
+            error = true;
             MainActivity.matrixDisplay.setText(e.getMessage());
+            cursorPos = 0;
+            if (e.getMessage().contains("Parsing failed")){
+                //syntax error
+                cursorPos = Math.max(0, Integer.parseInt(e.getMessage().split( "\\), current" )[0].split("index ")[1])-1);
+                CursorHandler.locate(cursorPos);
+            }else if(e.getMessage().contains("Math Error") || e.getMessage().contains("Division By Zero")){
+                //math error
+                //TODO parser return to error index to locate the cursor after error
+            }
             e.printStackTrace(System.out);
         }
         CursorHandler.hide();

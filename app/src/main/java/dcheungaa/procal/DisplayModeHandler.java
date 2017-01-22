@@ -10,8 +10,8 @@ public class DisplayModeHandler {
 
     public static void handle(String id){
         if (displayMode){
-
-            if (!"execute shift alpha recall store".contains(id)){
+            if (InputHandler.error) InputHandler.error = false;
+            if (!"execute shift alpha recall store hyperbolic".contains(id)){
                 //the following is normal button which will contribute next calculation
                 InputHandler.allClearToken();
                 displayMode = false;
@@ -19,7 +19,10 @@ public class DisplayModeHandler {
                     //this will add ANS
                     InputHandler.inputToken("answer");
                 }
-                if (!CursorHandler.cursorVisible) {CursorHandler.cursorVisible =true;CursorHandler.blinkCursor();}
+                if (!CursorHandler.cursorVisible) {
+                    CursorHandler.cursorVisible =true;
+                    CursorHandler.blinkCursor();
+                }
             }else{
                 //TODO: add some special button id handler which have special effect in display mode, like d/c will convert fraction<->decimal
             }
