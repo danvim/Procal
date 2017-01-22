@@ -240,7 +240,7 @@ public class KeyPad_init {
                 //MainActivity.calcBtns.add(calcBtn);
                 calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
 
-                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(lexablePrefix + key.id), (key.display != null)?(key.display):(key.text)));
+                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(lexablePrefix + key.id.replace("const_", "")), (key.display != null)?(key.display):(key.text)));
 
             }
             rows.addView(row);
@@ -248,81 +248,6 @@ public class KeyPad_init {
         }
     }
 
-    /*//to generate const keypad
-    public KeyPad_init(final Context c ,final Resources resource, final LinearLayout rows, Display display){
-        //get windows' height and width
-
-        Point size = new Point();
-        display.getSize(size);
-        height = size.y;
-        width = size.x;
-
-        density = resource.getDisplayMetrics().density;
-
-        String[][] constants = {
-                {"pi", "π"},
-                {"exp", "ⅇ"},
-                {"m_p", "mₚ"},
-                {"m_n", "mₙ"},
-                {"m_e", "me"},
-                {"m_mu", "mµ"},
-                {"a_0", "a₀"},
-                {"h", "ℎ"},
-                {"mu_N", "μɴ"},
-                {"mu_B", "μʙ"},
-                {"h_stroke", "ℏ"},
-                {"alpha", "α"},
-                {"r_e", "re"},
-                {"lambda_c", "λc"},
-                {"gamma_p", "γₚ"},
-                {"lambda_cp", "λcₚ"},
-                {"lambda_cn", "λcₙ"},
-                {"lambda_cn", "λcₙ"},
-                {"R_inf", "R∞"},
-                {"u", "υ"},
-                {"mu_p", "μₚ"},
-                {"mu_e", "μe"},
-                {"mu_n", "μₙ"},
-                {"mu_mu", "μµ"},
-                {"F", "ℱ"},
-                {"F", "ℯ"},
-                {"N_A", "Nᴀ"},
-                {"k", "ƙ"},
-                {"V_m", "Vm"},
-                {"R", "ℛ"},
-                {"c_0", "c₀"},
-                {"c_1", "c₁"},
-                {"c_2", "c₂"},
-                {"sigma", "σ"},
-                {"epsilon_0", "ℇ₀"},
-                {"mu_0", "μ₀"},
-                {"phi_0", "φ₀"},
-                {"g", "g"},
-                {"G_0", "G₀"},
-                {"Z_0", "Z₀"},
-                {"t", "t"},
-                {"G", "G"},
-                {"atm", "atm"}
-        };
-
-        //int index=0;
-        for (int i=0; i < constants.length; i+=8) {
-            LinearLayout row = new LinearLayout(c);
-            row.setOrientation(LinearLayout.HORIZONTAL);
-            row.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-            List<CalcBtn> btn_row = new ArrayList<>() ;
-            for (int j =0; j<8; j++) {
-                if (i+j >= constants.length) break;
-                CalcBtn calcBtn = constBtn(c, constants[i+j]);
-                btn_row.add(calcBtn);
-                row.addView(calcBtn);
-                calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
-                //MainActivity.calcBtns.add(calcBtn);
-            }
-            rows.addView(row);
-            btn_rows.add(btn_row);
-        }
-    }*/
 
     public void KeyPad_resize(RelativeLayout contentMain, LinearLayout rows){
 

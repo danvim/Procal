@@ -29,4 +29,7 @@
     <string name="radian_symbol">RAD</string>
     <string name="gradian_symbol">GRA</string>
     <string name="add">Add</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="modify">Modify</string>
 </resources>

@@ -240,6 +240,7 @@ public class InputHandler {
             Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(lexableString);
             if (parseResult.getErrorString() != null)
                 throw new Exception(parseResult.getErrorString());
+            MainActivity.matrixDisplay.setText(lexableString);
             MainActivity.resultDisplay.setText(parseResult.getStringResult());
             System.out.println(parseResult.getStringResult());
             System.out.println(parseResult.getBigDecimalResult());

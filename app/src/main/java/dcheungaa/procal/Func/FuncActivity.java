@@ -1,12 +1,16 @@
 package dcheungaa.procal.Func;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -16,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -55,8 +61,8 @@ public class FuncActivity extends ActionBarActivity {
     public static List<FuncItem> funcItemList = new ArrayList<>();
     public static RecyclerView recyclerView;
 
-    static List<String> presetContents = new ArrayList<>();
-    static List<String> userContents = new ArrayList<>();
+    static List<ProcalContent> presetContents = new ArrayList<>();
+    static List<ProcalContent> userContents = new ArrayList<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -69,7 +75,7 @@ public class FuncActivity extends ActionBarActivity {
         setContentView(R.layout.func_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        // MakeDirs and CopyAsset
         String mainDirectory = "Procal";
         String presetProgDirectory = "/Preset";
         String userProgDirectory = "/User";
@@ -85,34 +91,7 @@ public class FuncActivity extends ActionBarActivity {
             userFolder.mkdirs();
         }
 
-        File[] presetProcals = presetFolder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.contains(".procal");
-            }
-        });
-        File[] userProcals = userFolder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.contains(".procal");
-            }
-        });
-
-        presetContents = extractProcalContents(presetProcals);
-        userContents = extractProcalContents(userProcals);
-
-        System.out.println("presetContents has length: " + presetContents.size());
-        System.out.println("userContents has length: " + userContents.size());
-
-        for (String procalContent : presetContents) {
-            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent);
-            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent));
-        }
-
-        for (String procalContent : userContents) {
-            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent);
-            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent));
-        }
+        updateFuncItems(presetFolder, userFolder);
 
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -126,15 +105,16 @@ public class FuncActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v){
                         FuncItem funcItem = FuncActivity.funcItemList.get(position);
-                        InputHandler.runProgram(funcItem.getProcalContent());
+                        InputHandler.runProgram(funcItem.getProcalContentString());
                         finish();
-                        overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                        //overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
                         Toast.makeText(context, funcItem.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
 
                         // /clickListener.onClick(holder.funcItemLayout);
                     }
                 });
                 holder.funcItemMenu.setOnClickListener(new View.OnClickListener(){
+                    FuncItem funcItem = funcItemsList.get(position);
                     @Override
                     public void onClick(View v){
                         System.out.println("Menu Button pressed");
@@ -148,13 +128,47 @@ public class FuncActivity extends ActionBarActivity {
                                         Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
                                         break;
                                     case R.id.delete:
-                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        boolean deleted = funcItem.getProcalContentFile().delete();
+                                        funcItemList.remove(funcItem);
+                                        notifyDataSetChanged();
+                                        //updateFuncItems(presetFolder, userFolder);
+                                        System.out.println(".procal Deleted? : existence == "+funcItem.getProcalContentFile().exists());
                                         break;
                                     case R.id.share:
-                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                        sharingIntent.setType("text/plain");
+                                        sharingIntent.putExtra(Intent.EXTRA_TEXT, funcItem.getProcalContentString());
+                                        startActivity(Intent.createChooser(sharingIntent, "Share plain text program via"));
                                         break;
                                     case R.id.details:
-                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(FuncActivity.this);
+                                        builder.setTitle(funcItem.getTitle())
+                                                .setMessage(funcItem.getDescription())
+                                                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                                /*.setNegativeButton(R.string.modify, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })*/
+                                                //.setIcon(android.R.drawable.ic_menu_edit);
+                                        AlertDialog alert = builder.create();
+                                        alert.show();
+
+                                        /*Dialog dialog = new Dialog(FuncActivity.this);
+                                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                        dialog.setContentView(R.layout.func_details_modify);
+                                        EditText title = (EditText) dialog.findViewById(R.id.details_title);
+                                        title.setText(funcItem.getTitle());
+                                        EditText desc = (EditText) dialog.findViewById(R.id.details_desc);
+                                        desc.setText(funcItem.getDescription());
+                                        dialog.setCancelable(false);
+                                        dialog.setCanceledOnTouchOutside(true);
+                                        dialog.show();*/
                                         break;
                                 }
                                 return false;
@@ -178,6 +192,39 @@ public class FuncActivity extends ActionBarActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void updateFuncItems(File presetFolder, File userFolder){
+        File[] presetProcals = presetFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.contains(".procal");
+            }
+        });
+        File[] userProcals = userFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.contains(".procal");
+            }
+        });
+
+        presetContents = extractProcalContents(presetProcals);
+        userContents = extractProcalContents(userProcals);
+
+        System.out.println("presetContents has length: " + presetContents.size());
+        System.out.println("userContents has length: " + userContents.size());
+
+        funcItemList.clear();
+        for (ProcalContent procalContent : presetContents) {
+            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
+        }
+
+        for (ProcalContent procalContent : userContents) {
+            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
+        }
+
     }
 
     private static void copyFolder(String name) {
@@ -248,18 +295,21 @@ public class FuncActivity extends ActionBarActivity {
         }
     }
 
-    private static List<String> extractProcalContents(File[] procalFiles){
-        List<String> procalContents = new ArrayList<>();
+    private static List<ProcalContent> extractProcalContents(File[] procalFiles){
+        List<ProcalContent> procalContents = new ArrayList<>();
         if (procalFiles != null)
-            for (File presetProcal: procalFiles){
+            for (File procalFile: procalFiles){
+                ProcalContent procalContent = new ProcalContent();
                 String fileContent = "";
                 try {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(presetProcal));
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(procalFile));
                     String line = "";
                     while ((line = bufferedReader.readLine()) != null)
                         fileContent += line + "\n";
                     bufferedReader.close();
-                    procalContents.add(fileContent);
+                    procalContent.content = fileContent;
+                    procalContent.file = procalFile;
+                    procalContents.add(procalContent);
                     //MainActivity.fx50Parser.parse(fileContent);
                 } catch (IOException e) {
                     System.out.println(e.getMessage());

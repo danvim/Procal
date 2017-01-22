@@ -1,16 +1,20 @@
 package dcheungaa.procal.Func;
 
+import java.io.File;
+
 /**
  * Created by Bryan on 1/21/2017.
  */
 
 public class FuncItem {
-    private String title, description, procalContent;
+    private String title, description, procalContentString;
+    private File procalContentFile;
 
-    public FuncItem(String title, String description, String procalContent) {
+    public FuncItem(String title, String description, String procalContentString, File procalContentFile) {
         this.title = title;
         this.description = description;
-        this.procalContent = procalContent;
+        this.procalContentString = procalContentString;
+        this.procalContentFile = procalContentFile;
     }
 
     public String getTitle() {
@@ -29,11 +33,20 @@ public class FuncItem {
         this.description = description;
     }
 
-    public String getProcalContent() {
-        return procalContent;
+    public String getProcalContentString() {
+        return procalContentString;
     }
 
-    public void setProcalContent(String procalContent) {
-        this.procalContent = procalContent;
+    public void setProcalContentString(String procalContent) {
+        this.procalContentString = procalContentString;
     }
+
+    public File getProcalContentFile() {
+        return procalContentFile;
+    }
+
+    public void setProcalContentFile(File procalContentFile) {
+        this.procalContentFile = procalContentFile;
+    }
+
 }
