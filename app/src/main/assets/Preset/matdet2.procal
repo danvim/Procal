@@ -1,0 +1,11 @@
+/**
+ * Matrix 2x2 Determinant
+ * Returns matrix 2x2 determinant.
+ * @param Matrix entered from left to right, downwards
+ * @return Its determinant
+ * @sampleIn 2, 3, 5, 1
+ * @sampleOut -13
+ */
+?->$a: ?->$b:
+?->$c: ?->$d:
+$a$d - $b$c display

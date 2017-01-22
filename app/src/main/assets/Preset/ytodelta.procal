@@ -1,0 +1,12 @@
+/**
+ * Resistor Y to Delta transform
+ * Returns the resistors in Delta by enter those in Y
+ * @param three resistance in Y
+ * @return three resistance in Delta
+ * @sampleIn 100, 150, 220
+ * @sampleOut 466.6667, 318.1818, 700
+ */
+?->$R4: ?->$R5: ?->$R6:
+($R4$R5+$R5$R6+$R6$R4)/($R5) display
+($R4$R5+$R5$R6+$R6$R4)/($R6) display
+($R4$R5+$R5$R6+$R6$R4)/($R4) display

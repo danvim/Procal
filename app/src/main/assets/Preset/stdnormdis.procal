@@ -1,0 +1,15 @@
+/**
+ * Standard Normal Distribution
+ * Given Z ~ N(0, 1), find P(0 <= Z <= k), P(Z >= k) and P(Z <= k).
+ * If k < 0, the results are P(A <= Z <= 0), P(Z <= A) and P(Z >= A).
+ * @param k
+ * @return P(0 <= Z <= k), P(Z >= k), P(Z <= k)
+ * @sampleIn 1.5
+ * @sampleOut 0.4332, 0.0668, 0.9332
+ */
+?->$A: sqrt($A^2) -> $A: 1 / (1 + .2316419$A):
+0.5 - 10^(-9) * sqrt(&exp^(-$A^2)) * 
+(127414795 Ans + 710706870 (Ans^3) + 530702714 (Ans^5) - 
+142248368 (Ans^2) - 726576013 (Ans^4)) display /*P(0<=Z<=A)*/
+.5 - Ans display /*P(Z>=A)*/
+1 - Ans display /*P(Z<=A)*/

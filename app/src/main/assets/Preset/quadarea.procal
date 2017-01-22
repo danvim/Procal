@@ -1,0 +1,12 @@
+/**
+ * Quadrateral Area
+ * Returns the area by using plane geometry
+ * @param length of four sides, sum of opposite angle
+ * @return area
+ * @sampleIn 2, 1, 2, 1, 120
+ * @sampleOut 1.7321
+ */
+?->$A: ?->$B: ?->$C: ?->$D: ?->$X: /* $X is the combined opposite angles */
+$X / 360 * 2&pi -> $X:
+.5($A + $B + $C + $D):
+sqrt((Ans-$A)(Ans-$B)(Ans-$C)(Ans-$D) - cos(.5$X) * cos(.5$X) * $A$B$C$D)

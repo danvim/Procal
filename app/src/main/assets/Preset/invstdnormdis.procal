@@ -1,0 +1,18 @@
+/**
+ * Inverse Standard Normal Distribution
+ * Given Z ~ N(0, 1), find k such that P(0 <= Z <= k) = a.
+ * @param a
+ * @return k
+ * @sampleIn 0.45
+ * @sampleOut 1.6449
+ */
+?->$A: 0->$X: 1->$Y: 1->$cnt:
+While $cnt <= 500:
+	1 / (1 + .2316419$X):
+	$X + .3193815 * Ans + 1.7814779 * (Ans^3) + 1.3302744 * (Ans^5) - .3565638 * (Ans^2) - 1.821256  * (Ans^4) - sqrt(2*&pi*(&exp^($X^2)))*(.5-$A) -> $Y:
+	If $X != $Y Then
+		$Y -> $X:
+		1 + $cnt -> $cnt: 
+	IfEnd:
+WhileEnd:
+$Y

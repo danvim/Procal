@@ -1,0 +1,14 @@
+/**
+ * Dot and Cross Product in 3D
+ * @param two 3D vectors in (i, j, k) format
+ * @return dot product, cross product in (i, j, k) format
+ * @sampleIn 1, 3, 4, 2, 4, 5
+ * @sampleOut 34, -1, 3, -2
+ */
+?->$a: ?->$b: ?->$c:
+?->$d: ?->$e: ?->$f:
+
+$a$d + $b$e + $c$f display
+$b$f - $c$e display
+$c$d - $a$f display
+$a$e - $b$d display

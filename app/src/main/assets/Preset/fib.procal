@@ -1,0 +1,11 @@
+/**
+ * Fibonacci Sequence
+ * Returns the n-th Fibonacci Sequence.
+ * @param n
+ * @return n-th Fibonacci Sequence
+ * @sampleIn 10
+ * @sampleOut 55
+ */
+? -> $n:
+(1+sqrt(5))/2 -> $a:
+Rnd($a^$n/sqrt(5))

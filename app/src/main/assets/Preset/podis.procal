@@ -1,0 +1,15 @@
+/**
+ * Poisson Distribution
+ * Given X ~ Po(a), find P(b <= X <= c)
+ * @param a, b, c
+ * @return P(b <= X <= c)
+ * @sampleIn 4, 3, 7
+ * @sampleOut 0.7108
+ * @sampleIn 4, 3, 3
+ * @sampleOut 0.1954
+ */
+?->$A: ?->$B: $B->$C: ?->$C: 0->$M:
+For $B -> $B To $C:
+	$M + $A^$B / ($B factorial * &exp^($A)) -> $M
+Next:
+$M

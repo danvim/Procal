@@ -1,0 +1,17 @@
+/**
+ * Polygon Area - by Points
+ * Calculates polygon area based on coordinate geometry
+ * @param (x, y) of points in either clockwise or anticlockwise direction, need to re-enter first set of point as the last entry
+ * @return area
+ * @sampleIn 2, 1, 8, 4, 3, 5, 2, 1
+ * @sampleOut 10.5
+ */
+0->$A: 0->$B: 0->$C: 0->$D: 0->$M: 0->$X: 0->$Y:
+While 1:
+	$M + $B$C - $A$D -> $M:
+	$A -> $C:
+	$B -> $D:
+	Abs($M/2) -> $A display
+	?->$A:
+	?->$B:
+WhileEnd:

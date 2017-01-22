@@ -1,0 +1,17 @@
+/**
+ * Matrix 2x2 and 2xn multiplication
+ * Returns 2xn matrix product
+ * @param n, matrix1, matrix2
+ * @return product
+ * @sampleIn 2, 5, 2, 1, 6, 2, 3, 7, 3
+ * @sampleOut 16, 20, 41, 25
+ */
+?->$n: /* Enter the number of column in the second matrix */
+?->$a: ?->$b: 
+?->$c: ?->$d:
+
+For 1 -> $N To $n:
+	?->$x: ?->$y:
+	$a$x + $b$y display
+	$c$x + $d$y display
+Next:

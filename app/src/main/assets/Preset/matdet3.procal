@@ -1,0 +1,12 @@
+/**
+ * Matrix 3x3 Determinant
+ * Returns matrix 3x3 determinant.
+ * @param Matrix entered from left to right, downwards
+ * @return Its determinant
+ * @sampleIn 1, 4, 2, 6, 7, 3, 2, 3, 1
+ * @sampleOut 6
+ */
+?->$a: ?->$b: ?->$c:
+?->$d: ?->$e: ?->$f:
+?->$g: ?->$h: ?->$i:
+$a$e$i + $b$f$g + $c$d$h - $c$e$g - $b$d$i - $a$f$h display

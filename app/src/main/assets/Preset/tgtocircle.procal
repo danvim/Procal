@@ -1,0 +1,13 @@
+/**
+ * Tangent to Circle with Given Slope
+ * Returns the two y-ints of tangents with slope m and circle equation x^2 + y^2 + Dx + Ey + F = 0
+ * @param D, E, F, m
+ * @return y1, y2
+ * @sampleIn 0, -2, -4, 2
+ * @sampleOut 6, -4
+ */
+?->$A: ?->$B: ?->$C: ?->$D: /* coeff of x, coeff of y, constant term, slope */
+$D$A-$B -> $X:
+4$C(1+$D^2) - ($A + $B$D)^2 -> $Y:
+0.5($X + sqrt($X^2 - $Y)) display /* first y-int */
+$X - Ans /* second y-int */

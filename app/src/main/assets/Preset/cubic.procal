@@ -1,0 +1,30 @@
+/**
+ * Cubic Equation
+ * This solves a equation in form of Ax^3 + Bx^2 + Cx + D = 0.
+ * First return value must be real.
+ * Errors may follow if the rest are complex.
+ * @param A, B, C, D
+ * @return 3 roots in random order
+ * @sampleIn 1, 3, 3, 1
+ * @sampleOut -1, -1, -1
+ */
+?->$A: ?->$B: ?->$C: ?->$D: 1/3 -> $pwr:
+(-$B)/(3$A) -> $B:
+$C/$A -> $C:
+$B^3 - $B$C/2 - $D/(2$A) -> $D:
+$B^2 - $C/3 -> $Y:
+$D^2 - $Y^3 -> $X:
+If $X>0 Then
+	$D + sqrt($X):
+	(Ans)^$pwr - (Ans - 2$D)^$pwr:
+Else
+	If $Y Then
+		2sqrt($Y)cos(1/3 * acos($D/sqrt($Y^3))):
+	IfEnd:
+IfEnd:
+$B + Ans -> $A:
+$A display
+3$B - $A -> $D:
+$D/2 + sqrt($D^2 / 4 - $C + $A$D) -> $B:
+$B display
+$D - $B

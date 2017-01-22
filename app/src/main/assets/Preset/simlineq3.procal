@@ -1,0 +1,26 @@
+/**
+ * Simutaneous Equation in 3 Unknowns
+ * Solves the system of Ax + By = C, Dx + Ey = F, Gx + Hy = I
+ * @param A, B, C, D, E, F, G, H, I
+ * @return x, y
+ * @sampleIn 3, 4, 1, 10, 1, 3, 1, 7, 2, -3, 2, 5
+ * @sampleOut 1, 1, 3
+ */
+?->$a: ?->$b: ?->$c: ?->$X:
+?->$d: ?->$e: ?->$f: ?->$Y:
+?->$g: ?->$h: ?->$i: ?->$Z:
+$a$e$i + $b$f$g + $c$d$h - $c$e$g - $b$d$i - $a$f$h -> $det:
+($e$i - $f$h) / $det ->$A:
+($c$h - $b$i) / $det ->$B:
+($b$f - $c$e) / $det ->$C:
+($f$g - $d$i) / $det ->$D:
+($a$i - $c$g) / $det ->$E:
+($c$d - $a$f) / $det ->$F:
+($d$h - $e$g) / $det ->$G:
+($b$g - $a$h) / $det ->$H:
+($a$e - $b$d) / $det ->$I:
+
+$A$X + $B$Y + $C$Z display
+$D$X + $E$Y + $F$Z display
+$G$X + $H$Y + $I$Z display
+
