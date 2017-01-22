@@ -1,7 +1,0 @@
-/**
- * Heron's Formula
- * Given the lengths of a triangle, yields its area
- */
-?->$a: ?->$b: ?->$c:
-($a+$b+$c)/2 -> $s:
-sqrt($s*($s-$a)*($s-$b)*($s-$c)) 

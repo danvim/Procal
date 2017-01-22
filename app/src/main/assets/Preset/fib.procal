@@ -1,7 +1,0 @@
-/**
-* Fibonacci Sequence
-* Gives the final Fibonacci element up to the nth
-*/
-? -> $n:
-(1+sqrt(5))/2 -> $a:
-Rnd($a^$n/sqrt(5))
