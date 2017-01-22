@@ -17,7 +17,7 @@ public class SuffixFn {
         return bigDecimals.get(0).pow(3);
     }
 
-    public static BigDecimal inverted(ArrayList<BigDecimal> bigDecimals) {
+    public static BigDecimal inverse(ArrayList<BigDecimal> bigDecimals) {
         return BigDecimal.ONE.divide(bigDecimals.get(0), precision);
     }
 
