@@ -1,4 +1,7 @@
-/* 2x2 Determinant */
+/**
+ * 2x2 Determinant
+ * Given a 2x2 matrix, returns its determinant
+ */
 ?->$a: ?->$b:
 ?->$c: ?->$d:
 $a$d - $b$c display

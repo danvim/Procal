@@ -28,6 +28,7 @@ public class FuncItem {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getProcalContent() {
         return procalContent;
     }

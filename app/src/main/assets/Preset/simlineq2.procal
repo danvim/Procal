@@ -1,4 +1,7 @@
-/* Simutaneous Lineae Equations in 2 Unknowns */
+/**
+ * Simutaneous Lineae Equations in 2 Unknowns
+ * Given equation (1) ax+by+c=0 and equation (2) dx+ey+f=0, solve for (x,y)
+ */
 ?->$a: ?->$b: ?->$c: ?->$d: ?->$x: ?->$y:
 $a$x-$b$d->$m:
 ($c$x-$b$y)/$m display

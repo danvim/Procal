@@ -1,4 +1,7 @@
-/* Cubic Equation */
+/**
+ * Cubic Equation
+ * Solves for up to 3 Real roots
+ */
 ?->$A: ?->$B: ?->$C: ?->$D:
 (-$B)/(3$A) -> $B:
 $C/$A -> $C:

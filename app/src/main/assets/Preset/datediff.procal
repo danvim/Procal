@@ -1,4 +1,7 @@
-/* Difference in Days */
+/**
+ * Difference in Days
+ * Gives the difference between 2 given days
+ */
 ?->$a: ?->$b: ?->$c:
 If ($b == 1) or ($b == 2) Then
 	$b + 9 -> $b:

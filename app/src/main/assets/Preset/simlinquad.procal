@@ -1,4 +1,7 @@
-/* Simulataneous Linear & Quadratic Equations */
+/** 
+ * Simulataneous Linear & Quadratic Equations
+ * Given equation (1) Ax+By+C=0 and equation (2) Dx^2+Ex+F=0, this solves their intersecting points (if any)
+ */
 ?->$A: ?->$B: $A/$B->$D: 
 ?->$A: $A/$B->$C:
 ?->$M: ?->$Y: ?->$X: ?->$A:

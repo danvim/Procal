@@ -1,4 +1,7 @@
-/* Cubic Equation */
+/**
+ * Cubic Equation (alternate)
+ * Alternate version of Cubic Equation
+ */
 ?->$a: ?->$b: ?->$c: ?->$d:
 (3$a$c - $b^2)/(9($a^2)) -> $Q:
 (9$a$b$c - 27*($a^2)*$d - 2*($b^3))/(54($a^3)) -> $R:

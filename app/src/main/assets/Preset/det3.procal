@@ -1,4 +1,7 @@
-/* 3x3 Determinant */
+/**
+ * 3x3 Determinant
+ * Given a 3x3 matrix, returns its determinant
+ */
 ?->$a: ?->$b: ?->$c:
 ?->$d: ?->$e: ?->$f:
 ?->$g: ?->$h: ?->$i:

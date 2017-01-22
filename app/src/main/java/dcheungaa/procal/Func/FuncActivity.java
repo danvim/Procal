@@ -1,5 +1,6 @@
 package dcheungaa.procal.Func;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -8,12 +9,15 @@ import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -38,6 +42,8 @@ import dcheungaa.procal.ProcalDocParser.Parser;
 import dcheungaa.procal.ProcalDocParser.ProcalDoc;
 import dcheungaa.procal.R;
 
+import static dcheungaa.procal.MainActivity.context;
+
 /**
  * Created by Bryan on 1/17/2017.
  */
@@ -46,7 +52,7 @@ public class FuncActivity extends ActionBarActivity {
 
     static Context context = MainActivity.context;
     public FuncAdapter funcAdapter;
-    public List<FuncItem> funcItemList = new ArrayList<>();
+    public static List<FuncItem> funcItemList = new ArrayList<>();
     public static RecyclerView recyclerView;
 
     static List<String> presetContents = new ArrayList<>();
@@ -110,30 +116,63 @@ public class FuncActivity extends ActionBarActivity {
 
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        final FuncAdapter funcAdapter = new FuncAdapter(funcItemList);
+        final FuncAdapter funcAdapter = new FuncAdapter(funcItemList){
+            @Override
+            public void onBindViewHolder(FuncViewHolder holder, int position){
+                FuncItem funcItem = funcItemsList.get(position);
+                holder.title.setText(funcItem.getTitle());
+                holder.description.setText(funcItem.getDescription());
+                holder.funcItemLayout.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        FuncItem funcItem = FuncActivity.funcItemList.get(position);
+                        InputHandler.runProgram(funcItem.getProcalContent());
+                        finish();
+                        overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                        Toast.makeText(context, funcItem.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+
+                        // /clickListener.onClick(holder.funcItemLayout);
+                    }
+                });
+                holder.funcItemMenu.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        System.out.println("Menu Button pressed");
+                        PopupMenu popup = new PopupMenu(context, v);
+                        popup.inflate(R.menu.func_useritem_menu);
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.edit:
+                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case R.id.delete:
+                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case R.id.share:
+                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case R.id.details:
+                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
+                                return false;
+                            }
+                        });
+                        popup.show();
+
+
+                    }
+                });
+            }
+        };
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         final DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(defaultItemAnimator);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(funcAdapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.FuncItemClickListener(){
-            @Override
-            public void onClick(View view, int position) {
-                FuncItem funcItem = funcItemList.get(position);
-                InputHandler.runProgram(funcItem.getProcalContent());
-                finish();
-                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
-                Toast.makeText(getApplicationContext(), funcItem.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                FuncItem funcItem = funcItemList.get(position);
-                Toast.makeText(getApplicationContext(), "Edit | Delete | Share | Details", Toast.LENGTH_SHORT).show();
-            }
-        }));
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.

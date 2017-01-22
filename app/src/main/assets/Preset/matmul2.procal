@@ -1,4 +1,7 @@
-/* 2x2 X 2xn Matrix Multiplication */
+/**
+ * 2x2 X 2xn Matrix Multiplication
+ * Given the first 2x2 matrix, this calculates the product between it and a matrix of 2 rows but variable number of columns (n columns); note non-commutativity
+ */
 ?->$n: /* Enter the number of column in the second matrix */
 ?->$a: ?->$b: 
 ?->$c: ?->$d:

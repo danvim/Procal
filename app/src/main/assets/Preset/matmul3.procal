@@ -1,4 +1,7 @@
-/* 3x3 X 3xn Matrix Multiplication */
+/**
+ * 3x3 X 3xn Matrix Multiplication
+ * Given the first 3x3 matrix, this calculates the product between it and a matrix of 3 rows but variable number of columns (n columns); note non-commutativity
+ */
 ?->$n: /* Enter the number of column in the second matrix */
 ?->$a: ?->$b: ?->$c:
 ?->$d: ?->$e: ?->$f:
