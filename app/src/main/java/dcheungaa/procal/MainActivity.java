@@ -145,10 +145,13 @@ public class MainActivity extends AppCompatActivity
                     CursorHandler.cursorVisible =true;
                     CursorHandler.blinkCursor();
                     DisplayModeHandler.displayMode = false;
+                    InputHandler.updateMatrixDisplay();
                 }
                 System.out.print("Pressed Boss\n");
                 if(event.getAction()==MotionEvent.ACTION_UP){
-                    CursorHandler.locateCursorPos((int)event.getX());
+                    if (!InputHandler.error)
+                        CursorHandler.locateCursorPos((int)event.getX());
+                    InputHandler.error = false;
                 }
                 return true;
 
