@@ -43,11 +43,23 @@ public class Parser {
                 procalDoc.desc += generalLine + "\n";
             }
             for (List<String> atLine : atLines) {
-                if (atLine.get(0).equals("@param")) {
-                    Param param = new Param();
-                    param.variableName = atLine.get(1);
-                    param.desc = atLine.get(2);
-                    procalDoc.params.add(param);
+                String atKeyword = atLine.get(0);
+                switch (atKeyword) {
+                    case "@param":
+                        Param param = new Param();
+                        param.variableName = atLine.get(1);
+                        param.desc = atLine.get(2);
+                        procalDoc.params.add(param);
+                        break;
+                    case "@sampleIn":
+                        procalDoc.sampleIn.add(atLine.get(1) + atLine.get(2));
+                        break;
+                    case "@sampleOut":
+                        procalDoc.sampleOut.add(atLine.get(1) + atLine.get(2));
+                        break;
+                    case "@draft":
+                        procalDoc.isDraft = true;
+                        break;
                 }
             }
         } else
