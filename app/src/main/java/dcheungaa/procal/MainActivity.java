@@ -1,6 +1,7 @@
 package dcheungaa.procal;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dcheungaa.procal.Func.FuncItem;
-import fx50.Fx50Parser;
+import fx50.Fx50ParserCallable;
 
 
 public class MainActivity extends AppCompatActivity
@@ -83,17 +84,21 @@ public class MainActivity extends AppCompatActivity
     public static LinearLayout llKeyPad;
     public static Context context;
 
-    public static Fx50IO fx50IO = new Fx50IO();
-    public static Fx50Parser fx50Parser;
+    public static Fx50ParserCallable fx50Parser;
 
     public List<FuncItem> funcItemList = new ArrayList<>();
     public static boolean func_initialised = false;
 
+    public static Thread fx50ParserThread;
+
+    public static List<Activity> mainActivities = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mainActivities.add(this);
         try {
-            fx50Parser = new Fx50Parser(fx50IO);
+            fx50Parser = new Fx50ParserCallable();
         } catch (Exception e) {
             System.out.println("Fx50 Parser failed to initiate: " + e.getMessage());
         }

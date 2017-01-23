@@ -71,9 +71,10 @@
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:id="@+id/resultDisplay"
             android:textSize="42sp"
-            android:textDirection="rtl"
+            android:textDirection="ltr"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"/>
     </LinearLayout>

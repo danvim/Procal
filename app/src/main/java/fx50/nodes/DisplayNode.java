@@ -1,13 +1,14 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalculatorHelper;
 import org.bychan.core.dynamic.UserParserCallback;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import dcheungaa.procal.MainActivity;
+import fx50.API.InputToken;
 
 import static fx50.CalcMath.CalcMath.sigfig;
 
@@ -23,7 +24,7 @@ public class DisplayNode extends StatementNode {
     public BigDecimal evaluate() {
         BigDecimal leftResult;
         leftResult = left.evaluate();
-        CalculatorHelper.io.printOutput(left.toString() + " = " + sigfig(leftResult, 10).toString() + " [DISPLAY]");
+        MainActivity.fx50Parser.printOutput(left.toString() + " = " + sigfig(leftResult, 10).toString() + " [DISPLAY]");
         if (!isLast) {
             return right.evaluate();
         } else

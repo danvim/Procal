@@ -220,9 +220,9 @@ public class KeyPad_init {
             int i;
             while ((i = jsonStreamReader.read()) != -1)
                 json += (char) i;
-            System.out.println(json);
+            System.out.println("Successfully loaded json.");
         } catch (IOException e) {
-            System.out.println("Cannot read keypad json");
+            System.out.println("Cannot read keypad json.");
         }
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();

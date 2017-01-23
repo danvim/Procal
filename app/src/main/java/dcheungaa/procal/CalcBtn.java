@@ -20,15 +20,19 @@ import android.widget.PopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 import dcheungaa.procal.Func.FuncActivity;
+import fx50.Fx50ParseResult;
 
+import static dcheungaa.procal.InputHandler.getLexableString;
 import static dcheungaa.procal.InputHandler.inputExpression;
 import static dcheungaa.procal.InputHandler.isAlpha;
 import static dcheungaa.procal.InputHandler.isHyp;
 import static dcheungaa.procal.InputHandler.isRCL;
 import static dcheungaa.procal.InputHandler.isSTO;
 import static dcheungaa.procal.InputHandler.isShift;
+import static dcheungaa.procal.MainActivity.fx50Parser;
 
 
 public class CalcBtn extends LinearLayout {
@@ -235,7 +239,15 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
-                InputHandler.execute();
+                if (!InputHandler.isRequestingInput) {
+                    MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
+                    InputHandler.execute();
+                } else {
+                    synchronized (fx50Parser.inputHolder) {
+                        fx50Parser.inputHolder.add(getLexableString());
+                        fx50Parser.inputHolder.notify();
+                    }
+                }
                 break;
 
             case "memory_plus":

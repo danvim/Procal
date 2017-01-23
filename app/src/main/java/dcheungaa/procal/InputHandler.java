@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 import fx50.API.InputToken;
 import fx50.Fx50ParseResult;
 
+import static dcheungaa.procal.MainActivity.fx50Parser;
+import static dcheungaa.procal.MainActivity.fx50ParserThread;
 import static dcheungaa.procal.Tokens.inputTokensMap;
 
 /**
@@ -50,6 +53,9 @@ public class InputHandler {
     public static boolean isSTO = false;
 
     public static boolean error = false;
+
+    public static boolean isRequestingInput = false;
+
     /**
      * Removes the token at index
      *
@@ -210,12 +216,8 @@ public class InputHandler {
         }
         // Throw to API
         try {
-            Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.getLexableString());
-            if (parseResult.getErrorString() != null)
-                throw new Exception(parseResult.getErrorString());
-            MainActivity.resultDisplay.setText(parseResult.getStringResult());
-            System.out.println(parseResult.getStringResult());
-            System.out.println(parseResult.getBigDecimalResult());
+            fx50Parser.setInput(InputHandler.getLexableString());
+            fx50ParserThread.start();
         } catch (Exception e) {
             error = true;
             MainActivity.matrixDisplay.setText(e.getMessage());
@@ -230,22 +232,18 @@ public class InputHandler {
             }
             e.printStackTrace(System.out);
         }
-        CursorHandler.hide();
     }
 
     public static void runProgram(String lexableString){
         DisplayModeHandler.displayMode = true;
         // Throw to API
         try {
-            Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(lexableString);
-            if (parseResult.getErrorString() != null)
-                throw new Exception(parseResult.getErrorString());
-            MainActivity.matrixDisplay.setText(lexableString);
-            MainActivity.resultDisplay.setText(parseResult.getStringResult());
-            System.out.println(parseResult.getStringResult());
-            System.out.println(parseResult.getBigDecimalResult());
+            fx50ParserThread =  new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
+            fx50Parser.setInput(lexableString);
+            fx50ParserThread.start();
         } catch (Exception e) {
             MainActivity.matrixDisplay.setText(e.getMessage());
+            System.out.println("LOOK AT ME!");
             e.printStackTrace(System.out);
         }
         CursorHandler.hide();
@@ -278,6 +276,25 @@ public class InputHandler {
             if (tv.getLinksClickable()) {
                 tv.setMovementMethod(LinkMovementMethod.getInstance());
             }
+        }
+    }
+
+    public static void doneEvaluating(Fx50ParseResult parseResult) {
+        try {
+            if (parseResult.getErrorString() != null)
+                throw new Exception(parseResult.getErrorString());
+                MainActivity.mainActivities.get(0).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.resultDisplay.setText(parseResult.getStringResult());
+                }
+            });
+            System.out.println(parseResult.getStringResult());
+            System.out.println(parseResult.getBigDecimalResult());
+        } catch (Exception e) {
+            MainActivity.matrixDisplay.setText(e.getMessage());
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            e.printStackTrace(System.out);
         }
     }
 }
