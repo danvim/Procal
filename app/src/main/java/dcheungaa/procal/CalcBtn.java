@@ -24,20 +24,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
+
 import java.util.concurrent.FutureTask;
 
 import dcheungaa.procal.Func.FuncActivity;
 import fx50.Fx50ParseResult;
-=======
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.RunnableFuture;
 
-import dcheungaa.procal.Func.FuncActivity;
 import dcheungaa.procal.Func.FuncEdit;
->>>>>>> origin/master
+
 
 import static dcheungaa.procal.InputHandler.getLexableString;
 import static dcheungaa.procal.InputHandler.inputExpression;
@@ -258,7 +252,7 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
-<<<<<<< HEAD
+
                 if (!InputHandler.isRequestingInput) {
                     MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
                     InputHandler.execute();
@@ -268,7 +262,7 @@ public class CalcBtn extends LinearLayout {
                         fx50Parser.inputHolder.notify();
                     }
                 }
-=======
+
                 if(MainActivity.FuncEditing){
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.context);
                     builder.setTitle("Save changes?")
@@ -296,7 +290,6 @@ public class CalcBtn extends LinearLayout {
                     Fx50IO.inputHolder.add(getLexableString());
                 }*/
                 InputHandler.execute();
->>>>>>> origin/master
                 break;
 
             case "memory_plus":

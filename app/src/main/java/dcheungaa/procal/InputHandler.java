@@ -227,17 +227,8 @@ public class InputHandler {
         System.out.println(HistoryHandler.history.toString()+ Integer.toString(HistoryHandler.flag));
         // Throw to API
         try {
-<<<<<<< HEAD
             fx50Parser.setInput(InputHandler.getLexableString());
             fx50ParserThread.start();
-=======
-            Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.getLexableString());
-            if (parseResult.getErrorString() != null)
-                throw new Exception(parseResult.getErrorString());
-            MainActivity.resultDisplay.setText(parseResult.getStringResult());
-            System.out.println("string = "+parseResult.getStringResult());
-            System.out.println("Big Decimal = "+parseResult.getBigDecimalResult());
->>>>>>> origin/master
         } catch (Exception e) {
             error = true;
             MainActivity.matrixDisplay.setText(e.getMessage());
