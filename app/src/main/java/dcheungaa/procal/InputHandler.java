@@ -233,7 +233,10 @@ public class InputHandler {
             cursorPos = 0;
             if (e.getMessage().contains("Parsing failed")){
                 //syntax error
-                cursorPos = Math.max(0, Integer.parseInt(e.getMessage().split( "\\), current" )[0].split("index ")[1])-1);
+                if (e.getMessage().contains("nud"))
+                    cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split( "\\), current" )[0].split("index ")[1])-1),inputExpression.size()-1);
+                else
+                    cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split( "\\), current" )[0].split("index ")[1])),inputExpression.size()-1);
                 CursorHandler.locate(cursorPos);
             }else if(e.getMessage().contains("Math Error") || e.getMessage().contains("Division By Zero")){
                 //math error

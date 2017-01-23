@@ -15,7 +15,7 @@ public class DisplayModeHandler {
                 //the following is normal button which will contribute next calculation
                 InputHandler.allClearToken();
                 displayMode = false;
-                if ("x_inverse x_cubed x_squared power memory_plus memory_minus multiply divide add subtract".contains(id)){
+                if ("x_inverse x_factorial x_cubed x_squared power memory_plus memory_minus multiply divide add subtract percent permutation combination".contains(id)){
                     //this will add ANS
                     InputHandler.inputToken("answer");
                 }
