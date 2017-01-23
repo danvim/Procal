@@ -1,11 +1,14 @@
 package dcheungaa.procal;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -17,13 +20,24 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.concurrent.FutureTask;
 
 import dcheungaa.procal.Func.FuncActivity;
 import fx50.Fx50ParseResult;
+=======
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableFuture;
+
+import dcheungaa.procal.Func.FuncActivity;
+import dcheungaa.procal.Func.FuncEdit;
+>>>>>>> origin/master
 
 import static dcheungaa.procal.InputHandler.getLexableString;
 import static dcheungaa.procal.InputHandler.inputExpression;
@@ -49,8 +63,11 @@ public class CalcBtn extends LinearLayout {
     private float defaultTextSize;
     private boolean isLarge;
     private boolean isText;
+    public boolean isMore;
     private Typeface defaultTypeface;
     private int mHeight = 0;
+
+
 
     public CalcBtn(Context context) {
         super(context);
@@ -80,10 +97,12 @@ public class CalcBtn extends LinearLayout {
                 "attr",
                 context.getPackageName()
         ));
-        defaultColor = mainButton.getCurrentTextColor();
+        defaultColor = Color.BLACK;
+        //defaultColor = mainButton.getCurrentTextColor();
         defaultTextSize = mainButton.getTextSize() / getResources().getDisplayMetrics().scaledDensity;
         isLarge = key.style.contains("Large");
         isText = key.style.contains("Text");
+        isMore = key.style.contains("More");
         defaultTypeface = mainButton.getTypeface();
         mainButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
         if (Build.VERSION.SDK_INT >= 24) {
@@ -197,17 +216,17 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "function":
+                if(MainActivity.FuncEditing){
+                    if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
+                        InputHandler.openDrawer(MainActivity.svCmd);
+                    } else {
+                        InputHandler.hideDrawer(MainActivity.svCmd);
+                    }
+                    break;
+                }
                 Intent FuncIntent = new Intent(MainActivity.context, FuncActivity.class);
                 //Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(MainActivity.context, R.anim.pull_out_left, R.anim.pull_out_right).toBundle();
                 MainActivity.context.startActivity(FuncIntent);
-                //Toast.makeText(context, (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ? "true" : "false"), Toast.LENGTH_LONG).show();
-
-                //TODO add change FUNC key to CMD key in PROG EDIT
-                /*if(MainActivity.svCmd.getVisibility() == View.INVISIBLE){
-                    InputHandler.openDrawer(MainActivity.svCmd);
-                } else {
-                    InputHandler.hideDrawer(MainActivity.svCmd);
-                }*/
                 break;
 
             case "constant":
@@ -239,6 +258,7 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
+<<<<<<< HEAD
                 if (!InputHandler.isRequestingInput) {
                     MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
                     InputHandler.execute();
@@ -248,6 +268,35 @@ public class CalcBtn extends LinearLayout {
                         fx50Parser.inputHolder.notify();
                     }
                 }
+=======
+                if(MainActivity.FuncEditing){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.context);
+                    builder.setTitle("Save changes?")
+                            .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FuncEdit.lightTheme();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Save", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(MainActivity.context, "Saved!", Toast.LENGTH_LONG).show();
+                                    FuncEdit.lightTheme();
+                                    dialog.dismiss();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    break;
+                }
+                /*if (!Fx50IO.isRequestingInput)
+                    InputHandler.execute();
+                else {
+                    Fx50IO.inputHolder.add(getLexableString());
+                }*/
+                InputHandler.execute();
+>>>>>>> origin/master
                 break;
 
             case "memory_plus":
@@ -494,7 +543,21 @@ public class CalcBtn extends LinearLayout {
 
     public void refreshState() {
         SpannableString sb;
-        int color = defaultColor;
+        int color;
+        switch (this.key.id){
+            case "delete":
+                color = getResources().getColor(R.color.colorPurple);
+                break;
+            case "all_clear":
+                color = getResources().getColor(R.color.colorPurple);
+                break;
+            case "function":
+                color = getResources().getColor(R.color.colorAccent);
+                break;
+            default:
+                color = MainActivity.FuncEditing ? Color.WHITE : defaultColor;
+                break;
+        }
         boolean isAlt = true;
         if (isShift && isHyp && key.hyp != null && key.hyp.shift != null) {
             sb = new SpannableString(Html.fromHtml(key.hyp.shift.text));
@@ -508,7 +571,9 @@ public class CalcBtn extends LinearLayout {
         } else if (isHyp && key.hyp != null) {
             sb = new SpannableString(Html.fromHtml(key.hyp.text));
         } else if (key.text != null) {
-            sb = new SpannableString(Html.fromHtml(key.text));
+            if (MainActivity.FuncEditing && key.id.equals("function")) sb = new SpannableString(Html.fromHtml("CMD"));
+            else if (MainActivity.FuncEditing && key.id.equals("execute")) sb = new SpannableString(Html.fromHtml("OK"));
+            else sb = new SpannableString(Html.fromHtml(key.text));
             isAlt = false;
         } else {
             sb = new SpannableString(Html.fromHtml(key.id));
@@ -530,5 +595,7 @@ public class CalcBtn extends LinearLayout {
     public void setColor(int color){
         mainButton.setTextColor(color);
         //mainButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
-        }
+    }
+
+
 }

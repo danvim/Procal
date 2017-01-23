@@ -36,6 +36,9 @@
         <activity
             android:name=".UserSettingActivity"
             android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".History.HistoryActivity"
+            android:label="History" />
     </application>
 
 </manifest>

@@ -33,7 +33,7 @@ import static fx50.API.InputTokenHelper.getGreekNameFromUnicode;
  */
 
 public class KeyPad_init {
-    public List<String> keypadButtons = new ArrayList<>();
+    public static List<String> keypadButtons = new ArrayList<>();
     private Gson gson = new Gson();
     private final int height;
     private float density;

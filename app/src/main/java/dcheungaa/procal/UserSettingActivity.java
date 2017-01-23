@@ -2,6 +2,7 @@ package dcheungaa.procal;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 
@@ -21,6 +22,7 @@ public class UserSettingActivity extends AppCompatPreferenceActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                MainActivity.drawer.closeDrawer(Gravity.LEFT);
                 this.finish();
                 return (true);
         }
