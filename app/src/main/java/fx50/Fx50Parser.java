@@ -1,5 +1,7 @@
 package fx50;
 
+import android.os.Build;
+
 import org.bychan.core.basic.ParseResult;
 import org.bychan.core.dynamic.Language;
 
@@ -21,13 +23,25 @@ public class Fx50Parser {
 
     public Fx50ParseResult parse(String line) throws UnsupportedEncodingException {
         line = line.replaceAll("\\s+", " ").trim();
+        System.out.println("Fx50 parsing input: " + line);
         if (line.equals("")) {
-            parseResult = new Fx50ParseResult(BigDecimal.ZERO, "0", null, null);
+            return new Fx50ParseResult(BigDecimal.ZERO, "0", null, null);
         }
         try {
             ParseResult<CalculatorNode> pr = l.newLexParser().tryParse(sanitizeInput(line));
             BigDecimal bigDecimalResult = pr.getRootNode().evaluate();
-            parseResult = new Fx50ParseResult(pr.getRootNode().evaluate(), sigfig(bigDecimalResult, 10).toString(), null, pr.getRootNode().toInputTokens());
+            System.out.println(sigfig(bigDecimalResult, 10).stripTrailingZeros().toPlainString());
+            String stringResult = "";
+            if (Build.VERSION.SDK_INT > 25)
+                stringResult = sigfig(bigDecimalResult, 10).toString();
+            else {
+                double doubleVal = sigfig(bigDecimalResult, 10).doubleValue();
+                if (doubleVal == (long) doubleVal)
+                    stringResult = Long.toString((long) doubleVal);
+                else
+                    stringResult = Double.toString(sigfig(bigDecimalResult, 10).doubleValue());
+            }
+            parseResult = new Fx50ParseResult(bigDecimalResult, stringResult, null, pr.getRootNode().toInputTokens());
         } catch (Exception e) {
             parseResult = new Fx50ParseResult(null, null, e.getMessage(), null);
         }

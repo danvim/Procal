@@ -51,6 +51,9 @@ public class Parser {
                         param.desc = atLine.get(2);
                         procalDoc.params.add(param);
                         break;
+                    case "@return":
+                        procalDoc.returnDesc = atLine.get(1) + atLine.get(2);
+                        break;
                     case "@sampleIn":
                         procalDoc.sampleIn.add(atLine.get(1) + atLine.get(2));
                         break;
