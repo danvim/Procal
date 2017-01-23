@@ -56,6 +56,11 @@
         <item name="android:background">@drawable/ripple_unbounded</item>
     </style>
 
+    <style name="Button_Circular_More" parent="Button">
+        <item name="android:background">@drawable/more_icon_button</item>
+        <item name="android:minWidth">48dp</item>
+    </style>
+
     <style name="Button_Large" parent="Button">
         <item name="android:textSize">34sp</item>
         <item name="android:height">58dp</item>
