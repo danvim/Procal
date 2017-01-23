@@ -40,7 +40,6 @@ import java.util.List;
 
 import dcheungaa.procal.Func.FuncItem;
 import dcheungaa.procal.History.HistoryActivity;
-import dcheungaa.procal.History.HistoryHandler;
 import fx50.Fx50Parser;
 
 
@@ -71,10 +70,11 @@ public class MainActivity extends AppCompatActivity
     public static int fontWidth;
     public static int fontHeight;
 
-    public static HorizontalScrollView scrollView;
+    public static HorizontalScrollView horizontalScrollView;
+    public static ScrollView verticalScrollView;
 
 
-    public static List<CalcBtn> mainCalcBtn = new ArrayList<>();
+    public static List<CalcBtn> calcBtns = new ArrayList<>();
 
     public static ScrollView svVar;
     public static ScrollView svCmd;
@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity
 
     public List<FuncItem> funcItemList = new ArrayList<>();
     public static boolean func_initialised = false;
+
+    public static boolean FuncEditing = false;
 
 
     @Override
@@ -139,7 +141,8 @@ public class MainActivity extends AppCompatActivity
         keyPad = new KeyPad_init(this, resources, inSKey, display, cm, lls, llKeyPad);
         call_load = true;
 
-        scrollView = (HorizontalScrollView) findViewById(R.id.llScrollView);
+        horizontalScrollView = (HorizontalScrollView) findViewById(R.id.llScrollView);
+        verticalScrollView = (ScrollView) findViewById(R.id.llVertiScrollView);
 
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override

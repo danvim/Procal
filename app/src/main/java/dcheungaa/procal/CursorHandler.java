@@ -93,25 +93,25 @@ public class CursorHandler {
         MainActivity.cursor.setPadding(x,MainActivity.matrixDisplay.getPaddingTop(),0,0);
 
 
-        final int delta = x - MainActivity.scrollView.getScrollX() - MainActivity.scrollView.getWidth() + MainActivity.fontWidth;
+        final int delta = x - MainActivity.horizontalScrollView.getScrollX() - MainActivity.horizontalScrollView.getWidth() + MainActivity.fontWidth;
         if (delta>0){
-            final HorizontalScrollView fhsv=MainActivity.scrollView;
-            MainActivity.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+            final HorizontalScrollView fhsv=MainActivity.horizontalScrollView;
+            MainActivity.horizontalScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
                 @Override
                 public void onGlobalLayout() {                     //<--define listener function
-                    fhsv.scrollTo(fhsv.getScrollX() + delta, MainActivity.scrollView.getScrollY());
+                    fhsv.scrollTo(fhsv.getScrollX() + delta, MainActivity.horizontalScrollView.getScrollY());
                     fhsv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
             });
         }
         else {
-            final int delta_ = x - MainActivity.scrollView.getScrollX() - MainActivity.fontWidth;
+            final int delta_ = x - MainActivity.horizontalScrollView.getScrollX() - MainActivity.fontWidth;
             if (delta_<0){
-                final HorizontalScrollView fhsv=MainActivity.scrollView;
-                MainActivity.scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
+                final HorizontalScrollView fhsv=MainActivity.horizontalScrollView;
+                MainActivity.horizontalScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {                     //<--set listener to the btn
                     @Override
                     public void onGlobalLayout() {                     //<--define listener function
-                        fhsv.scrollTo(fhsv.getScrollX() + delta_, MainActivity.scrollView.getScrollY());
+                        fhsv.scrollTo(fhsv.getScrollX() + delta_, MainActivity.horizontalScrollView.getScrollY());
                         fhsv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
                 });

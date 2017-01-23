@@ -33,7 +33,7 @@ import static fx50.API.InputTokenHelper.getGreekNameFromUnicode;
  */
 
 public class KeyPad_init {
-    public List<String> keypadButtons = new ArrayList<>();
+    public static List<String> keypadButtons = new ArrayList<>();
     private Gson gson = new Gson();
     private final int height;
     private float density;
@@ -95,7 +95,7 @@ public class KeyPad_init {
                         putKeyInTokenMap(key.hyp.shift);
                 }
                 row.addView(calcBtn);
-                MainActivity.mainCalcBtn.add(calcBtn);
+                MainActivity.calcBtns.add(calcBtn);
             }
             rows.addView(row);
             btn_rows.add(btn_row);

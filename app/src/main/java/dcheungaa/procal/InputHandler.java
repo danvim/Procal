@@ -272,8 +272,8 @@ public class InputHandler {
         refreshState();
     }
 
-    private static void refreshState() {
-        for (CalcBtn calcBtn : MainActivity.mainCalcBtn) {
+    public static void refreshState() {
+        for (CalcBtn calcBtn : MainActivity.calcBtns) {
             calcBtn.refreshState();
         }
     }
