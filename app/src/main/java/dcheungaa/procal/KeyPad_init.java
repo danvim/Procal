@@ -95,7 +95,7 @@ public class KeyPad_init {
                         putKeyInTokenMap(key.hyp.shift);
                 }
                 row.addView(calcBtn);
-                MainActivity.calcBtns.add(calcBtn);
+                MainActivity.mainCalcBtn.add(calcBtn);
             }
             rows.addView(row);
             btn_rows.add(btn_row);

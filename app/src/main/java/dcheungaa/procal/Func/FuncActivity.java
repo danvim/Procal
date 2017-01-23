@@ -108,7 +108,7 @@ public class FuncActivity extends ActionBarActivity {
                         InputHandler.runProgram(funcItem.getProcalContentString());
                         finish();
                         //overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
-                        Toast.makeText(context, funcItem.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, funcItem.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
 
                         // /clickListener.onClick(holder.funcItemLayout);
                     }
@@ -364,6 +364,20 @@ public class FuncActivity extends ActionBarActivity {
                 return (true);
             case R.id.action_add:
                 Toast.makeText(MainActivity.context, "Add", Toast.LENGTH_LONG).show();
+                // Setup Dark-themed Keypad
+                /*
+                 * 1. Dark drawable background switcher                     MainActivity.llKeyPad.setBackground()
+                 * 2. Change Func to Cmd, text and behaviour
+                 * 3. matrixDisplay && resultDisplay switcher
+                 * 4. White editor ScrollView layout switcher (Inflater)
+                 *    - orientation="vertical" and wrap_content and elevation
+                 *    - setTypeface(FONT_FX50);
+                 *    - setTextSize(smaller);
+                 *    - Add translucent menu button, Popup with {save, paste, expand/collapse} with icon
+                 * 5. Save/SaveAs (Write) new/existing file
+                 */
+                finish();
+                this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
                 return true;
         }
         return super.onOptionsItemSelected(item);

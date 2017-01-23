@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import dcheungaa.procal.History.HistoryHandler;
 import fx50.API.InputToken;
 import fx50.Fx50ParseResult;
 
@@ -57,6 +58,7 @@ public class InputHandler {
      */
     public static void removeInputTokenAt(int i) {
         inputExpression.remove(i);
+        HistoryHandler.subHistory.remove(i);
         updateMatrixDisplay();
     }
 
@@ -72,6 +74,7 @@ public class InputHandler {
         if (token == null)
             throw new NullPointerException();
         inputExpression.add(i, token);
+        HistoryHandler.subHistory.add(i,keyId);
         System.out.println(inputTokensMap.get(keyId).display);
         updateMatrixDisplay();
     }
@@ -132,6 +135,7 @@ public class InputHandler {
 
     public static void allClearToken() {
         inputExpression.clear();
+        HistoryHandler.subHistory.clear();
         cursorPos = 0;
         CursorHandler.locate(cursorPos);
         updateMatrixDisplay();
@@ -205,17 +209,24 @@ public class InputHandler {
 
     public static void execute(){
         DisplayModeHandler.displayMode = true;
+
+        HistoryHandler.appendHistory();
+
         for (InputToken token : InputHandler.inputExpression) {
             InputHandler.lexableExpression.add(token.lexable);
         }
+        //HistoryHandler.history.add;
+        //List<InputToken> currentExpression = inputExpression;
+        //HistoryHandler.appendHistory(currentExpression);
+        System.out.println(HistoryHandler.history.toString()+ Integer.toString(HistoryHandler.flag));
         // Throw to API
         try {
             Fx50ParseResult parseResult = MainActivity.fx50Parser.parse(InputHandler.getLexableString());
             if (parseResult.getErrorString() != null)
                 throw new Exception(parseResult.getErrorString());
             MainActivity.resultDisplay.setText(parseResult.getStringResult());
-            System.out.println(parseResult.getStringResult());
-            System.out.println(parseResult.getBigDecimalResult());
+            System.out.println("string = "+parseResult.getStringResult());
+            System.out.println("Big Decimal = "+parseResult.getBigDecimalResult());
         } catch (Exception e) {
             error = true;
             MainActivity.matrixDisplay.setText(e.getMessage());
@@ -259,7 +270,7 @@ public class InputHandler {
     }
 
     private static void refreshState() {
-        for (CalcBtn calcBtn : MainActivity.calcBtns) {
+        for (CalcBtn calcBtn : MainActivity.mainCalcBtn) {
             calcBtn.refreshState();
         }
     }

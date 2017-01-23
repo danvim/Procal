@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dcheungaa.procal.Func.FuncItem;
+import dcheungaa.procal.History.HistoryActivity;
+import dcheungaa.procal.History.HistoryHandler;
 import fx50.Fx50Parser;
 
 
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private KeyPad_init constPad;
     public static TextView matrixDisplay;
     public static TextView resultDisplay;
+    public static DrawerLayout drawer;
 
     //public static List <List<String>> vars = new ArrayList<>();
     public static List <String> vars = new ArrayList<>();
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     public static HorizontalScrollView scrollView;
 
 
-    public static List<CalcBtn> calcBtns = new ArrayList<>();
+    public static List<CalcBtn> mainCalcBtn = new ArrayList<>();
 
     public static ScrollView svVar;
     public static ScrollView svCmd;
@@ -103,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         context = this;
         InputHandler.setContext(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -141,14 +144,15 @@ public class MainActivity extends AppCompatActivity
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!CursorHandler.cursorVisible && DisplayModeHandler.displayMode) {
-                    CursorHandler.cursorVisible =true;
-                    CursorHandler.blinkCursor();
-                    DisplayModeHandler.displayMode = false;
-                    InputHandler.updateMatrixDisplay();
-                }
+
                 System.out.print("Pressed Boss\n");
                 if(event.getAction()==MotionEvent.ACTION_UP){
+                    if (!CursorHandler.cursorVisible && DisplayModeHandler.displayMode) {
+                        CursorHandler.cursorVisible =true;
+                        CursorHandler.blinkCursor();
+                        DisplayModeHandler.displayMode = false;
+                        InputHandler.updateMatrixDisplay();
+                    }
                     if (!InputHandler.error)
                         CursorHandler.locateCursorPos((int)event.getX());
                     InputHandler.error = false;
@@ -288,7 +292,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_save) {
 
         } else if (id == R.id.nav_history) {
-
+            Intent intent = new Intent(MainActivity.context, HistoryActivity.class);
+            startActivity(intent);
+            return true;
         } else if (id == R.id.nav_share) {
 
         }
