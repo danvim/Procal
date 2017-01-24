@@ -37,7 +37,6 @@ public class InputHandler {
      * This is where the input expression is stored.
      */
     public static List<InputToken> inputExpression = new ArrayList<>();
-    public static List<String> lexableExpression = new ArrayList<>();
 
     /**
      * This is the flashing text cursor in the matrix display to determine where to insert/overwrite or delete.
@@ -68,7 +67,8 @@ public class InputHandler {
      */
     public static void removeInputTokenAt(int i) {
         inputExpression.remove(i);
-        HistoryHandler.subHistory.remove(i);
+        if (!MainActivity.FuncEditing)
+            HistoryHandler.subHistory.remove(i);
         updateMatrixDisplay();
     }
 
@@ -84,7 +84,8 @@ public class InputHandler {
         if (token == null)
             throw new NullPointerException();
         inputExpression.add(i, token);
-        HistoryHandler.subHistory.add(i,keyId);
+        if (!MainActivity.FuncEditing)
+            HistoryHandler.subHistory.add(i,keyId);
         System.out.println(inputTokensMap.get(keyId).display);
         updateMatrixDisplay();
     }
@@ -242,10 +243,6 @@ public class InputHandler {
         DisplayModeHandler.displayMode = true;
 
         HistoryHandler.appendHistory();
-
-        for (InputToken token : InputHandler.inputExpression) {
-            InputHandler.lexableExpression.add(token.lexable);
-        }
         //HistoryHandler.history.add;
         //List<InputToken> currentExpression = inputExpression;
         //HistoryHandler.appendHistory(currentExpression);

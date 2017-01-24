@@ -82,8 +82,10 @@ public class CalcBtn extends LinearLayout {
 
         setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f));
 
+        isMore = key.shift != null || key.alpha != null || key.hyp != null;
+
         mainButton = new Button(context, null, getResources().getIdentifier(
-                "Button_" + key.style + (key.shift != null || key.alpha != null ? "_More" : ""),
+                "Button_" + key.style + (isMore ? "_More" : ""),
                 "attr",
                 context.getPackageName()
         ));
@@ -92,7 +94,6 @@ public class CalcBtn extends LinearLayout {
         defaultTextSize = mainButton.getTextSize() / getResources().getDisplayMetrics().scaledDensity;
         isLarge = key.style.contains("Large");
         isText = key.style.contains("Text");
-        isMore = key.style.contains("More");
         defaultTypeface = mainButton.getTypeface();
         mainButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
         if (Build.VERSION.SDK_INT >= 24) {
@@ -252,7 +253,7 @@ public class CalcBtn extends LinearLayout {
                 if(MainActivity.FuncEditing){
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.context);
                     builder.setTitle("Save changes?")
-                            .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     FuncEdit.discardAddFunc();
@@ -262,11 +263,12 @@ public class CalcBtn extends LinearLayout {
                                     dialog.dismiss();
                                 }
                             })
-                            .setNegativeButton("Save", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(MainActivity.context, "Saved!", Toast.LENGTH_LONG).show();
-                                    FuncEdit.funcContent = InputHandler.getLexableString();
-                                    FuncEdit.newlyAddedFunc(false);
+                                    SaveContent saveContent = FileHandler.makeSaveContent(InputHandler.inputExpression);
+                                    FuncEdit.funcContent = saveContent.content;
+                                    FuncEdit.newlyAddedFunc(false, saveContent.isDraft);
                                     FuncEdit.lightTheme();
                                     FuncEdit.closeEditArea();
                                     InputHandler.allClearToken();

@@ -15,10 +15,12 @@ import java.util.concurrent.Callable;
 import dcheungaa.procal.InputHandler;
 import dcheungaa.procal.MainActivity;
 import dcheungaa.procal.R;
+import fx50.API.InputToken;
 import fx50.nodes.CalculatorNode;
 
 import static dcheungaa.procal.InputHandler.isRequestingDisplay;
 import static dcheungaa.procal.InputHandler.isRequestingInput;
+import static fx50.API.InputTokenHelper.getGreekUnicodeCharacterFromName;
 import static fx50.CalcMath.CalcMath.sigfig;
 import static fx50.ParsingHelper.sanitizeInput;
 
@@ -50,7 +52,7 @@ public class Fx50ParserCallable implements Callable<Fx50ParseResult> {
                     MainActivity.mainActivities.get(0).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            inquiryDisplay.setText(MainActivity.context.getString(R.string.inquiry, ioMessage.msg));
+                            inquiryDisplay.setText(MainActivity.context.getString(R.string.inquiry, getGreekUnicodeCharacterFromName(ioMessage.msg)));
                             resultDisplay.setText(formatResult(CalculatorHelper.VariableMap.getValue(ioMessage.msg)));
                         }
                     });
@@ -96,6 +98,21 @@ public class Fx50ParserCallable implements Callable<Fx50ParseResult> {
         }
         isRequestingDisplay = false;
         System.out.println("Continuing evaluation...");
+    }
+
+    public List<InputToken> parseToInputExpression (String input) {
+        input = input.replaceAll("\\s+", " ").trim();
+        System.out.println("Fx50 parsing input: " + input);
+        if (input.equals("")) {
+            return new ArrayList<>();
+        }
+        try {
+            ParseResult<CalculatorNode> pr = l.newLexParser().tryParse(sanitizeInput(input));
+            return pr.getRootNode().toInputTokens();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return null;
+        }
     }
 
     @Override

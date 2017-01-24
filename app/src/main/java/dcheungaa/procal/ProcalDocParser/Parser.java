@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Parser {
     private static Pattern docPattern = Pattern.compile("/\\*\\* *\\n([\\s\\S]*?)\\n *\\*/");
     private static Pattern docLinePattern = Pattern.compile(" *\\*( *[\\S]+?(?: \\S+)*?)$");
-    private static Pattern docLineAtPattern = Pattern.compile("(@[\\w]+) +(\\w+) +([\\s\\S]+)$");
+    private static Pattern docLineAtPattern = Pattern.compile("(@[\\w]+) *(\\w+)* *([\\s\\S]+)*");
 
     public static ProcalDoc extractProcalDoc(String input) {
         Matcher docMatcher = docPattern.matcher(input);
@@ -29,13 +29,15 @@ public class Parser {
             for (String line : usefulDocLines) {
                 //Check whether it is a @ statement
                 Matcher docLineAtMatcher = docLineAtPattern.matcher(line);
-                if (docLineAtMatcher.find())
+                if (docLineAtMatcher.find()) {
+                    System.out.println("PPPPPPPPP");
+                    System.out.println(" " + line);
                     atLines.add(new ArrayList<>(Arrays.asList(
                             docLineAtMatcher.group(1),
                             docLineAtMatcher.group(2),
                             docLineAtMatcher.group(3)
                     )));
-                else
+                } else
                     generalLines.add(line);
             }
             procalDoc.title = generalLines.remove(0);

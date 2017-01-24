@@ -9,4 +9,5 @@ import java.io.File;
 public class ProcalContent {
     public String content;
     public File file;
+    public String path;
 }

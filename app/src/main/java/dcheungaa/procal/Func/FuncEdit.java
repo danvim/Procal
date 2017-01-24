@@ -1,18 +1,13 @@
 package dcheungaa.procal.Func;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import dcheungaa.procal.CalcBtn;
 import dcheungaa.procal.InputHandler;
@@ -43,7 +38,7 @@ public class FuncEdit {
                 if (calcButton.getId() == KeyPad_init.keypadButtons.indexOf("execute")) calcButton.mainButton.setText("OK");
                 if (calcButton.isMore) //calcButton.mainButton.setCompoundDrawables(null, drawableSetBound(R.drawable.ic_more_dark), null, null);
                     calcButton.mainButton.setCompoundDrawablesWithIntrinsicBounds(
-                            null, null, null, MainActivity.context.getResources().getDrawable(R.drawable.ic_more_dark));
+                            null, MainActivity.context.getResources().getDrawable(R.drawable.ic_more_dark), null, null);
             } else if (calcButton.getId() == KeyPad_init.keypadButtons.indexOf("function")){
                 calcButton.mainButton.setText("CMD");
 
@@ -63,7 +58,7 @@ public class FuncEdit {
                 if (calcButton.getId() == KeyPad_init.keypadButtons.indexOf("execute")) calcButton.mainButton.setText("EXE");
                 if (calcButton.isMore) //calcButton.mainButton.setCompoundDrawables(null, drawableSetBound(R.drawable.ic_more), null, null);
                     calcButton.mainButton.setCompoundDrawablesWithIntrinsicBounds(
-                            null, null, null, MainActivity.context.getResources().getDrawable(R.drawable.ic_more));
+                            null, MainActivity.context.getResources().getDrawable(R.drawable.ic_more), null, null);
             } else if (calcButton.getId() == KeyPad_init.keypadButtons.indexOf("function")){
                 calcButton.mainButton.setText("FUNC");
 
@@ -88,10 +83,22 @@ public class FuncEdit {
         hsv.setLayoutParams(param);
     }
 
-    public static void newlyAddedFunc(Boolean importing){
+    public static void newlyAddedFunc(Boolean importing, boolean isDraft){
         String filename = funcTitle + ".procal";
-        funcFile = new File(Environment.getExternalStorageDirectory() + "/Procal/User", filename);
-        String detailedContent = importing ? funcContent :("/**\n * "+funcTitle+"\n * "+funcDesc+"\n * \n */"+funcContent);
+        funcFile = new File(Environment.getExternalStorageDirectory() + "/Procal/User/", filename);
+        String descriptionPart = "";
+        String[] descriptionLines = funcDesc.split("\n");
+        for (String descriptionLine: descriptionLines) {
+            descriptionPart += " * " + descriptionLine + "\n";
+        }
+        String detailedContent = importing ? funcContent :
+                        ("/**\n" +
+                        " * "+funcTitle+"\n" +
+                        descriptionPart +
+                        (isDraft ? " * @draft\n" : "") +
+                        " * \n" +
+                        " */\n" +
+                        funcContent);
 
         try {
             //FileOutputStream outputStream = MainActivity.context.openFileOutput(filename, MainActivity.context.MODE_PRIVATE);
@@ -113,11 +120,4 @@ public class FuncEdit {
         FuncEdit.funcContent = "";
         FuncEdit.funcFile = null;
     }
-
-    private static Drawable drawableSetBound(int drawableId){
-        Drawable drawable = ResourcesCompat.getDrawable(MainActivity.context.getResources(), drawableId, null);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        return drawable;
-    }
-
 }

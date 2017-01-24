@@ -36,4 +36,7 @@
     <string name="inquiry">%1$s?:</string>
     <string name="parsing_failed">Syntax Error</string>
     <string name="about">About</string>
+    <string name="edit">Edit</string>
+    <string name="details">Details</string>
+    <string name="delete">Delete</string>
 </resources>

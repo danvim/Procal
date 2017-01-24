@@ -3,7 +3,8 @@
         [
             {
                 "id": "question_mark",
-                "text": "?"
+                "text": "?",
+                "lexable": "?"
             },
             {
                 "id": "arrow",
@@ -12,7 +13,8 @@
             },
             {
                 "id": "colon",
-                "text": ":"
+                "text": ":",
+                "lexable": ":"
             },
             {
                 "id": "display",
@@ -26,7 +28,8 @@
             },
             {
                 "id": "equal",
-                "text": "="
+                "text": "=",
+                "lexable": "="
             },
             {
                 "id": "not_equal",
@@ -37,11 +40,13 @@
         [
             {
                 "id": "larger_than",
-                "text": ">"
+                "text": ">",
+                "lexable": ">"
             },
             {
                 "id": "lesser_than",
-                "text": "<"
+                "text": "<",
+                "lexable": "<"
             },
             {
                 "id": "greater_than_or_equal_to",

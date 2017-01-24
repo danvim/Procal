@@ -44,8 +44,9 @@ import dcheungaa.procal.MainActivity;
 import dcheungaa.procal.ProcalDocParser.Parser;
 import dcheungaa.procal.ProcalDocParser.ProcalDoc;
 import dcheungaa.procal.R;
+import fx50.API.InputToken;
 
-import static dcheungaa.procal.MainActivity.context;
+import static dcheungaa.procal.FileHandler.getInputTokensFromContent;
 
 /**
  * Created by Bryan on 1/17/2017.
@@ -59,6 +60,8 @@ public class FuncActivity extends ActionBarActivity {
 
     static List<ProcalContent> presetContents = new ArrayList<>();
     static List<ProcalContent> userContents = new ArrayList<>();
+
+    private static final int READ_REQUEST_CODE = 42;
 
     File presetFolder;
     File userFolder;
@@ -125,12 +128,12 @@ public class FuncActivity extends ActionBarActivity {
         funcItemList.clear();
         for (ProcalContent procalContent : presetContents) {
             ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
-            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file, procalContent.path, procalDoc, true));
         }
 
         for (ProcalContent procalContent : userContents) {
             ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
-            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file, procalContent.path, procalDoc, false));
         }
 
     }
@@ -161,52 +164,68 @@ public class FuncActivity extends ActionBarActivity {
                     public void onClick(View v){
                         System.out.println("Menu Button pressed");
                         PopupMenu popup = new PopupMenu(context, v);
-                        popup.inflate(R.menu.func_useritem_menu);
+                        if (funcItem.isPreset)
+                            popup.inflate(R.menu.func_presetitem_menu);
+                        else
+                            popup.inflate(R.menu.func_useritem_menu);
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.edit:
-                                        Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case R.id.delete:
-                                        AlertDialog.Builder builder_del = new AlertDialog.Builder(FuncActivity.this);
-                                        builder_del.setTitle("Confirm to delete?")
-                                                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        boolean deleted = funcItem.getProcalContentFile().delete();
-                                                        funcItemList.remove(funcItem);
-                                                        notifyDataSetChanged();
-                                                        dialog.dismiss();
-                                                    }
-                                                });
-                                        AlertDialog alert_del = builder_del.create();
-                                        alert_del.show();
-                                        break;
-                                    case R.id.share:
-                                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                        sharingIntent.setType("text/plain");
-                                        sharingIntent.putExtra(Intent.EXTRA_TEXT, funcItem.getProcalContentString());
-                                        startActivity(Intent.createChooser(sharingIntent, "Share plain text program via"));
-                                        break;
-                                    case R.id.details:
-                                        AlertDialog.Builder builder_det = new AlertDialog.Builder(FuncActivity.this);
-                                        builder_det.setTitle(funcItem.getTitle())
-                                                .setMessage(funcItem.getDescription())
-                                                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                });
-                                        AlertDialog alert_det = builder_det.create();
-                                        alert_det.show();
+                                int i = item.getItemId();
+                                if (i == R.id.edit) {
+
+                                    FuncEdit.funcTitle = funcItem.getTitle().trim();
+                                    FuncEdit.funcDesc = funcItem.getDescription();
+                                    ProcalDoc procalDoc = funcItem.getProcalDoc();
+
+                                    List<InputToken> inputExpression = getInputTokensFromContent(funcItem);
+
+                                    InputHandler.inputExpression = inputExpression;
+                                    InputHandler.updateMatrixDisplay();
+
+                                    FuncEdit.darkTheme();
+                                    FuncEdit.openEditArea();
+                                    finish();
+                                    overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+
+                                } else if (i == R.id.delete) {
+                                    AlertDialog.Builder builder_del = new AlertDialog.Builder(FuncActivity.this);
+                                    builder_del.setTitle("Confirm to delete?")
+                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    boolean deleted = funcItem.getProcalContentFile().delete();
+                                                    funcItemList.remove(funcItem);
+                                                    notifyDataSetChanged();
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    AlertDialog alert_del = builder_del.create();
+                                    alert_del.show();
+
+                                } else if (i == R.id.share) {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setType("text/plain");
+                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, funcItem.getProcalContentString());
+                                    startActivity(Intent.createChooser(sharingIntent, "Share plain text program via"));
+
+                                } else if (i == R.id.details) {
+                                    AlertDialog.Builder builder_det = new AlertDialog.Builder(FuncActivity.this);
+                                    builder_det.setTitle(funcItem.getTitle())
+                                            .setMessage(funcItem.getDescription())
+                                            .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    AlertDialog alert_det = builder_det.create();
+                                    alert_det.show();
 
                                         /*Dialog dialog = new Dialog(FuncActivity.this);
                                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -218,7 +237,7 @@ public class FuncActivity extends ActionBarActivity {
                                         dialog.setCancelable(false);
                                         dialog.setCanceledOnTouchOutside(true);
                                         dialog.show();*/
-                                        break;
+
                                 }
                                 return false;
                             }
@@ -320,6 +339,7 @@ public class FuncActivity extends ActionBarActivity {
                     bufferedReader.close();
                     procalContent.content = fileContent;
                     procalContent.file = procalFile;
+                    procalContent.path = procalFile.getPath();
                     procalContents.add(procalContent);
                     //MainActivity.fx50Parser.parse(fileContent);
                 } catch (IOException e) {
@@ -398,7 +418,7 @@ public class FuncActivity extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         final EditText content = (EditText) ((Dialog) dialog).findViewById(R.id.func_import_content);
                         FuncEdit.funcContent = content.getText().toString().trim();
-                        FuncEdit.newlyAddedFunc(true);
+                        FuncEdit.newlyAddedFunc(true, false);
                         updateFuncItems();
                         setAdapter();
                         dialog.dismiss();
@@ -450,5 +470,45 @@ public class FuncActivity extends ActionBarActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    public void performFileSearch() {
+
+        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
+        // browser.
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+
+        // Filter to only show results that can be "opened", such as a
+        // file (as opposed to a list of contacts or timezones)
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        // Filter to show only images, using the image MIME data type.
+        // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
+        // To search for all documents available via installed storage providers,
+        // it would be "*/*".
+        intent.setType("*/*");
+
+        startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+
+        // The ACTION_OPEN_DOCUMENT intent was sent with the request code
+        // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
+        // response to some other intent, and the code below shouldn't run at all.
+
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.
+            // Pull that URI using resultData.getData().
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                System.out.println("Uri: " + uri.toString());
+            }
+        }
     }
 }
