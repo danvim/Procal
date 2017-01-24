@@ -20,10 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -57,12 +54,15 @@ import static dcheungaa.procal.MainActivity.context;
 public class FuncActivity extends ActionBarActivity {
 
     static Context context = MainActivity.context;
-    public FuncAdapter funcAdapter;
     public static List<FuncItem> funcItemList = new ArrayList<>();
     public static RecyclerView recyclerView;
 
     static List<ProcalContent> presetContents = new ArrayList<>();
     static List<ProcalContent> userContents = new ArrayList<>();
+
+    File presetFolder;
+    File userFolder;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -80,8 +80,8 @@ public class FuncActivity extends ActionBarActivity {
         String presetProgDirectory = "/Preset";
         String userProgDirectory = "/User";
 
-        File presetFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, presetProgDirectory);
-        File userFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, userProgDirectory);
+        presetFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, presetProgDirectory);
+        userFolder = new File(Environment.getExternalStorageDirectory() + "/" + mainDirectory, userProgDirectory);
 
         if (!presetFolder.exists()) {
             presetFolder.mkdirs();
@@ -91,9 +91,51 @@ public class FuncActivity extends ActionBarActivity {
             userFolder.mkdirs();
         }
 
-        updateFuncItems(presetFolder, userFolder);
+        updateFuncItems();
 
 
+        setAdapter();
+
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public void updateFuncItems(){
+        File[] presetProcals = presetFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.contains(".procal");
+            }
+        });
+        File[] userProcals = userFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.contains(".procal");
+            }
+        });
+
+        presetContents = extractProcalContents(presetProcals);
+        userContents = extractProcalContents(userProcals);
+
+        System.out.println("presetContents has length: " + presetContents.size());
+        System.out.println("userContents has length: " + userContents.size());
+
+        funcItemList.clear();
+        for (ProcalContent procalContent : presetContents) {
+            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
+        }
+
+        for (ProcalContent procalContent : userContents) {
+            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
+            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
+        }
+
+    }
+
+    private void setAdapter(){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         final FuncAdapter funcAdapter = new FuncAdapter(funcItemList){
             @Override
@@ -128,11 +170,24 @@ public class FuncActivity extends ActionBarActivity {
                                         Toast.makeText(context, funcItem.getTitle() + " : "+item+" is selected!", Toast.LENGTH_SHORT).show();
                                         break;
                                     case R.id.delete:
-                                        boolean deleted = funcItem.getProcalContentFile().delete();
-                                        funcItemList.remove(funcItem);
-                                        notifyDataSetChanged();
-                                        //updateFuncItems(presetFolder, userFolder);
-                                        System.out.println(".procal Deleted? : existence == "+funcItem.getProcalContentFile().exists());
+                                        AlertDialog.Builder builder_del = new AlertDialog.Builder(FuncActivity.this);
+                                        builder_del.setTitle("Confirm to delete?")
+                                                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        boolean deleted = funcItem.getProcalContentFile().delete();
+                                                        funcItemList.remove(funcItem);
+                                                        notifyDataSetChanged();
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                        AlertDialog alert_del = builder_del.create();
+                                        alert_del.show();
                                         break;
                                     case R.id.share:
                                         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -141,8 +196,8 @@ public class FuncActivity extends ActionBarActivity {
                                         startActivity(Intent.createChooser(sharingIntent, "Share plain text program via"));
                                         break;
                                     case R.id.details:
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(FuncActivity.this);
-                                        builder.setTitle(funcItem.getTitle())
+                                        AlertDialog.Builder builder_det = new AlertDialog.Builder(FuncActivity.this);
+                                        builder_det.setTitle(funcItem.getTitle())
                                                 .setMessage(funcItem.getDescription())
                                                 .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                                     @Override
@@ -150,14 +205,8 @@ public class FuncActivity extends ActionBarActivity {
                                                         dialog.dismiss();
                                                     }
                                                 });
-                                                /*.setNegativeButton(R.string.modify, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })*/
-                                                //.setIcon(android.R.drawable.ic_menu_edit);
-                                        AlertDialog alert = builder.create();
-                                        alert.show();
+                                        AlertDialog alert_det = builder_det.create();
+                                        alert_det.show();
 
                                         /*Dialog dialog = new Dialog(FuncActivity.this);
                                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -187,44 +236,6 @@ public class FuncActivity extends ActionBarActivity {
         recyclerView.setItemAnimator(defaultItemAnimator);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(funcAdapter);
-
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
-
-    private void updateFuncItems(File presetFolder, File userFolder){
-        File[] presetProcals = presetFolder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.contains(".procal");
-            }
-        });
-        File[] userProcals = userFolder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.contains(".procal");
-            }
-        });
-
-        presetContents = extractProcalContents(presetProcals);
-        userContents = extractProcalContents(userProcals);
-
-        System.out.println("presetContents has length: " + presetContents.size());
-        System.out.println("userContents has length: " + userContents.size());
-
-        funcItemList.clear();
-        for (ProcalContent procalContent : presetContents) {
-            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
-            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
-        }
-
-        for (ProcalContent procalContent : userContents) {
-            ProcalDoc procalDoc = Parser.extractProcalDoc(procalContent.content);
-            funcItemList.add(new FuncItem(procalDoc.title, procalDoc.desc, procalContent.content, procalContent.file));
-        }
-
     }
 
     private static void copyFolder(String name) {
@@ -318,34 +329,6 @@ public class FuncActivity extends ActionBarActivity {
         return procalContents;
     }
 
-    /* Checks if external storage is available for read and write *//*
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    *//* Checks if external storage is available to at least read *//*
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    public File getAlbumStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.), albumName);
-        if (!file.mkdirs()) {
-            Log.e(LOG_TAG, "Directory not created");
-        }
-        return file;
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -357,13 +340,41 @@ public class FuncActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 finish();
                 /*this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);*/
                 this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
                 return (true);
+
             case R.id.action_add:
-                Toast.makeText(MainActivity.context, "Add", Toast.LENGTH_LONG).show();
+                final AlertDialog.Builder builder_add = new AlertDialog.Builder(FuncActivity.this);
+                builder_add.setTitle("Add Function");
+                builder_add.setMessage("Set details for your new function");
+                builder_add.setView(R.layout.func_add);
+                builder_add.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        final EditText title = (EditText) ((Dialog) dialog).findViewById(R.id.func_add_title);
+                        final EditText desc = (EditText) ((Dialog) dialog).findViewById(R.id.func_add_desc);
+                        FuncEdit.funcTitle = title.getText().toString().trim();
+                        FuncEdit.funcDesc = desc.getText().toString().trim();
+                        FuncEdit.darkTheme();
+                        FuncEdit.openEditArea();
+                        InputHandler.allClearToken();
+                        dialog.dismiss();
+                        finish();
+                        overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                    }
+                });
+                builder_add.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert_add = builder_add.create();
+                alert_add.show();
+
+
                 // Setup Dark-themed Keypad
                 /*
                  * 1. Dark drawable background switcher                     MainActivity.llKeyPad.setBackground()
@@ -376,9 +387,31 @@ public class FuncActivity extends ActionBarActivity {
                  *    - Add translucent menu button, Popup with {save, paste, expand/collapse} with icon
                  * 5. Save/SaveAs (Write) new/existing file
                  */
-                finish();
-                this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
                 return true;
+
+            case R.id.action_import:
+                final AlertDialog.Builder builder_imp = new AlertDialog.Builder(FuncActivity.this);
+                builder_imp.setTitle("Import Function");
+                builder_imp.setMessage("Put the plain text program here");
+                builder_imp.setView(R.layout.func_import);
+                builder_imp.setPositiveButton("Import", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        final EditText content = (EditText) ((Dialog) dialog).findViewById(R.id.func_import_content);
+                        FuncEdit.funcContent = content.getText().toString().trim();
+                        FuncEdit.newlyAddedFunc(true);
+                        updateFuncItems();
+                        setAdapter();
+                        dialog.dismiss();
+                        Toast.makeText(FuncActivity.context, "Imported!", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder_imp.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert_imp = builder_imp.create();
+                alert_imp.show();
         }
         return super.onOptionsItemSelected(item);
     }

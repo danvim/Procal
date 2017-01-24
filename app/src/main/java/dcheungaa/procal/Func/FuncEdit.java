@@ -2,10 +2,17 @@ package dcheungaa.procal.Func;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import dcheungaa.procal.CalcBtn;
 import dcheungaa.procal.InputHandler;
@@ -19,6 +26,11 @@ import dcheungaa.procal.R;
 
 
 public class FuncEdit {
+
+    public static String funcTitle;
+    public static String funcDesc;
+    public static String funcContent;
+    public static File funcFile;
 
     public static void darkTheme(){
         MainActivity.FuncEditing = true;
@@ -62,11 +74,44 @@ public class FuncEdit {
 
     public static void openEditArea(){
         HorizontalScrollView hsv = MainActivity.horizontalScrollView;
-        ScrollView vsv = MainActivity.verticalScrollView;
-        TextView rd = ((TextView) MainActivity.views.get("resultDisplay"));
-        vsv.setEnabled(true);
-        hsv.setEnabled(false);
-        //rd.getHeight()
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 0f);
+        hsv.setLayoutParams(param);
+    }
+
+    public static void closeEditArea(){
+        HorizontalScrollView hsv = MainActivity.horizontalScrollView;
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        hsv.setLayoutParams(param);
+    }
+
+    public static void newlyAddedFunc(Boolean importing){
+        String filename = funcTitle + ".procal";
+        funcFile = new File(Environment.getExternalStorageDirectory() + "/Procal/User", filename);
+        String detailedContent = importing ? funcContent :("/**\n * "+funcTitle+"\n * "+funcDesc+"\n * \n */"+funcContent);
+
+        try {
+            //FileOutputStream outputStream = MainActivity.context.openFileOutput(filename, MainActivity.context.MODE_PRIVATE);
+            FileOutputStream outputStream = new FileOutputStream(funcFile);
+            outputStream.write(detailedContent.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //FuncItem funcItem = new FuncItem(funcTitle, funcDesc, funcContent, funcFile);
+        //FuncActivity.funcItemList.add(funcItem);
+        discardAddFunc();
+    }
+
+    public static void discardAddFunc(){
+        FuncEdit.funcTitle = "";
+        FuncEdit.funcDesc = "";
+        FuncEdit.funcContent = "";
+        FuncEdit.funcFile = null;
     }
 
     private static Drawable drawableSetBound(int drawableId){

@@ -23,7 +23,7 @@
             android:text="Program"
             android:layout_alignParentTop="true"
             android:layout_width="wrap_content"
-            android:layout_height="30sp"
+            android:layout_height="28sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <TextView
@@ -31,7 +31,8 @@
             android:text="Desc"
             android:layout_below="@id/title"
             android:layout_width="wrap_content"
-            android:layout_height="20sp"
+            android:paddingLeft="2dp"
+            android:layout_height="30sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
     </RelativeLayout>
 

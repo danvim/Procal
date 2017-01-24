@@ -24,6 +24,7 @@
         android:layout_above="@+id/llKeyPad"
         android:paddingTop="16dp">
 
+
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,14 +32,11 @@
             android:layout_weight="1"
             android:overScrollMode="never"
             android:id="@+id/llHoriScrollView">
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:id="@+id/llVertiScrollView">
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -64,8 +62,10 @@
                         android:layout_alignBaseline="@+id/matrixDisplay"
                         android:layout_alignBottom="@+id/matrixDisplay"
                         android:layout_alignParentStart="true" />
+
                 </RelativeLayout>
-            </ScrollView>
+
+
 
         </HorizontalScrollView>
 

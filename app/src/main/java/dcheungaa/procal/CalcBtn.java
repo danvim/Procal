@@ -248,20 +248,28 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
+
                 if(MainActivity.FuncEditing){
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.context);
                     builder.setTitle("Save changes?")
                             .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    FuncEdit.discardAddFunc();
                                     FuncEdit.lightTheme();
+                                    FuncEdit.closeEditArea();
+                                    InputHandler.allClearToken();
                                     dialog.dismiss();
                                 }
                             })
                             .setNegativeButton("Save", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(MainActivity.context, "Saved!", Toast.LENGTH_LONG).show();
+                                    FuncEdit.funcContent = InputHandler.getLexableString();
+                                    FuncEdit.newlyAddedFunc(false);
                                     FuncEdit.lightTheme();
+                                    FuncEdit.closeEditArea();
+                                    InputHandler.allClearToken();
                                     dialog.dismiss();
                                 }
                             });
