@@ -9,4 +9,8 @@
     <color name="colorAccentDarker">#EF6C00</color>
     <color name="colorPurple">#C51162</color>
     <color name="lightBackground">#EEEEEE</color>
+    <color name="colorSecondary">#607D8B</color>
+    <color name="colorSecondaryDark">#546E7A</color>
+    <color name="colorSecondaryDarker">#455A64</color>
+    <color name="whiteTextOnDark">#FFFFFFFF</color>
 </resources>

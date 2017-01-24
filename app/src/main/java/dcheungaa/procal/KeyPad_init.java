@@ -241,7 +241,7 @@ public class KeyPad_init {
                 btn_row.add(calcBtn);
                 row.addView(calcBtn);
                 //MainActivity.calcBtns.add(calcBtn);
-                calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
+                calcBtn.setColor(c.getResources().getColor(R.color.whiteTextOnDark));
 
                 inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(lexablePrefix + key.id.replace("const_", "")), (key.display != null)?(key.display):(key.text), Color.valueOf(color)));
 

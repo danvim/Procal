@@ -25,13 +25,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.concurrent.FutureTask;
-
 import dcheungaa.procal.Func.FuncActivity;
-import fx50.Fx50ParseResult;
-
 import dcheungaa.procal.Func.FuncEdit;
-
 
 import static dcheungaa.procal.InputHandler.allClearToken;
 import static dcheungaa.procal.InputHandler.getLexableString;
@@ -287,7 +282,6 @@ public class CalcBtn extends LinearLayout {
                         allClearToken();
                     }
                 } else {
-                    MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
                     InputHandler.execute();
                 }
                 break;
@@ -310,7 +304,7 @@ public class CalcBtn extends LinearLayout {
 
             default:
                 // if the key before pressing this key is {RCL || STO}
-                System.out.print(Boolean.toString(isRCL)+" "+Boolean.toString(isSTO)+"\n");
+                System.out.print("Is recall: " + Boolean.toString(isRCL)+" Is store: "+Boolean.toString(isSTO)+"\n");
                 if (( isRCL || isSTO) ){
                     if (isRCL&& id.contains("var_")){
                         InputHandler.inputToken(id);
@@ -334,7 +328,7 @@ public class CalcBtn extends LinearLayout {
                     isRCL = false;
                     isSTO = false;
                     System.out.print("S1 set false\n");
-                }else{
+                } else {
                     InputHandler.inputToken(id);
                 }
                 break;

@@ -93,24 +93,7 @@ public class InputHandler {
      * This is called by methods above to update the matrix display
      */
     public static void updateMatrixDisplay() {
-
-        final SpannableStringBuilder sb = new SpannableStringBuilder();
-        for (final InputToken token : inputExpression) {
-            int i = sb.length();
-            try {
-                sb.append(token.display);
-            } catch (Exception e) {
-                System.out.println("Cannot use token!");
-            }
-            sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        ((TextView) MainActivity.views.get("matrixDisplay")).setText(sb);
-        ((TextView) MainActivity.views.get("matrixDisplay")).append(" ");
-        System.out.println("Text: ");
-        System.out.println(((TextView) MainActivity.views.get("matrixDisplay")).getText());
-
-        makeLinksFocusable((TextView) MainActivity.views.get("matrixDisplay"));
-
+        updateMatrixDisplay(inputExpression);
     }
 
     /**
@@ -120,17 +103,18 @@ public class InputHandler {
 
         String idsForLogging = "";
         final SpannableStringBuilder sb = new SpannableStringBuilder();
-        if (inputExpression != null)
-            for (final InputToken token : inputExpression) {
-                idsForLogging += token.lexable + " ";
-                int i = sb.length();
-                try {
-                    sb.append(token.display);
-                } catch (Exception e) {
-                    System.out.println("Cannot use token!");
-                }
-                sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (inputExpression == null)
+            return;
+        for (final InputToken token : inputExpression) {
+            idsForLogging += token.lexable + " ";
+            int i = sb.length();
+            try {
+                sb.append(token.display);
+            } catch (Exception e) {
+                System.out.println("Cannot use token!");
             }
+            sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         ((TextView) MainActivity.views.get("matrixDisplay")).setText(sb);
         ((TextView) MainActivity.views.get("matrixDisplay")).append(" ");
         System.out.println("Lexeble: " + idsForLogging);
@@ -171,6 +155,7 @@ public class InputHandler {
     }
 
     public static void allClearToken() {
+        System.out.println("All cleared!");
         inputExpression.clear();
         HistoryHandler.subHistory.clear();
         cursorPos = 0;
@@ -253,6 +238,7 @@ public class InputHandler {
     }
 
     public static void execute(){
+        MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
         DisplayModeHandler.displayMode = true;
 
         HistoryHandler.appendHistory();
@@ -265,41 +251,17 @@ public class InputHandler {
         //HistoryHandler.appendHistory(currentExpression);
         System.out.println(HistoryHandler.history.toString()+ Integer.toString(HistoryHandler.flag));
         // Throw to API
-        try {
-            System.out.println("Attempting to execute an expression...");
-            fx50Parser.setInput(InputHandler.getLexableString());
-            fx50ParserThread.start();
-        } catch (Exception e) {
-            error = true;
-            ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
-            cursorPos = 0;
-            if (e.getMessage().contains("Parsing failed")){
-                //syntax error
-                if (e.getMessage().contains("nud"))
-                    cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split( "\\), current" )[0].split("index ")[1])-1),inputExpression.size()-1);
-                else
-                    cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split( "\\), current" )[0].split("index ")[1])),inputExpression.size()-1);
-                CursorHandler.locate(cursorPos);
-            }else if(e.getMessage().contains("Math Error") || e.getMessage().contains("Division By Zero")){
-                //math error
-                //TODO parser return to error index to locate the cursor after error
-            }
-            e.printStackTrace(System.out);
-        }
+        System.out.println("Attempting to execute an expression...");
+        fx50Parser.setInput(InputHandler.getLexableString());
+        fx50ParserThread.start();
     }
 
     public static void runProgram(String lexableString){
         DisplayModeHandler.displayMode = true;
         // Throw to API
-        try {
-            fx50ParserThread =  new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
-            fx50Parser.setInput(lexableString);
-            fx50ParserThread.start();
-        } catch (Exception e) {
-            ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
-            System.out.println("LOOK AT ME!");
-            e.printStackTrace(System.out);
-        }
+        fx50ParserThread =  new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
+        fx50Parser.setInput(lexableString);
+        fx50ParserThread.start();
         CursorHandler.hide();
     }
 
@@ -343,6 +305,7 @@ public class InputHandler {
                     ((TextView) MainActivity.views.get("resultDisplay")).setText(parseResult.getStringResult());
                     updateMatrixDisplay(parseResult.getInputExpression());
                     ((TextView) MainActivity.views.get("inquiryDisplay")).setText("");
+                    CursorHandler.hide();
                 }
             });
             System.out.println(parseResult.getStringResult());
@@ -351,7 +314,21 @@ public class InputHandler {
             MainActivity.mainActivities.get(0).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
+                    error = true;
+                    cursorPos = 0;
+                    if (e.getMessage().contains("Parsing failed")) {
+                        //syntax error
+                        ((TextView) MainActivity.views.get("matrixDisplay")).setText(R.string.parsing_failed);
+                        if (e.getMessage().contains("nud"))
+                            cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split("\\), current")[0].split("index ")[1]) - 1), inputExpression.size() - 1);
+                        else
+                            cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split("\\), current")[0].split("index ")[1])), inputExpression.size() - 1);
+                        CursorHandler.locate(cursorPos);
+                    } else if (e.getMessage().contains("Math Error") || e.getMessage().contains("Division By Zero")) {
+                        ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
+                        //math error
+                        //TODO parser return to error index to locate the cursor after error
+                    }
                 }
             });
             e.printStackTrace(System.out);

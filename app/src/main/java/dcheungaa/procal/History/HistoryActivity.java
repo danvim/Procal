@@ -10,8 +10,8 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,52 +36,37 @@ public class HistoryActivity extends ActionBarActivity {
         LinearLayout llmain = (LinearLayout) findViewById(R.id.history_list);
 
         for (List<String> keyIds: HistoryHandler.history){
-            HorizontalScrollView hsv = new HorizontalScrollView(this);
-            TextView tv = new TextView(this, null, getResources().getIdentifier(
-                    "Button_Large","attr",this.getPackageName()
-            )
-            );
-
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            LinearLayout ll = new LinearLayout(this, null, getResources().getIdentifier(
+            Button historyItem = new Button(this, null, getResources().getIdentifier(
                     "Button_Fn","attr",this.getPackageName()
-            )
-            );
+            ));
 
-            ll.setLayoutParams(lp);
-            tv.setLayoutParams(lp);
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-
-            tv.setGravity(View.FOCUS_LEFT);
-            ll.setGravity(View.FOCUS_LEFT);
-            ll.setHorizontalGravity(View.FOCUS_LEFT);
-
-            tv.setTextSize(16*getResources().getDisplayMetrics().scaledDensity);
+            historyItem.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            setButtonText(historyItem, keyIds);
+            historyItem.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            historyItem.setTextSize(20);
             final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
-            tv.setTypeface(FONT_FX50);
+            historyItem.setTypeface(FONT_FX50);
 
-            ll.setOnClickListener(new View.OnClickListener() {
+            historyItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     printToDisplay(keyIds);
                 }
             });
 
-            ll.setFocusable(true);
+            historyItem.setFocusable(true);
             //tv.setFocusable(false);
 
+            /*
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     printToDisplay(keyIds);
                 }
             });
+            */
 
-            setButtonText(tv, keyIds);
-            ll.addView(hsv);
-            hsv.addView(tv);
-            llmain.addView(ll);
+            llmain.addView(historyItem);
         }
     }
 

@@ -14,7 +14,7 @@ public enum Constants {
     pi          (BigDecimalMath.pi(new MathContext(20)),
             "pi","-",fromUnicode(0x03C0)),
     exp         (BigDecimalMath.exp(new MathContext(20)),
-            "Euler's number","-",fromUnicode(0x8519)),
+            "Euler's number","-",fromUnicode(0x2147)),
     m_p         (new BigDecimal("1.67262171E-27"),
             "Proton mass","kg","m" + fromUnicode(0x209A)),
     m_n         (new BigDecimal("1.67492728E-27"),

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fx50.API.Color;
 import fx50.API.InputToken;
 import fx50.CalculatorHelper.VariableMap;
 
@@ -40,6 +41,12 @@ public class VariableNode extends NumberNode {
 
     public List<InputToken> toInputTokens() {
         //TODO fix Greek and Color
-        return new ArrayList<>(Collections.singletonList(new InputToken("$" + variableName, getGreekUnicodeCharacterFromName(variableName))));
+        String name = getGreekUnicodeCharacterFromName(variableName);
+        Color color = Color.LATIN_VARIABLE;
+        if (!name.equals(variableName))
+            color = Color.GREEK_VARIABLE;
+        if (name.matches("A|B|C|D|X|Y|M"))
+            color = Color.SPECIAL_VARIABLE;
+        return new ArrayList<>(Collections.singletonList(new InputToken("$" + variableName, getGreekUnicodeCharacterFromName(variableName), color)));
     }
 }

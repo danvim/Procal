@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity
         svConst.setElevation(16f);
         LinearLayout llConst = (LinearLayout) findViewById(R.id.llConstPad);
         llConst.setElevation(32f);
-        llConst.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
+        llConst.setBackgroundColor(context.getResources().getColor(R.color.colorSecondaryDarker));
         constPad = new KeyPad_init(this, resources, inSConst, display, llConst, "&", "CONSTANT");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.

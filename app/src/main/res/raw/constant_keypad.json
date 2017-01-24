@@ -12,11 +12,13 @@
         },
         {
           "id": "const_m_p",
-          "text": "mₚ"
+          "text": "m<sub>p</sub>",
+          "display": "mₚ"
         },
         {
           "id": "const_m_n",
-          "text": "mₙ"
+          "text": "m<sub>n</sub>",
+          "display": "mₙ"
         },
         {
           "id": "const_m_e",
@@ -35,19 +37,20 @@
         },
         {
           "id": "const_h",
-          "text": "<i>h</i>",
+          "text": "ℎ",
           "display": "ℎ"
         }
       ],
       [
         {
           "id": "const_mu_N",
-          "text": "μ<sub>ɴ</sub>",
+          "text": "μ<sub>N</sub>",
           "display": "μɴ"
         },
         {
           "id": "const_mu_B",
-          "text": "μ<sub>ʙ</sub>"
+          "text": "μ<sub>B</sub>",
+          "display": "μʙ"
         },
         {
           "id": "const_h_stroke",
@@ -66,21 +69,25 @@
         },
         {
           "id": "const_lambda_c",
-          "text": "λc"
+          "text": "λ<sub>c</sub>",
+          "display": "λc"
         },
         {
           "id": "const_gamma_p",
-          "text": "γₚ"
+          "text": "γ<sub>p</sub>",
+          "display": "γₚ"
         },
         {
           "id": "const_lambda_cp",
-          "text": "λcₚ"
+          "text": "λ<sub>cp</sub>",
+          "display": "λcₚ"
         }
       ],
       [
         {
           "id": "const_lambda_cn",
-          "text": "λcₙ"
+          "text": "λ<sub>cn</sub>",
+          "display": "λcₙ"
         },
         {
           "id": "const_R_inf",
@@ -94,7 +101,8 @@
         },
         {
           "id": "const_mu_p",
-          "text": "μₚ"
+          "text": "μ<sub>p</sub>",
+          "display": "μₚ"
         },
         {
           "id": "const_mu_e",
@@ -103,11 +111,12 @@
         },
         {
           "id": "const_mu_n",
-          "text": "μₙ"
+          "text": "μ<sub>n</sub>",
+          "display": "μₙ"
         },
         {
           "id": "const_mu_mu",
-          "text": "μ<sub>µ</sub>",
+          "text": "μ<sub>μ</sub>",
           "display": "μµ"
         },
         {
@@ -124,7 +133,7 @@
         },
         {
           "id": "const_N_A",
-          "text": "N<sub>ᴀ</sub>",
+          "text": "N<sub>A</sub>",
           "display": "Nᴀ"
         },
         {
