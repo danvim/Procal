@@ -11,25 +11,34 @@
         <item
             android:id="@+id/nav_save"
             android:icon="@drawable/ic_menu_save"
-            android:title="@string/save" />
+            android:title="@string/save"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_send"
-            android:title="@string/share" />
+            android:title="@string/share"
+            android:visible="false" />
     </group>
     <group android:id="@+id/menu_group_core">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_settings"
-            android:title="@string/settings" />
+            android:title="@string/settings"
+            android:visible="false" />
         <item
             android:id="@+id/nav_feedback"
             android:icon="@drawable/ic_menu_feedback"
-            android:title="@string/send_feedback" />
+            android:title="@string/send_feedback"
+            android:visible="false" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_help"
-            android:title="@string/help" />
+            android:title="@string/help"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/about" />
     </group>
 
 </menu>

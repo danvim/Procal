@@ -35,4 +35,5 @@
     <string name="modify">Modify</string>
     <string name="inquiry">%1$s?:</string>
     <string name="parsing_failed">Syntax Error</string>
+    <string name="about">About</string>
 </resources>
