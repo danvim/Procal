@@ -252,17 +252,6 @@ public class CalcBtn extends LinearLayout {
                 break;
 
             case "execute":
-
-                if (!InputHandler.isRequestingInput) {
-                    MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
-                    InputHandler.execute();
-                } else {
-                    synchronized (fx50Parser.inputHolder) {
-                        fx50Parser.inputHolder.add(getLexableString());
-                        fx50Parser.inputHolder.notify();
-                    }
-                }
-
                 if(MainActivity.FuncEditing){
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.context);
                     builder.setTitle("Save changes?")
@@ -284,12 +273,20 @@ public class CalcBtn extends LinearLayout {
                     alert.show();
                     break;
                 }
-                /*if (!Fx50IO.isRequestingInput)
+                if (InputHandler.isRequestingInput) {
+                    synchronized (fx50Parser.inputHolder) {
+                        fx50Parser.inputHolder.add(getLexableString());
+                        fx50Parser.inputHolder.notify();
+                    }
+                } else if (InputHandler.isRequestingDisplay) {
+                    synchronized (fx50Parser.outputHolder) {
+                        fx50Parser.outputHolder.clear();
+                        fx50Parser.outputHolder.notify();
+                    }
+                } else {
+                    MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));
                     InputHandler.execute();
-                else {
-                    Fx50IO.inputHolder.add(getLexableString());
-                }*/
-                InputHandler.execute();
+                }
                 break;
 
             case "memory_plus":

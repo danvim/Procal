@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 public class CursorHandler {
 
-    private static TextView cursor;
     public static Boolean cursorVisible = true;
 
     public static void blinkCursor(){
+        TextView cursor = ((TextView) MainActivity.views.get("cursor"));
         final Handler handler = new Handler();
         cursorVisible = true;
         new Thread(new Runnable() {
@@ -30,10 +30,10 @@ public class CursorHandler {
                     @Override
                     public void run() {
                         if (!cursorVisible) return;
-                        if(MainActivity.cursor.getVisibility() == View.VISIBLE){
-                            MainActivity.cursor.setVisibility(View.INVISIBLE);
+                        if(cursor.getVisibility() == View.VISIBLE){
+                            cursor.setVisibility(View.INVISIBLE);
                         }else{
-                            MainActivity.cursor.setVisibility(View.VISIBLE);
+                            cursor.setVisibility(View.VISIBLE);
                         }
                         blinkCursor();
                     }
@@ -43,22 +43,23 @@ public class CursorHandler {
     }
 
     public static void toggleVisibility(){
+        TextView cursor = ((TextView) MainActivity.views.get("cursor"));
         cursor.setVisibility(cursor.getVisibility() == View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
     }
 
     public static void hide(){
-        MainActivity.cursor.setVisibility(View.INVISIBLE);
+        TextView cursor = ((TextView) MainActivity.views.get("cursor"));
+        cursor.setVisibility(View.INVISIBLE);
         cursorVisible = false;
     }
 
     public static void show(){
-        cursor.setVisibility(View.VISIBLE);
+        ((TextView) MainActivity.views.get("cursor")).setVisibility(View.VISIBLE);
     }
 
     public static void locateCursorPos(int tap_x) {
-        cursor = MainActivity.cursor;
         System.out.print("x before : "+ Integer.toString(tap_x)+"\n");
-        int base_x=MainActivity.matrixDisplay.getPaddingLeft();
+        int base_x=MainActivity.views.get("matrixDisplay").getPaddingLeft();
         for (int i=0; i<InputHandler.inputExpression.size();i++){
             try {
                 int length = InputHandler.inputExpression.get(i).display.length()*MainActivity.fontWidth;
@@ -79,7 +80,7 @@ public class CursorHandler {
     }
 
     public static int locate(int cursorPos){
-        int x=MainActivity.matrixDisplay.getPaddingLeft();
+        int x=MainActivity.views.get("matrixDisplay").getPaddingLeft();
 
 
         for (int i=0; i<Math.min(cursorPos,InputHandler.inputExpression.size()); i++){
@@ -90,7 +91,7 @@ public class CursorHandler {
                 System.out.print("no expression\n");
             }
         }
-        MainActivity.cursor.setPadding(x,MainActivity.matrixDisplay.getPaddingTop(),0,0);
+        ((TextView) MainActivity.views.get("cursor")).setPadding(x,MainActivity.views.get("matrixDisplay").getPaddingTop(),0,0);
 
 
         final int delta = x - MainActivity.horizontalScrollView.getScrollX() - MainActivity.horizontalScrollView.getWidth() + MainActivity.fontWidth;

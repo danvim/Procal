@@ -69,13 +69,13 @@ public class SuffixFunctionNode implements CalculatorNode {
         InputToken suffixFunctionToken;
         switch (functionName) {
             case "squared":
-                suffixFunctionToken = new InputToken("squared", "²");
+                suffixFunctionToken = new InputToken("squared", Character.toString((char) 0x00B2));
                 break;
             case "cubed":
-                suffixFunctionToken = new InputToken("cubed", "³");
+                suffixFunctionToken = new InputToken("cubed", Character.toString((char) 0x00B3));
                 break;
             case "inverse":
-                suffixFunctionToken = new InputToken("inverse", "º");
+                suffixFunctionToken = new InputToken("inverse", Character.toString((char) 0x00BA));
                 break;
             default:
                 suffixFunctionToken = new InputToken(functionName, functionName);

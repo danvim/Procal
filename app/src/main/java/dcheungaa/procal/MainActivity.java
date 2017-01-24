@@ -37,13 +37,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dcheungaa.procal.Func.FuncItem;
-
-import fx50.Fx50ParserCallable;
-
 import dcheungaa.procal.History.HistoryActivity;
+import fx50.Fx50ParserCallable;
 
 
 
@@ -61,15 +61,11 @@ public class MainActivity extends AppCompatActivity
     private KeyPad_init varPad;
     private KeyPad_init cmdPad;
     private KeyPad_init constPad;
-    public static TextView matrixDisplay;
-    public static TextView resultDisplay;
-    public static DrawerLayout drawer;
+    public static Map<String, View> views = new HashMap<>();
 
     //public static List <List<String>> vars = new ArrayList<>();
     public static List <String> vars = new ArrayList<>();
     public static Tokens tokens = new Tokens();
-
-    public static TextView cursor;
 
     public static int fontWidth;
     public static int fontHeight;
@@ -118,10 +114,10 @@ public class MainActivity extends AppCompatActivity
         context = this;
         InputHandler.setContext(this);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        views.put("drawer", (DrawerLayout) findViewById(R.id.drawer_layout));
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, ((DrawerLayout) views.get("drawer")), R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ((DrawerLayout) views.get("drawer")).setDrawerListener(toggle);
         toggle.syncState();
 
         //
@@ -132,13 +128,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        resultDisplay = (TextView) findViewById(R.id.resultDisplay);
+        views.put("resultDisplay", findViewById(R.id.resultDisplay));
 
         //Set font
-        matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
+        TextView inquiryDisplay = (TextView) findViewById(R.id.inquiryDisplay);
+        TextView matrixDisplay = (TextView) findViewById(R.id.matrixDisplay);
+        views.put("matrixDisplay", matrixDisplay);
+        views.put("inquiryDisplay", inquiryDisplay);
         final Typeface FONT_FX50 = Typeface.createFromAsset(getAssets(), "fonts/Fx50.otf");
         matrixDisplay.setTypeface(FONT_FX50);
-        cursor = (TextView) findViewById(R.id.tv_cursor);
+        TextView cursor = (TextView) findViewById(R.id.tv_cursor);
+        views.put("cursor", (TextView) findViewById(R.id.tv_cursor));
         cursor.setTypeface(FONT_FX50);
 
         //keypad gen
@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity
         call_load = true;
 
         horizontalScrollView = (HorizontalScrollView) findViewById(R.id.llHoriScrollView);
-        verticalScrollView = (ScrollView) findViewById(R.id.llVertiScrollView);
 
         matrixDisplay.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -177,8 +176,7 @@ public class MainActivity extends AppCompatActivity
 
         CursorHandler.blinkCursor();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            } else {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 System.out.println("Requesting writing permission");
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -214,8 +212,8 @@ public class MainActivity extends AppCompatActivity
         svCmd.setElevation(16f);
         LinearLayout llCmd = (LinearLayout) findViewById(R.id.llCmdPad);
         llCmd.setElevation(32f);
-        llCmd.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
-        cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd, "");
+        llCmd.setBackgroundColor(context.getResources().getColor(R.color.colorAccentDarker));
+        cmdPad = new KeyPad_init(this, resources, inSCmd, display, llCmd, "", "COMMAND");
 
         final InputStream inSConst = getResources().openRawResource(R.raw.constant_keypad);
         svConst = (ScrollView)findViewById(R.id.svConst);
@@ -226,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         LinearLayout llConst = (LinearLayout) findViewById(R.id.llConstPad);
         llConst.setElevation(32f);
         llConst.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDarker));
-        constPad = new KeyPad_init(this, resources, inSConst, display, llConst, "&");
+        constPad = new KeyPad_init(this, resources, inSConst, display, llConst, "&", "CONSTANT");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -235,6 +233,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        TextView cursor = (TextView) MainActivity.views.get("cursor");
+        TextView matrixDisplay = (TextView) MainActivity.views.get("matrixDisplay");
         super.onWindowFocusChanged(hasFocus);
         if (call_load){
             call_load=false;

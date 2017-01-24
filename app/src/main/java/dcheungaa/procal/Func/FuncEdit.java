@@ -63,7 +63,7 @@ public class FuncEdit {
     public static void openEditArea(){
         HorizontalScrollView hsv = MainActivity.horizontalScrollView;
         ScrollView vsv = MainActivity.verticalScrollView;
-        TextView rd = MainActivity.resultDisplay;
+        TextView rd = ((TextView) MainActivity.views.get("resultDisplay"));
         vsv.setEnabled(true);
         hsv.setEnabled(false);
         //rd.getHeight()

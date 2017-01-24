@@ -9,8 +9,8 @@ import java.util.List;
 
 import dcheungaa.procal.MainActivity;
 import fx50.API.InputToken;
-
-import static fx50.CalcMath.CalcMath.sigfig;
+import fx50.Fx50ParserCallable;
+import fx50.IOMessage;
 
 /**
  * Statement Node
@@ -24,7 +24,7 @@ public class DisplayNode extends StatementNode {
     public BigDecimal evaluate() {
         BigDecimal leftResult;
         leftResult = left.evaluate();
-        MainActivity.fx50Parser.printOutput(left.toString() + " = " + sigfig(leftResult, 10).toString() + " [DISPLAY]");
+        MainActivity.fx50Parser.printOutput(new IOMessage("display", Fx50ParserCallable.formatResult(leftResult), left.toInputTokens()));
         if (!isLast) {
             return right.evaluate();
         } else

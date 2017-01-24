@@ -69,19 +69,36 @@
 
         </HorizontalScrollView>
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/default_result"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
-            android:id="@+id/resultDisplay"
-            android:textSize="42sp"
-            android:textDirection="ltr"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="end"
-            android:textAlignment="viewEnd"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:id="@+id/inquiryDisplay"
+                android:textSize="20sp"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/default_result"
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                android:id="@+id/resultDisplay"
+                android:textSize="42sp"
+                android:textDirection="ltr"
+                android:gravity="end"
+                android:textAlignment="viewEnd"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout

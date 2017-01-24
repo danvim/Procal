@@ -89,9 +89,10 @@ public class FunctionNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken(functionName + "(", functionName + "(")));
-        for(CalculatorNode argNode: argNodes) {
-            resultTokens.addAll(argNode.toInputTokens());
-            resultTokens.add(new InputToken(",", ","));
+        for(int i = 0; i < argNodes.size(); i++) {
+            resultTokens.addAll(argNodes.get(i).toInputTokens());
+            if (!(i == argNodes.size() - 1))
+                resultTokens.add(new InputToken(",", ","));
         }
         resultTokens.add(new InputToken(")", ")"));
         return resultTokens;

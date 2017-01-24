@@ -1,11 +1,8 @@
 package dcheungaa.procal.History;
 
-import android.widget.Button;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import dcheungaa.procal.InputHandler;
 import fx50.API.InputToken;
 
 /**
@@ -28,12 +25,10 @@ public class HistoryHandler{
     }
 
     public static void appendHistory(){
-        System.out.println("sub his "+subHistory.toString());
         List<String> list = new ArrayList<>();
         for (String text:subHistory)
             list.add(text);
         history.add(0,list);
-        System.out.println("HIS : "+history.toString());
         //subHistory.clear();
         flag = 1;
     }

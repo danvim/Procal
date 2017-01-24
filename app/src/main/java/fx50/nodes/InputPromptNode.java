@@ -23,7 +23,7 @@ public class InputPromptNode implements CalculatorNode {
     }
 
     public BigDecimal evaluate() {
-        String input = MainActivity.fx50Parser.getInput(new IOMessage("inputPrompt", variableName + "?:", null));
+        String input = MainActivity.fx50Parser.getInput(new IOMessage("inputPrompt", variableName, null));
         try {
             Fx50Parser parser = new Fx50Parser(CalculatorHelper.io);
             Fx50ParseResult parseResult = parser.parse(input);

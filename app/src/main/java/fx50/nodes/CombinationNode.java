@@ -37,7 +37,7 @@ public class CombinationNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = left.toInputTokens();
-        resultTokens.add(new InputToken("C", "ℂ"));
+        resultTokens.add(new InputToken("C", Character.toString((char) 0x2102)));
         resultTokens.addAll(right.toInputTokens());
         return resultTokens;
     }

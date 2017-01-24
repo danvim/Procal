@@ -1,10 +1,10 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalcMath.CalcMath;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import fx50.API.InputToken;
+import fx50.CalcMath.CalcMath;
 
 /**
  * Division Node
@@ -29,7 +29,7 @@ public class DivisionNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = left.toInputTokens();
-        resultTokens.add(new InputToken("/", "÷"));
+        resultTokens.add(new InputToken("/", Character.toString((char) 0x00F7)));
         resultTokens.addAll(right.toInputTokens());
         return resultTokens;
     }

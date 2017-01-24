@@ -6,7 +6,8 @@ public enum Color {
     GREEK_VARIABLE (0xff009688),
     LATIN_VARIABLE (0xff3F51B5),
     SPECIAL_VARIABLE (0xffC51162),
-    MEMORY (0xff673AB7);
+    MEMORY (0xff673AB7),
+    COMMAND (0xffFF5722);
 
     int value;
 

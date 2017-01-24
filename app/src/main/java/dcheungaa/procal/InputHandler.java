@@ -13,13 +13,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
 import dcheungaa.procal.History.HistoryHandler;
 import fx50.API.InputToken;
+import fx50.CalculatorHelper;
 import fx50.Fx50ParseResult;
+import fx50.IOMessage;
 
 import static dcheungaa.procal.MainActivity.fx50Parser;
 import static dcheungaa.procal.MainActivity.fx50ParserThread;
@@ -56,6 +59,7 @@ public class InputHandler {
     public static boolean error = false;
 
     public static boolean isRequestingInput = false;
+    public static boolean isRequestingDisplay = false;
 
     /**
      * Removes the token at index
@@ -100,12 +104,36 @@ public class InputHandler {
             }
             sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        MainActivity.matrixDisplay.setText(sb);
-        MainActivity.matrixDisplay.append(" ");
+        ((TextView) MainActivity.views.get("matrixDisplay")).setText(sb);
+        ((TextView) MainActivity.views.get("matrixDisplay")).append(" ");
         System.out.println("Text: ");
-        System.out.println(MainActivity.matrixDisplay.getText());
+        System.out.println(((TextView) MainActivity.views.get("matrixDisplay")).getText());
 
-        makeLinksFocusable(MainActivity.matrixDisplay);
+        makeLinksFocusable((TextView) MainActivity.views.get("matrixDisplay"));
+
+    }
+
+    /**
+     * This is called by methods to display a custom inputExpression
+     */
+    public static void updateMatrixDisplay(List<InputToken> inputExpression) {
+
+        final SpannableStringBuilder sb = new SpannableStringBuilder();
+        for (final InputToken token : inputExpression) {
+            int i = sb.length();
+            try {
+                sb.append(token.display);
+            } catch (Exception e) {
+                System.out.println("Cannot use token!");
+            }
+            sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        ((TextView) MainActivity.views.get("matrixDisplay")).setText(sb);
+        ((TextView) MainActivity.views.get("matrixDisplay")).append(" ");
+        System.out.println("Text: ");
+        System.out.println(((TextView) MainActivity.views.get("matrixDisplay")).getText());
+
+        makeLinksFocusable((TextView) MainActivity.views.get("matrixDisplay"));
 
     }
 
@@ -213,6 +241,14 @@ public class InputHandler {
         return lexableString;
     }
 
+    public static String getLexableString(List<InputToken> inputExpression) {
+        String lexableString = "";
+        for (InputToken token:inputExpression) {
+            lexableString += token.spaced ? " " + token.lexable + " " : token.lexable;
+        }
+        return lexableString;
+    }
+
     public static void execute(){
         DisplayModeHandler.displayMode = true;
 
@@ -227,11 +263,12 @@ public class InputHandler {
         System.out.println(HistoryHandler.history.toString()+ Integer.toString(HistoryHandler.flag));
         // Throw to API
         try {
+            System.out.println("Attempting to execute an expression...");
             fx50Parser.setInput(InputHandler.getLexableString());
             fx50ParserThread.start();
         } catch (Exception e) {
             error = true;
-            MainActivity.matrixDisplay.setText(e.getMessage());
+            ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
             cursorPos = 0;
             if (e.getMessage().contains("Parsing failed")){
                 //syntax error
@@ -256,7 +293,7 @@ public class InputHandler {
             fx50Parser.setInput(lexableString);
             fx50ParserThread.start();
         } catch (Exception e) {
-            MainActivity.matrixDisplay.setText(e.getMessage());
+            ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
             System.out.println("LOOK AT ME!");
             e.printStackTrace(System.out);
         }
@@ -297,18 +334,38 @@ public class InputHandler {
         try {
             if (parseResult.getErrorString() != null)
                 throw new Exception(parseResult.getErrorString());
-                MainActivity.mainActivities.get(0).runOnUiThread(new Runnable() {
+            MainActivity.mainActivities.get(0).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    MainActivity.resultDisplay.setText(parseResult.getStringResult());
+                    ((TextView) MainActivity.views.get("resultDisplay")).setText(parseResult.getStringResult());
+                    updateMatrixDisplay(parseResult.getInputExpression());
+                    ((TextView) MainActivity.views.get("inquiryDisplay")).setText("");
                 }
             });
             System.out.println(parseResult.getStringResult());
             System.out.println(parseResult.getBigDecimalResult());
         } catch (Exception e) {
-            MainActivity.matrixDisplay.setText(e.getMessage());
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            MainActivity.mainActivities.get(0).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
+                }
+            });
             e.printStackTrace(System.out);
+        }
+    }
+
+    public static BigDecimal getFromMemory(String key) {
+        return CalculatorHelper.VariableMap.getValue(key);
+    }
+
+    public static void displayOutput () {
+        synchronized (fx50Parser.outputHolder) {
+            IOMessage msg = fx50Parser.outputHolder.get(0);
+            isRequestingDisplay = true;
+            updateMatrixDisplay(msg.inputExpression);
+            ((TextView) MainActivity.views.get("resultDisplay")).setText(msg.msg);
+            ((TextView) MainActivity.views.get("inquiryDisplay")).setText("DISP");
         }
     }
 }

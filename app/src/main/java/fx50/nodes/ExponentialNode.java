@@ -1,12 +1,13 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
 import org.bychan.core.basic.Lexeme;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import fx50.API.InputToken;
 
 import static fx50.CalcMath.CalcMath.precision;
 
@@ -34,7 +35,7 @@ public class ExponentialNode implements CalculatorNode {
     }
 
     public List<InputToken> toInputTokens() {
-        List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken("E", "ᴇ")));
+        List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken("E", Character.toString((char) 0x1D07))));
         String numberString = lexeme.getText().substring(1);
         //Loop for each digit
         for (int i = 0; i < numberString.length(); i++) {

@@ -1,13 +1,16 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-import fx50.CalculatorHelper.VariableMap;
 import org.bychan.core.basic.Lexeme;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import fx50.API.InputToken;
+import fx50.CalculatorHelper.VariableMap;
+
+import static fx50.API.InputTokenHelper.getGreekUnicodeCharacterFromName;
 
 /**
  * Variable Node
@@ -37,6 +40,6 @@ public class VariableNode extends NumberNode {
 
     public List<InputToken> toInputTokens() {
         //TODO fix Greek and Color
-        return new ArrayList<>(Collections.singletonList(new InputToken("$" + variableName, variableName)));
+        return new ArrayList<>(Collections.singletonList(new InputToken("$" + variableName, getGreekUnicodeCharacterFromName(variableName))));
     }
 }

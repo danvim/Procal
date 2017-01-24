@@ -2,6 +2,7 @@ package dcheungaa.procal.History;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -10,16 +11,12 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import dcheungaa.procal.CursorHandler;
-import dcheungaa.procal.DisplayModeHandler;
 import dcheungaa.procal.InputHandler;
 import dcheungaa.procal.MainActivity;
 import dcheungaa.procal.R;
@@ -136,11 +133,11 @@ public class HistoryActivity extends ActionBarActivity {
             }
             sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            MainActivity.matrixDisplay.setText(sb);
+            ((TextView) MainActivity.views.get("matrixDisplay")).setText(sb);
         }
         InputHandler.execute();
         HistoryHandler.history.remove(HistoryHandler.history.size()-1);
-        MainActivity.drawer.closeDrawer(Gravity.LEFT);
+        ((DrawerLayout) MainActivity.views.get("drawer")).closeDrawer(Gravity.LEFT);
         finish();
     }
 }

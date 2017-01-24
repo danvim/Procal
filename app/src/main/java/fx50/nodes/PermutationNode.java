@@ -38,7 +38,7 @@ public class PermutationNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = left.toInputTokens();
-        resultTokens.add(new InputToken("P", "ℙ"));
+        resultTokens.add(new InputToken("P", Character.toString((char) 0x2119)));
         resultTokens.addAll(right.toInputTokens());
         return resultTokens;
     }

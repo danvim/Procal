@@ -1,9 +1,9 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import fx50.API.InputToken;
 
 /**
  * Multiplication Node
@@ -27,7 +27,7 @@ public class MultiplicationNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = left.toInputTokens();
-        resultTokens.add(new InputToken("*", "×"));
+        resultTokens.add(new InputToken("*", Character.toString((char) 0x00D7)));
         resultTokens.addAll(right.toInputTokens());
         return resultTokens;
     }

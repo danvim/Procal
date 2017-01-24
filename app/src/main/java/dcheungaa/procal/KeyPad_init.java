@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,10 +58,11 @@ public class KeyPad_init {
         String json = "";
 
         try {
-            InputStreamReader jsonStreamReader = new InputStreamReader(in_s, "UTF-8");
-            int i;
-            while ((i = jsonStreamReader.read()) != -1)
-                json += (char) i;
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in_s, "UTF-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null)
+                json += line;
+            bufferedReader.close();
             System.out.println("Successfully loaded json");
         } catch (IOException e) {
             System.out.println("Cannot read keypad json");
@@ -202,7 +204,7 @@ public class KeyPad_init {
 
     //to generate cmd keypad
     //to generate const keypad
-    public KeyPad_init(final Context c ,final Resources resource, final InputStream in_s, Display display, final LinearLayout rows, String lexablePrefix){
+    public KeyPad_init(final Context c ,final Resources resource, final InputStream in_s, Display display, final LinearLayout rows, String lexablePrefix, String color){
 
         //get windows' height and width
 
@@ -216,13 +218,14 @@ public class KeyPad_init {
         String json = "";
 
         try {
-            InputStreamReader jsonStreamReader = new InputStreamReader(in_s, "UTF-8");
-            int i;
-            while ((i = jsonStreamReader.read()) != -1)
-                json += (char) i;
-            System.out.println("Successfully loaded json.");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in_s, "UTF-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null)
+                json += line;
+            bufferedReader.close();
+            System.out.println("Successfully loaded json");
         } catch (IOException e) {
-            System.out.println("Cannot read keypad json.");
+            System.out.println("Cannot read keypad json");
         }
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
@@ -240,7 +243,7 @@ public class KeyPad_init {
                 //MainActivity.calcBtns.add(calcBtn);
                 calcBtn.setColor(c.getResources().getColor(R.color.lightBackground));
 
-                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(lexablePrefix + key.id.replace("const_", "")), (key.display != null)?(key.display):(key.text)));
+                inputTokensMap.put(key.id, new InputToken((key.lexable != null)?(key.lexable):(lexablePrefix + key.id.replace("const_", "")), (key.display != null)?(key.display):(key.text), Color.valueOf(color)));
 
             }
             rows.addView(row);
