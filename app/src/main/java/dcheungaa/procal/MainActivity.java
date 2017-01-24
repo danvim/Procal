@@ -3,6 +3,7 @@ package dcheungaa.procal;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -17,8 +18,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -304,19 +309,42 @@ public class MainActivity extends AppCompatActivity
     @NonNull
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_settings) {
-            Intent intent = new Intent(MainActivity.context, UserSettingActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.nav_save) {
+        switch(item.getItemId()){
 
-        } else if (id == R.id.nav_history) {
-            Intent intent = new Intent(MainActivity.context, HistoryActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.nav_share) {
+            case R.id.nav_history:
+                Intent intent = new Intent(MainActivity.context, HistoryActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.nav_about:
+
+                String credits = "<p>This piece of software used the work <a href=\"https://arxiv.org/abs/0908.3030v1\">\"A Java Math.BigDecimal Implementation of Core Mathematical Functions\" of Richard J. Mathar</a>, which was made available under the LGPL3.0 license as a library. As part of the obligations to the license, if the user wish to replace this library with their own, they may contact: <a href=\"mailto:dcheungaa@connect.ust.hk\">dcheungaa@connect.ust.hk</a></p>\n" +
+                        "\n" +
+                        "<p>Other code libraries used:</p>\n" +
+                        "<ul>\n" +
+                        "  <li><a href=\"https://github.com/atorstling/bychan\">Bychan</a></li>\n" +
+                        "  <li><a href=\"https://github.com/evant/gradle-retrolambda\">Gradle-Retrolambda</a></li>\n" +
+                        "  <li><a href=\"https://github.com/streamsupport/streamsupport\">SteamSupport</a></li>\n" +
+                        "</ul>";
+
+                final AlertDialog.Builder builder_add = new AlertDialog.Builder(MainActivity.this);
+                builder_add.setTitle("About");
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LinearLayout aboutLayout = (LinearLayout) inflater.inflate(R.layout.about_alert, null);
+                builder_add.setView(aboutLayout);
+                TextView aboutTextView = (TextView) aboutLayout.findViewById(R.id.about_content);
+                aboutTextView.setText(Html.fromHtml(credits));
+                aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+                builder_add.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert_add = builder_add.create();
+                alert_add.show();
+                return true;
 
         }
 
