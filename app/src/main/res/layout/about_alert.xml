@@ -28,14 +28,30 @@
         android:textSize="15sp"
         android:textColor="@color/colorAccentDark" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/developer"
-        android:textSize="12sp"
-        android:textColor="@color/colorSecondaryDark" />
+        android:orientation="vertical"
+        android:padding="5dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/developerGroup"
+            android:textSize="15sp"
+            android:textColor="@color/colorSecondaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/developers"
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
