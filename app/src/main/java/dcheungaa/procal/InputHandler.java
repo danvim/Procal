@@ -118,20 +118,23 @@ public class InputHandler {
      */
     public static void updateMatrixDisplay(List<InputToken> inputExpression) {
 
+        String idsForLogging = "";
         final SpannableStringBuilder sb = new SpannableStringBuilder();
-        for (final InputToken token : inputExpression) {
-            int i = sb.length();
-            try {
-                sb.append(token.display);
-            } catch (Exception e) {
-                System.out.println("Cannot use token!");
+        if (inputExpression != null)
+            for (final InputToken token : inputExpression) {
+                idsForLogging += token.lexable + " ";
+                int i = sb.length();
+                try {
+                    sb.append(token.display);
+                } catch (Exception e) {
+                    System.out.println("Cannot use token!");
+                }
+                sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            sb.setSpan(new ForegroundColorSpan(token.color.getColor()), i, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
         ((TextView) MainActivity.views.get("matrixDisplay")).setText(sb);
         ((TextView) MainActivity.views.get("matrixDisplay")).append(" ");
-        System.out.println("Text: ");
-        System.out.println(((TextView) MainActivity.views.get("matrixDisplay")).getText());
+        System.out.println("Lexeble: " + idsForLogging);
+        System.out.println("Display: " + ((TextView) MainActivity.views.get("matrixDisplay")).getText());
 
         makeLinksFocusable((TextView) MainActivity.views.get("matrixDisplay"));
 
@@ -362,7 +365,6 @@ public class InputHandler {
     public static void displayOutput () {
         synchronized (fx50Parser.outputHolder) {
             IOMessage msg = fx50Parser.outputHolder.get(0);
-            isRequestingDisplay = true;
             updateMatrixDisplay(msg.inputExpression);
             ((TextView) MainActivity.views.get("resultDisplay")).setText(msg.msg);
             ((TextView) MainActivity.views.get("inquiryDisplay")).setText("DISP");

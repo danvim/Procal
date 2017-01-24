@@ -3,8 +3,6 @@ package fx50.nodes;
 import org.bychan.core.dynamic.UserParserCallback;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import dcheungaa.procal.MainActivity;
@@ -39,6 +37,10 @@ public class DisplayNode extends StatementNode {
     }
 
     public List<InputToken> toInputTokens() {
-        return new ArrayList<>(Collections.singletonList(new InputToken("display", "◢")));
+        List<InputToken> resultTokens = left.toInputTokens();
+        resultTokens.add(new InputToken("display", Character.toString((char) 0x25E2)));
+        if (!isLast)
+            resultTokens.addAll(right.toInputTokens());
+        return resultTokens;
     }
 }

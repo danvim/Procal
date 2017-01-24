@@ -33,6 +33,7 @@ import fx50.Fx50ParseResult;
 import dcheungaa.procal.Func.FuncEdit;
 
 
+import static dcheungaa.procal.InputHandler.allClearToken;
 import static dcheungaa.procal.InputHandler.getLexableString;
 import static dcheungaa.procal.InputHandler.inputExpression;
 import static dcheungaa.procal.InputHandler.isAlpha;
@@ -277,11 +278,13 @@ public class CalcBtn extends LinearLayout {
                     synchronized (fx50Parser.inputHolder) {
                         fx50Parser.inputHolder.add(getLexableString());
                         fx50Parser.inputHolder.notify();
+                        allClearToken();
                     }
                 } else if (InputHandler.isRequestingDisplay) {
                     synchronized (fx50Parser.outputHolder) {
                         fx50Parser.outputHolder.clear();
                         fx50Parser.outputHolder.notify();
+                        allClearToken();
                     }
                 } else {
                     MainActivity.fx50ParserThread = new Thread(new FutureTask<Fx50ParseResult>(fx50Parser));

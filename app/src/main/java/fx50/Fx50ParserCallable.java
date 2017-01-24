@@ -17,6 +17,7 @@ import dcheungaa.procal.MainActivity;
 import dcheungaa.procal.R;
 import fx50.nodes.CalculatorNode;
 
+import static dcheungaa.procal.InputHandler.isRequestingDisplay;
 import static dcheungaa.procal.InputHandler.isRequestingInput;
 import static fx50.CalcMath.CalcMath.sigfig;
 import static fx50.ParsingHelper.sanitizeInput;
@@ -77,6 +78,7 @@ public class Fx50ParserCallable implements Callable<Fx50ParseResult> {
         //display
         System.out.println("Requesting output...");
         synchronized (outputHolder) {
+            isRequestingDisplay = true;
             outputHolder.add(ioMessage);
             while (!outputHolder.isEmpty()) {
                 try {
@@ -92,6 +94,7 @@ public class Fx50ParserCallable implements Callable<Fx50ParseResult> {
                 }
             }
         }
+        isRequestingDisplay = false;
         System.out.println("Continuing evaluation...");
     }
 

@@ -1,23 +1,23 @@
 package fx50.nodes;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import fx50.API.InputToken;
 import fx50.CalculatorHelper.VariableMap;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Assignment Node
  */
 public class AssignmentNode extends NumberNode {
     private final CalculatorNode left;
+    private final CalculatorNode right;
     private final String variableName;
 
     public AssignmentNode(CalculatorNode left, VariableNode right) {
         this.left = left;
         this.variableName = right.getName();
+        this.right = right;
     }
 
     public BigDecimal evaluate() {
@@ -31,6 +31,9 @@ public class AssignmentNode extends NumberNode {
     }
 
     public List<InputToken> toInputTokens() {
-        return new ArrayList<>(Collections.singletonList(new InputToken("->", "→")));
+        List<InputToken> resultTokens = left.toInputTokens();
+        resultTokens.add(new InputToken("->", Character.toString((char) 0x2192)));
+        resultTokens.addAll(right.toInputTokens());
+        return resultTokens;
     }
 }
