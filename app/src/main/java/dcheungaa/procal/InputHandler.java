@@ -315,7 +315,8 @@ public class InputHandler {
                     cursorPos = 0;
                     if (e.getMessage().contains("Parsing failed")) {
                         //syntax error
-                        ((TextView) MainActivity.views.get("matrixDisplay")).setText(R.string.parsing_failed);
+                        ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
+                        //((TextView) MainActivity.views.get("matrixDisplay")).setText(R.string.parsing_failed);
                         if (e.getMessage().contains("nud"))
                             cursorPos = Math.min(Math.max(0, Integer.parseInt(e.getMessage().split("\\), current")[0].split("index ")[1]) - 1), inputExpression.size() - 1);
                         else
@@ -325,6 +326,8 @@ public class InputHandler {
                         ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
                         //math error
                         //TODO parser return to error index to locate the cursor after error
+                    } else {
+                        ((TextView) MainActivity.views.get("matrixDisplay")).setText(e.getMessage());
                     }
                 }
             });

@@ -34,6 +34,7 @@ import fx50.nodes.ExponentialNode;
 import fx50.nodes.FactorialNode;
 import fx50.nodes.ForLoopNode;
 import fx50.nodes.FunctionNode;
+import fx50.nodes.HiddenMultiplicationNode;
 import fx50.nodes.InputPromptNode;
 import fx50.nodes.MMinusNode;
 import fx50.nodes.MPlusNode;
@@ -229,6 +230,10 @@ public class CalculatorHelper {
                 .named("multiply").matchesString("*")
                 .led((left, parser, lexeme) -> new MultiplicationNode(left, parser.expression(left)));
 
+        public static TokenDefinitionBuilder<CalculatorNode> hiddenMultiply = b.newToken()
+                .named("hiddenMultiply").matchesString("`")
+                .led((left, parser, lexeme) -> new HiddenMultiplicationNode(left, parser.expression(left)));
+
         public static TokenDefinitionBuilder<CalculatorNode> divide = b.newToken()
                 .named("divide").matchesString("/")
                 .led((left, parser, lexeme) -> new DivisionNode(left, parser.expression(left)));
@@ -338,7 +343,7 @@ public class CalculatorHelper {
         Tokens.conditionThen.leftBindingPower(1).build();
         Tokens.conditionElse.leftBindingPower(1).build();
 
-        Tokens.shorthandIf.leftBindingPower(3).build();
+        Tokens.shorthandIf.leftBindingPower(2).build();
         Tokens.display.leftBindingPower(3).build();
         Tokens.colon.leftBindingPower(2).build();
         Tokens.set.leftBindingPower(3).build();
@@ -373,6 +378,7 @@ public class CalculatorHelper {
         Tokens.minus.leftBindingPower(9).build();
 
         Tokens.multiply.leftBindingPower(10).build();
+        Tokens.hiddenMultiply.leftBindingPower(10).build();
         Tokens.divide.leftBindingPower(10).build();
         Tokens.modulo.leftBindingPower(10).build();
 

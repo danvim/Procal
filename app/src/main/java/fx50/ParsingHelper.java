@@ -43,6 +43,6 @@ public class ParsingHelper {
         return s.replaceAll("display(?!:)", "display:")
                 .replaceAll("\\s*$", "")
                 .replaceAll("(?<=[^:])$", ":")
-                .replaceAll("((?:(?<=&|\\$)\\w*)|\\)|\\d|(?<=Ans|Ran#))(?: *)(\\(|&|\\$|[A-Za-z_]+\\(|Ans|Ran#|E-*\\d\\d?(?!\\d))", "$1*$2");
+                .replaceAll("((?:(?<=&|\\$)\\w*)|\\)|\\d|(?<=Ans|Ran#))(?: *)(\\(|&|\\$|[A-Za-z_]+\\(|Ans|Ran#|E-*\\d\\d?(?!\\d))", "$1`$2");
     }
 }

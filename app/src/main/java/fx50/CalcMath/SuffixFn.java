@@ -23,8 +23,7 @@ public class SuffixFn {
 
     public static BigDecimal factorial(ArrayList<BigDecimal> bigDecimals) {
         if (!CalcMath.isInt(bigDecimals.get(0)) || bigDecimals.get(0).compareTo(new BigDecimal(0)) < 0) {
-            System.out.println("Math Error: Number must be non-negative integer");
-            return null;
+            throw new ArithmeticException("Number must be non-negative integer");
         }
         return CalcMath.factorial(bigDecimals.get(0));
     }

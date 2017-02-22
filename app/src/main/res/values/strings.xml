@@ -41,5 +41,7 @@
     <string name="edit">Edit</string>
     <string name="details">Details</string>
     <string name="delete">Delete</string>
+    <string name="about_credit" />
+    <string name="about_contact" />
 
 </resources>

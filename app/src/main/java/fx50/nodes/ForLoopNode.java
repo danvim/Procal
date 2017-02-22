@@ -1,6 +1,5 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
 import org.bychan.core.basic.Lexeme;
 import org.bychan.core.dynamic.UserParserCallback;
 
@@ -9,8 +8,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fx50.API.InputToken;
+
+import static fx50.CalculatorHelper.Tokens.colon;
+import static fx50.CalculatorHelper.Tokens.loopNext;
+import static fx50.CalculatorHelper.Tokens.loopStep;
+import static fx50.CalculatorHelper.Tokens.loopTo;
+import static fx50.CalculatorHelper.Tokens.set;
+import static fx50.CalculatorHelper.Tokens.variable;
 import static fx50.CalculatorHelper.VariableMap;
-import static fx50.CalculatorHelper.Tokens.*;
 import static fx50.ParsingHelper.indent;
 import static fx50.ParsingHelper.nextMustBeSeparator;
 
@@ -77,7 +83,7 @@ public class ForLoopNode implements CalculatorNode {
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken("For", "For ")));
         resultTokens.addAll(initNode.toInputTokens());
-        resultTokens.add(new InputToken("->", "→"));
+        resultTokens.add(new InputToken("->", Character.toString((char) 0x2192)));
         resultTokens.addAll(controlVariable.toInputTokens());
         resultTokens.add(new InputToken("To", "To "));
         resultTokens.addAll(toNode.toInputTokens());

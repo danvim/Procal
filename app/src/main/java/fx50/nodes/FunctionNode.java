@@ -15,6 +15,7 @@ import fx50.CalcMath.Fn;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
+import static dcheungaa.procal.Tokens.fromUnicode;
 import static fx50.CalculatorHelper.Tokens.comma;
 import static fx50.CalculatorHelper.Tokens.lparen;
 import static fx50.CalculatorHelper.Tokens.rparen;
@@ -78,7 +79,7 @@ public class FunctionNode implements CalculatorNode {
             result = (BigDecimal) method.invoke(this, args);
         } catch (IllegalArgumentException e) {throw new RuntimeException("Runtime Error: IllegalArgumentException");}
         catch (IllegalAccessException e) {throw new RuntimeException("Runtime Error: IllegalAccessException");}
-        catch (InvocationTargetException e) {throw new ArithmeticException("Math Error: " + e.getCause().getMessage());}
+        catch (InvocationTargetException e) {throw new ArithmeticException("Math Error: '" + e.getCause().getMessage() + "' @ function '" + functionName + "'.");}
 
         return result;
     }
@@ -88,7 +89,36 @@ public class FunctionNode implements CalculatorNode {
     }
 
     public List<InputToken> toInputTokens() {
-        List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken(functionName + "(", functionName + "(")));
+        String functionDisplay = "";
+        switch(functionName) {
+            case "sqrt":
+                functionDisplay = fromUnicode(0x00B2, 0x221A);
+                break;
+            case "cbrt":
+                functionDisplay = fromUnicode(0x00B3, 0x221A);
+                break;
+            case "asin":
+                functionDisplay = "sin" + fromUnicode(0x00BA);
+                break;
+            case "acos":
+                functionDisplay = "cos" + fromUnicode(0x00BA);
+                break;
+            case "atan":
+                functionDisplay = "tan" + fromUnicode(0x00BA);
+                break;
+            case "asinh":
+                functionDisplay = "sinh" + fromUnicode(0x00BA);
+                break;
+            case "acosh":
+                functionDisplay = "cosh" + fromUnicode(0x00BA);
+                break;
+            case "atanh":
+                functionDisplay = "tanh" + fromUnicode(0x00BA);
+                break;
+            default:
+                functionDisplay = functionName;
+        }
+        List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken(functionName + "(", functionDisplay + "(")));
         for(int i = 0; i < argNodes.size(); i++) {
             resultTokens.addAll(argNodes.get(i).toInputTokens());
             if (!(i == argNodes.size() - 1))

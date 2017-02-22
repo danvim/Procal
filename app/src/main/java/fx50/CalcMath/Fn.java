@@ -23,6 +23,9 @@ public class Fn {
     public static BigDecimal sqrt(ArrayList<BigDecimal> bigDecimals) {
         if (bigDecimals.get(0).compareTo(BigDecimal.ZERO) == 0)
             return new BigDecimal(0);
+        else if (bigDecimals.get(0).compareTo(BigDecimal.ZERO) < 0) {
+            throw new ArithmeticException("Number must be non-negative");
+        }
         return BigDecimalMath.sqrt(bigDecimals.get(0).setScale(200, BigDecimal.ROUND_HALF_UP)).setScale(15, BigDecimal.ROUND_HALF_UP);
     }
 

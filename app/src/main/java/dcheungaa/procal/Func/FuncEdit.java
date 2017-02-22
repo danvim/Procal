@@ -22,9 +22,9 @@ import dcheungaa.procal.R;
 
 public class FuncEdit {
 
-    public static String funcTitle;
-    public static String funcDesc;
-    public static String funcContent;
+    public static String funcTitle = "";
+    public static String funcDesc = "";
+    public static String funcContent = "";
     public static File funcFile;
 
     public static void darkTheme(){

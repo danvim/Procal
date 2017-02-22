@@ -36,7 +36,7 @@ public class UserSettingActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences_main);
+            //addPreferencesFromResource(R.xml.preferences_main);
         }
 
     }

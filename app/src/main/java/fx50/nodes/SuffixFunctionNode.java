@@ -55,7 +55,7 @@ public class SuffixFunctionNode implements CalculatorNode {
             result = (BigDecimal) method.invoke(this, args);
         } catch (IllegalArgumentException e) {throw new ArithmeticException("Runtime Error: IllegalArgumentException");}
         catch (IllegalAccessException e) {throw new RuntimeException("Runtime Error: IllegalAccessException");}
-        catch (InvocationTargetException e) {throw new ArithmeticException("Runtime Error: Math Error");}
+        catch (InvocationTargetException e) {throw new ArithmeticException("Math Error: '" + e.getCause().getMessage() + "' @ function '" + functionName + "'.");}
 
         return result;
     }

@@ -1,11 +1,13 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
 import org.nevec.rjm.BigDecimalMath;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import fx50.API.InputToken;
+
+import static dcheungaa.procal.Tokens.fromUnicode;
 import static fx50.CalcMath.CalcMath.inverse;
 
 /**
@@ -33,7 +35,7 @@ public class RootNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = left.toInputTokens();
-        resultTokens.add(new InputToken("root", "ˣ√("));
+        resultTokens.add(new InputToken("root", fromUnicode(0x02E3, 0x221A) + "("));
         resultTokens.addAll(right.toInputTokens());
         resultTokens.add(new InputToken(")", ")"));
         return resultTokens;

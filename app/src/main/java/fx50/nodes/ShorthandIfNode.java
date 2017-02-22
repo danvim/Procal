@@ -1,11 +1,12 @@
 package fx50.nodes;
 
 
-import fx50.API.InputToken;
 import org.bychan.core.dynamic.UserParserCallback;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import fx50.API.InputToken;
 
 /**
  * Shorthand If Node
@@ -32,7 +33,7 @@ public class ShorthandIfNode implements CalculatorNode {
 
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = ifNode.toInputTokens();
-        resultTokens.add(new InputToken("=>", "⇒"));
+        resultTokens.add(new InputToken("=>", Character.toString((char) 0x21D2)));
         resultTokens.addAll(thenNode.toInputTokens());
         return resultTokens;
     }

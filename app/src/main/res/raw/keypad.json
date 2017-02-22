@@ -87,7 +87,7 @@
                 "shift": {
                     "id": "x_root",
                     "text": "ˣ√",
-                    "lexable": "root(",
+                    "lexable": "root (",
                     "display": "ˣ√("
                 }
             },
@@ -119,8 +119,8 @@
                 "alpha":{
                     "id":"exp",
                     "text":"ℯ",
-                    "lexable": "&exp^(",
-                    "display": "ⅇ^(",
+                    "lexable": "&exp",
+                    "display": "ⅇ",
                     "color": "CONSTANT"
                 }
             }
