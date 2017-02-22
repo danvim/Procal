@@ -364,7 +364,6 @@ public class FuncActivity extends ActionBarActivity {
             case android.R.id.home:
                 finish();
                 /*this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);*/
-                this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
                 return (true);
 
             case R.id.action_add:
