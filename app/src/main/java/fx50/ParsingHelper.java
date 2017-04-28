@@ -40,9 +40,13 @@ public class ParsingHelper {
     }
 
     public static String sanitizeInput (String s) {
-        return s.replaceAll("display(?!:)", "display:")
+        String afterHiddenMultiplication = "\\(|&|\\$|[A-Za-z_]+\\(|Ans|Ran#|E-*\\d\\d?(?!\\d)";
+        String sanitizedString = s.replaceAll("display(?!:)", "display:")
                 .replaceAll("\\s*$", "")
                 .replaceAll("(?<=[^:])$", ":")
-                .replaceAll("((?:(?<=&|\\$)\\w*)|\\)|\\d|(?<=Ans|Ran#))(?: *)(\\(|&|\\$|[A-Za-z_]+\\(|Ans|Ran#|E-*\\d\\d?(?!\\d))", "$1`$2");
+                .replaceAll("(squared|inverse|cubed|factorial)(?: *)(" + afterHiddenMultiplication + ")", "$1`$2")
+                .replaceAll("((?:(?<=&|\\$)\\w*)|\\)|\\d|(?<=Ans|Ran#))(?: *)(" + afterHiddenMultiplication + ")", "$1`$2");
+        System.out.println("Sanitized input: " + sanitizedString);
+        return sanitizedString;
     }
 }

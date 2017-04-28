@@ -28,10 +28,6 @@ import static dcheungaa.procal.MainActivity.fx50Parser;
 import static dcheungaa.procal.MainActivity.fx50ParserThread;
 import static dcheungaa.procal.Tokens.inputTokensMap;
 
-/**
- * Created by Daniel on 11/1/2017.
- */
-
 public class InputHandler {
     /**
      * This is where the input expression is stored.

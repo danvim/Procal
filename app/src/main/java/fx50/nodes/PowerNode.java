@@ -58,7 +58,10 @@ public class PowerNode implements CalculatorNode {
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = left.toInputTokens();
         resultTokens.add(new InputToken("^(", "^("));
-        resultTokens.addAll(right.toInputTokens());
+        if (right instanceof ParenthesisNode)
+            resultTokens.addAll(((ParenthesisNode) right).getContent().toInputTokens());
+        else
+            resultTokens.addAll(right.toInputTokens());
         resultTokens.add(new InputToken(")", ")"));
         return resultTokens;
     }

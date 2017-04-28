@@ -35,6 +35,10 @@ public class ParenthesisNode implements CalculatorNode {
         return "(" + right.toString() + ")";
     }
 
+    public CalculatorNode getContent() {
+        return right;
+    }
+
     public List<InputToken> toInputTokens() {
         List<InputToken> resultTokens = new ArrayList<>(Collections.singletonList(new InputToken("(", "(")));
         resultTokens.addAll(right.toInputTokens());

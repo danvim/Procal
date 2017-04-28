@@ -30,8 +30,6 @@ public class Parser {
                 //Check whether it is a @ statement
                 Matcher docLineAtMatcher = docLineAtPattern.matcher(line);
                 if (docLineAtMatcher.find()) {
-                    System.out.println("PPPPPPPPP");
-                    System.out.println(" " + line);
                     atLines.add(new ArrayList<>(Arrays.asList(
                             docLineAtMatcher.group(1),
                             docLineAtMatcher.group(2),
@@ -40,10 +38,11 @@ public class Parser {
                 } else
                     generalLines.add(line);
             }
-            procalDoc.title = generalLines.remove(0);
+            procalDoc.title = generalLines.remove(0).trim();
             for (String generalLine : generalLines) {
                 procalDoc.desc += generalLine + "\n";
             }
+            procalDoc.desc = procalDoc.desc.trim();
             for (List<String> atLine : atLines) {
                 String atKeyword = atLine.get(0);
                 switch (atKeyword) {

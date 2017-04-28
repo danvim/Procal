@@ -1,6 +1,5 @@
 package fx50.nodes;
 
-import fx50.API.InputToken;
 import org.bychan.core.basic.Lexeme;
 import org.bychan.core.dynamic.UserParserCallback;
 
@@ -9,7 +8,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fx50.CalculatorHelper.Tokens.*;
+import fx50.API.InputToken;
+
+import static fx50.CalculatorHelper.Tokens.colon;
+import static fx50.CalculatorHelper.Tokens.loopWhileEnd;
 import static fx50.ParsingHelper.indent;
 import static fx50.ParsingHelper.nextMustBeSeparator;
 
@@ -35,7 +37,9 @@ public class WhileLoopNode implements CalculatorNode {
     public BigDecimal evaluate() {
         BigDecimal doResult = new BigDecimal(0);
         try {
-            while (conditionNode.evaluate().compareTo(BigDecimal.ONE) == 0) {
+            BigDecimal conditionBigDecimal;
+            while ((conditionBigDecimal = conditionNode.evaluate().setScale(15, BigDecimal.ROUND_DOWN)).compareTo(BigDecimal.ZERO) != 0) {
+                System.out.println("Processing while loop. Condition is: " + conditionBigDecimal.toString());
                 doResult = doNode.evaluate();
             }
         } catch (RuntimeException e) {
