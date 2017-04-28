@@ -44,7 +44,7 @@ public class FuncItem {
         return procalContentString;
     }
 
-    public void setProcalContentString(String procalContent) {
+    public void setProcalContentString(String procalContentString) {
         this.procalContentString = procalContentString;
     }
 

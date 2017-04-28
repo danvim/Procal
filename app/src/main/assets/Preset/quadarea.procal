@@ -1,7 +1,11 @@
 /**
  * Quadrateral Area
  * Returns the area by using plane geometry
- * @param length of four sides, sum of opposite angle
+ * @param A length_1
+ * @param B length_2
+ * @param C length_3
+ * @param D length_4
+ * @param X sum of opposite angle
  * @return area
  * @sampleIn 2, 1, 2, 1, 120
  * @sampleOut 1.7321

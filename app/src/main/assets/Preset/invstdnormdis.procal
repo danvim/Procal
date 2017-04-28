@@ -1,7 +1,7 @@
 /**
  * Inverse Standard Normal Distribution
  * Given Z ~ N(0, 1), find k such that P(0 <= Z <= k) = a.
- * @param a
+ * @param A a
  * @return k
  * @sampleIn 0.45
  * @sampleOut 1.6449

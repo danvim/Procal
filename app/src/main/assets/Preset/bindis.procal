@@ -1,7 +1,10 @@
 /**
  * Binomial Distribution
  * Given X ~ Bin(a, b), find P(c <= X <= d).
- * @param a, b, c, d
+ * @param M a
+ * @param A b
+ * @param B c
+ * @param C d
  * @return P(c <= X <= d)
  * @sampleIn 10, 0.3, 3, 7
  * @sampleOut 0.6156

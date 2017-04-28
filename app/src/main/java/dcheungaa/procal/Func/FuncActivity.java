@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -174,9 +175,9 @@ public class FuncActivity extends ActionBarActivity {
                                 int i = item.getItemId();
                                 if (i == R.id.edit) {
 
+                                    ProcalDoc procalDoc = funcItem.getProcalDoc();
                                     FuncEdit.funcTitle = funcItem.getTitle().trim();
                                     FuncEdit.funcDesc = funcItem.getDescription();
-                                    ProcalDoc procalDoc = funcItem.getProcalDoc();
 
                                     List<InputToken> inputExpression = getInputTokensFromContent(funcItem);
 
@@ -216,8 +217,10 @@ public class FuncActivity extends ActionBarActivity {
 
                                 } else if (i == R.id.details) {
                                     AlertDialog.Builder builder_det = new AlertDialog.Builder(FuncActivity.this);
+                                    WebView webDoc = new WebView(FuncActivity.this);
+                                    webDoc.loadData(funcItem.getProcalDoc().generateHTMLDoc(), "text/html; charset=utf-8", "UTF-8");
                                     builder_det.setTitle(funcItem.getTitle())
-                                            .setMessage(funcItem.getDescription())
+                                            .setView(webDoc)
                                             .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private static Pattern docPattern = Pattern.compile("/\\*\\* *\\n([\\s\\S]*?)\\n *\\*/");
-    private static Pattern docLinePattern = Pattern.compile(" *\\*( *[\\S]+?(?: \\S+)*?)$");
+    private static Pattern docLinePattern = Pattern.compile(" *\\*( *[\\S]+?(?: \\S+)*?) *$");
     private static Pattern docLineAtPattern = Pattern.compile("(@[\\w]+) *(\\w+)* *([\\s\\S]+)*");
 
     public static ProcalDoc extractProcalDoc(String input) {
@@ -48,18 +48,18 @@ public class Parser {
                 switch (atKeyword) {
                     case "@param":
                         Param param = new Param();
-                        param.variableName = atLine.get(1);
-                        param.desc = atLine.get(2);
+                        param.variableName = emptyOrNull(atLine.get(1));
+                        param.desc = emptyOrNull(atLine.get(2));
                         procalDoc.params.add(param);
                         break;
                     case "@return":
-                        procalDoc.returnDesc = atLine.get(1) + atLine.get(2);
+                        procalDoc.returnDesc = emptyOrNull(atLine.get(1)) + " " + emptyOrNull(atLine.get(2));
                         break;
                     case "@sampleIn":
-                        procalDoc.sampleIn.add(atLine.get(1) + atLine.get(2));
+                        procalDoc.sampleIn.add(emptyOrNull(atLine.get(1)) + " " + emptyOrNull(atLine.get(2)));
                         break;
                     case "@sampleOut":
-                        procalDoc.sampleOut.add(atLine.get(1) + atLine.get(2));
+                        procalDoc.sampleOut.add(emptyOrNull(atLine.get(1)) + " " + emptyOrNull(atLine.get(2)));
                         break;
                     case "@draft":
                         procalDoc.isDraft = true;
@@ -69,5 +69,11 @@ public class Parser {
         } else
             System.out.println("Parser cannot find a doc from the input");
         return procalDoc;
+    }
+
+    static private String emptyOrNull (String string) {
+        if (string == null)
+            return "";
+        return string;
     }
 }

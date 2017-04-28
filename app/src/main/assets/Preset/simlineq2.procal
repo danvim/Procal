@@ -1,7 +1,12 @@
 /**
  * Simutaneous Equation in 2 Unknowns
  * Solves the system of Ax + By = C, Dx + Ey = F
- * @param A, B, C, D, E, F
+ * @param a A
+ * @param b B
+ * @param c C
+ * @param d D
+ * @param x E
+ * @param y F
  * @return x, y
  * @sampleIn 2, 3, 4, 5, 6, 7
  * @sampleOut -1, 2

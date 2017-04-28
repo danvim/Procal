@@ -1,7 +1,9 @@
 /**
  * Matrix 2x2 and 2xn multiplication
  * Returns 2xn matrix product
- * @param n, matrix1, matrix2
+ * @param n The number of columns in the second matrix
+ * @param matrix1 Enter the numbers in the matrix in rows from left to right, then top to bottom.
+ * @param matrix2 Enter the numbers in the matrix in rows from left to right, then top to bottom.
  * @return product
  * @sampleIn 2, 5, 2, 1, 6, 2, 3, 7, 3
  * @sampleOut 16, 20, 41, 25

@@ -1,7 +1,18 @@
 /**
- * Simutaneous Equation in 3 Unknowns
- * Solves the system of Ax + By = C, Dx + Ey = F, Gx + Hy = I
- * @param A, B, C, D, E, F, G, H, I
+ * Simultaneous Equation in 3 Unknowns
+ * Solves the system of Ax + By + Cz = D, Ex + Fy + Gz = H, Ix + Jy + Kz = L
+ * @param a A
+ * @param b B
+ * @param c C
+ * @param x D
+ * @param d E
+ * @param e F
+ * @param f G
+ * @param y H
+ * @param g I
+ * @param h J
+ * @param i K
+ * @param z L
  * @return x, y
  * @sampleIn 3, 4, 1, 10, 1, 3, 1, 7, 2, -3, 2, 5
  * @sampleOut 1, 1, 3

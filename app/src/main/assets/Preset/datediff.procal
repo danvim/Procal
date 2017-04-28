@@ -2,7 +2,12 @@
  * Day Difference
  * This finds the difference between two dates d1-m1-y1 and d2-m2-y2 in dd-mm-yyyy format.
  * Enter the earlier date first.
- * @param y1, m1, d1, y2, m2, d2
+ * @param a y1
+ * @param b m1
+ * @param c d1
+ * @param d y2
+ * @param e m2
+ * @param f d2
  * @return Day difference
  * @sampleIn 2005, 10, 12, 2010, 10, 15
  * @sampleOut 1829

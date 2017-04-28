@@ -1,7 +1,7 @@
 /**
  * Fibonacci Sequence
  * Returns the n-th Fibonacci Sequence.
- * @param n
+ * @param n An integer
  * @return n-th Fibonacci Sequence
  * @sampleIn 10
  * @sampleOut 55

@@ -1,7 +1,9 @@
 /**
  * Heron's Formula
  * Given the length of three sides of a triangle, returns the area of triangle.
- * @param Length of three sides of a triangle
+ * @param a length 1
+ * @param b length 2
+ * @param c length 3
  * @return Area of triangle
  * @sampleIn 3, 4, 5
  * @sampleOut 6

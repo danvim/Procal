@@ -1,9 +1,5 @@
 package dcheungaa.procal.Func;
 
-/**
- * Created by Bryan on 1/21/2017.
- */
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +13,7 @@ import java.util.List;
 import dcheungaa.procal.R;
 
 /**
- * This is not Static, hence funcItemsList has FuncActivity.funcItemsList supplied as arg
+ * This is not static, hence funcItemsList has FuncActivity.funcItemsList supplied as arg
  */
 public class FuncAdapter extends RecyclerView.Adapter<FuncAdapter.FuncViewHolder> {
 

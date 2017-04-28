@@ -1,8 +1,12 @@
 /**
- * Center, Radius and Equation of Circle from 3 given points 
- * Consider three points (x1, y1), (x2, y2), (x3, y3)
- * and a circle with center (X, Y), radius R and equation x^2 + y^2 + Dx + Ey + F = 0
- * @param x1, y1, x2, y2, x3, y3
+ * Center, Radius and Equation of Circle from 3 given points
+ * Consider three points (x1, y1), (x2, y2), (x3, y3) and a circle with center (X, Y), radius R and equation x^2 + y^2 + Dx + Ey + F = 0
+ * @param A x1
+ * @param B y1
+ * @param X x2
+ * @param Y y2
+ * @param X x3
+ * @param Y y3
  * @return X, Y, R, D, E, F
  * @sampleIn 5, 2, 2, 3, 6, -5
  * @sampleOut 2, -2, 5, -4, 4, -17

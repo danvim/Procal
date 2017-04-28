@@ -1,7 +1,10 @@
 /**
  * Matrix 2x2 Inversion
- * Returns 2x2 inverted matrix
- * @param Matrix entered from left to right, downwards
+ * Returns 2x2 inverted matrix. Enter the numbers in the matrix in rows from left to right, then top to bottom.
+ * @param a (1,1)
+ * @param b (1,2)
+ * @param c (2,1)
+ * @param d (2,2)
  * @return Inverted matrix
  * @sampleIn 3, 5, 1, 2
  * @sampleOut 2, -5, -1, 3

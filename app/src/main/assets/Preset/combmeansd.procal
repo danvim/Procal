@@ -4,7 +4,13 @@
  * this calculates its combined sum of sqaures SOS, mean M and SD S.
  * mode = 0 for population SD;
  * mode = 1 for sample SD.
- * @param mode, N1, M1, S1, N2, M2, S2
+ * @param M mode
+ * @param A N1
+ * @param B M1
+ * @param C S1
+ * @param D N2
+ * @param X M2
+ * @param Y S2
  * @return SOS, M, S
  * @sampleIn 0, 20, 40, 2, 30, 30, 3
  * @sampleOut 59350, 34, 5.568

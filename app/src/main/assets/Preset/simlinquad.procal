@@ -1,13 +1,20 @@
 /**
- * Simutaneous Linear and Quadratic Equation
+ * Simultaneous Linear and Quadratic Equation
  * Solves the system of Ax + By = C, Dx^2 + Exy + Fy^2 + Gx + Hy = I
- * @param A, B, C, D, E, F, G, H, I
+ * @param A A
+ * @param B B
+ * @param A C
+ * @param M D
+ * @param Y E
+ * @param X F
+ * @param A G
+ * @param B H
+ * @param A I
  * @return x1, y1, x2, y2
  * @sampleIn 1, 2, 5, 1, 2, 1, 3, 4, 20
  * @sampleOut 1, 2, -15, 10
  */
 
-/* Simulataneous Linear & Quadratic Equations */
 /* _x + _y = _; _x^2 + _xy + _y^2 + _x + _y  = _ */
 ?->$A: ?->$B: $A/$B->$D: 
 ?->$A: $A/$B->$C:

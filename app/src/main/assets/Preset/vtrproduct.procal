@@ -1,6 +1,12 @@
 /**
  * Dot and Cross Product in 3D
- * @param two 3D vectors in (i, j, k) format
+ * Enter two 3D vectors in (i, j, k) format.
+ * @param a a_i
+ * @param b a_j
+ * @param c a_k
+ * @param d b_i
+ * @param e b_j
+ * @param f b_k
  * @return dot product, cross product in (i, j, k) format
  * @sampleIn 1, 3, 4, 2, 4, 5
  * @sampleOut 34, -1, 3, -2

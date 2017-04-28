@@ -1,7 +1,16 @@
 /**
  * Polygon Area - by Length and Angle
- * Calculates polygon area based on plane geometry
- * @param length and angle of n-gon in clockwise/anticlockwise direction until the (n-1)th side and (n-2)th angle
+ * Calculates polygon area based on plane geometry. Enter lengths and angles in either clockwise or anticlockwise direction.
+ * @param Y length_1
+ * @param A angle_1
+ * @param B length_2
+ * @param A angle_2
+ * @param B length_3
+ * @param A angle_3
+ * @param ...
+ * @param B length_n-2
+ * @param A angle_n-2
+ * @param B length_n-1
  * @return length of the last side, area
  * @sampleIn 2, 30, 2, 300, 2, 30, 2
  * @sampleOut 2.2680, 2

@@ -3,7 +3,10 @@
  * This solves a equation in form of Ax^3 + Bx^2 + Cx + D = 0.
  * First return value must be real.
  * Errors may follow if the rest are complex.
- * @param A, B, C, D
+ * @param A
+ * @param B
+ * @param C
+ * @param D
  * @return 3 roots in random order
  * @sampleIn 1, 3, 3, 1
  * @sampleOut -1, -1, -1

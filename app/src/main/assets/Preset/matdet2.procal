@@ -1,8 +1,11 @@
 /**
  * Matrix 2x2 Determinant
- * Returns matrix 2x2 determinant.
- * @param Matrix entered from left to right, downwards
- * @return Its determinant
+ * Returns the determinant of a 2x2 matrix. Enter the numbers in the matrix in rows from left to right, then top to bottom.
+ * @param a (1,1)
+ * @param b (1,2)
+ * @param c (2,1)
+ * @param d (2,2)
+ * @return The determinant
  * @sampleIn 2, 3, 5, 1
  * @sampleOut -13
  */

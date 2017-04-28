@@ -1,7 +1,9 @@
 /**
  * Resistor Delta to Y transform
- * Returns the resistors in Y by enter those in Delta
- * @param three resistance in Delta
+ * Returns the resistors in Y by entering those in Delta
+ * @param R1 first resistance in Delta
+ * @param R2 second resistance in Delta
+ * @param R3 third resistance in Delta
  * @return three resistance in Y
  * @sampleIn 12, 47, 82
  * @sampleOut 4, 27.3333, 6.9787
