@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Parser {
     private static Pattern docPattern = Pattern.compile("/\\*\\* *\\n([\\s\\S]*?)\\n *\\*/");
     private static Pattern docLinePattern = Pattern.compile(" *\\*( *[\\S]+?(?: \\S+)*?) *$");
-    private static Pattern docLineAtPattern = Pattern.compile("(@[\\w]+) *(\\w+)* *([\\s\\S]+)*");
+    private static Pattern docLineAtPattern = Pattern.compile("(@[\\S]+) *(\\S+)* *([\\s\\S]+)*");
 
     public static ProcalDoc extractProcalDoc(String input) {
         Matcher docMatcher = docPattern.matcher(input);

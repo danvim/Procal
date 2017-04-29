@@ -1,7 +1,7 @@
 package dcheungaa.procal;
 
 /**
- * Created by Daniel on 1/8/2017.
+ * The instance of this class stores the information of a key on the keypad. This is generally generated from the keypad json description file.
  */
 public class Key {
     String id;

@@ -13,10 +13,6 @@ public class Tokens {
 
     public Tokens() {
 
-        /*
-        inputTokensMap.put(key.id, new InputToken(lexable, display));
-        */
-
         //Digits
         for (int i = 0; i < 10; i++) {
             inputTokensMap.put("" + i, new InputToken("" + i, "" + i, false));
@@ -50,6 +46,9 @@ public class Tokens {
             String c = Character.toString((char) i);
             inputTokensMap.put("var_"+ getGreekNameFromUnicode(i), new InputToken("$"+getGreekNameFromUnicode(i), c, Color.GREEK_VARIABLE));
         }
+
+        //Special tokens on normal keypad
+        inputTokensMap.put("clear", new InputToken("ClrMemory", "ClrMemory", Color.COMMAND));
 
         //System.out.println("Token map has entries: " + inputTokensMap.size());
     }

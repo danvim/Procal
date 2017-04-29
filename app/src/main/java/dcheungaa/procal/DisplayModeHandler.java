@@ -1,9 +1,8 @@
 package dcheungaa.procal;
 
 /**
- * Created by Administrator on 21/1/2017.
+ * This class handles the input after the answer is displayed. Some actions may trigger relationship with the Ans token.
  */
-
 public class DisplayModeHandler {
 
     public static Boolean displayMode = false;

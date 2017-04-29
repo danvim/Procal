@@ -322,11 +322,9 @@ public class MainActivity extends AppCompatActivity
                 String credits = "<p>This piece of software used the work <a href=\"https://arxiv.org/abs/0908.3030v1\">\"A Java Math.BigDecimal Implementation of Core Mathematical Functions\" of Richard J. Mathar</a>, which was made available under the LGPL3.0 license as a library. As part of the obligations to the license, if the user wish to replace this library with their own, they may contact: <a href=\"mailto:dcheungaa@connect.ust.hk\">dcheungaa@connect.ust.hk</a></p>\n" +
                         "\n" +
                         "<p>Other code libraries used:</p>\n" +
-                        "<ul>\n" +
-                        "  <li><a href=\"https://github.com/atorstling/bychan\">Bychan</a></li>\n" +
-                        "  <li><a href=\"https://github.com/evant/gradle-retrolambda\">Gradle-Retrolambda</a></li>\n" +
-                        "  <li><a href=\"https://github.com/streamsupport/streamsupport\">SteamSupport</a></li>\n" +
-                        "</ul>";
+                        "<p><a href=\"https://github.com/atorstling/bychan\">Bychan</a><br>\n" +
+                        "<a href=\"https://github.com/evant/gradle-retrolambda\">Gradle-Retrolambda</a><br>\n" +
+                        "<a href=\"https://github.com/streamsupport/streamsupport\">SteamSupport</a></p>\n";
 
                 final AlertDialog.Builder builder_add = new AlertDialog.Builder(MainActivity.this);
                 builder_add.setTitle("About");
